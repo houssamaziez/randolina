@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "792931259426",
+    "project_id": "randolina-97c9e",
+    "storage_bucket": "randolina-97c9e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792931259426:android:27b8342a2e0c4861a9e67b",
+        "android_client_info": {
+          "package_name": "com.example.randolina"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792931259426-ulap7cmvehpogdmnadgeaveraj0a60h0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.randolina",
+            "certificate_hash": "f931082b57eafa6dfd1960d5c71c77d0464fe9ff"
+          }
+        },
+        {
+          "client_id": "792931259426-7dvj82lt5fujpk0q551klitma8vk9gcc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7jIag07StYSlaebyA2riX-xpQ26WmpBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792931259426-7dvj82lt5fujpk0q551klitma8vk9gcc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
