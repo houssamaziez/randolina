@@ -26,12 +26,11 @@ var controllerMessanger= Get.put(ControllerMessanger());
 TextEditingController _controllertext=TextEditingController();
 @override
   void initState() {
-   if (widget. idmsg=="0") {
- controllerMessanger.retundata(widget. idclien);
+     controllerMessanger.retundata(widget. idclien);
+     controllerMessanger.retundata(widget. idclien);
+ 
 
 
-
-   }
    
     super.initState();
   }
@@ -70,28 +69,27 @@ TextEditingController _controllertext=TextEditingController();
         backgroundColor: Colors.white,
     ),
       body: Stack(
-        children: <Widget>[
+        children:  [
         GetBuilder<ControllerMessanger>(
             init: ControllerMessanger(),
             builder: (cont) {
               if (cont.rsltdatamesage.length==1) {
-          
                   idm=cont.rsltdatamesage[0]["msgid"];
-            
               }else{
+                
                 idm=widget.idmsg;
   
    }
-              return   idm=='0'?Expanded(child: Center(child: Text("no data"),)): StreamBuilder(
-              stream: firestor.collection('Massenger').doc(idm).collection("messages").orderBy("time", descending: true).snapshots(),
+              return  StreamBuilder(
+              stream: firestor.collection('Massenger').doc(idm.toString()).collection("messages").orderBy("time", descending: true).snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 var items = snapshot.data?.docs ?? [];
                   return ListView.builder(reverse: true,
-  itemCount: items.length,
+                         itemCount: items.length,
   
-  shrinkWrap: true,
-  padding: const EdgeInsets.only(top: 10,bottom: 60),
-  itemBuilder: (context, index){
+                 shrinkWrap: true,
+                   padding: const EdgeInsets.only(top: 10,bottom: 60),
+                itemBuilder: (context, index){
     return Container(
       padding: const EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
       child: Align(
@@ -112,6 +110,7 @@ TextEditingController _controllertext=TextEditingController();
               );
             }
           ),
+         
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(

@@ -28,44 +28,43 @@ class VideoreelsScreen extends StatefulWidget {
   @override
   State<VideoreelsScreen> createState() => _VideoreelsScreenState();
 }
+      late VideoPlayerController controllervideoplay ;
 
 class _VideoreelsScreenState extends State<VideoreelsScreen> {
 var controllerlikcomnt=Get.put(ControllerLikCont());
 var _uid= firebaseAuth.currentUser!.uid;
   var cotrollervideo= Get.put(VideoController());
-      late VideoPlayerController controller ;
 @override
   void initState() {
  print( widget. _isloading);
-  controller  = VideoPlayerController.network(
+  controllervideoplay  = VideoPlayerController.network(
         widget.UrlVideo,  )
       ..initialize().then((  con) {
-setState(() {
-    controller.play();
-});
+    controllervideoplay.play();
       });
-    controller.play();
+    controllervideoplay.play();
 
-setState(() {
-    controller.play();
-    controller.setVolume(1);
+    controllervideoplay.play();
+    controllervideoplay.setVolume(1);
     // controller.setLooping(true);  
-}); 
     super.initState();
 }
     PageReels(context,  {url}) {
     // var controllervo= Get.put(ReelsController());
     return InkWell(onTap: (){},
-      child: screenVideo(context,controller),
+      child: screenVideo(context,controllervideoplay),
     );
   }
   @override
   void dispose() {
-        controller.pause();
-        controller.dispose();
-
+        des();
     super.dispose();
-    
+     
+  }
+
+  des()async{
+     await   controllervideoplay.dispose();
+
   }
    _jamclick(){
 if(widget.likes.contains(_uid.toString())==false){
@@ -110,7 +109,7 @@ Get.back();
                        const Spacer(),
                         Spacer(),
                         InkWell(onTap: (){
-                         controller.dispose();
+                         controllervideoplay.dispose();
 
                             cotrollervideo.chngescren();
                         },
@@ -136,7 +135,7 @@ Get.back();
                         
                         
                         IconButton(onPressed: (){
-        controller.dispose();
+        controllervideoplay.dispose();
 
                                       Get.to(ScreenAllMessage());
                           
@@ -181,7 +180,7 @@ Get.back();
                           mainAxisAlignment: MainAxisAlignment.start,
                           children:[
                            InkWell(onTap: (){
-        controller.dispose();
+        controllervideoplay.dispose();
 
                                            Get.to(SceenProflileAll(data: {}, id: widget.uidUser,imageprofile:widget.profilephoto ,name:  widget.username ));
  },

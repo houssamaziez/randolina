@@ -139,7 +139,7 @@ return data ;
 }
 
 
- bool isfolow=true;
+ bool isfolow=false;
  bool relaodfolow=false;
 
 

@@ -33,14 +33,19 @@ Navigator.pop(context);
       
       MaterialButton(height: 30,
         color: Colors.blue,child:cont.relaodfolow==true?Text("leading ..."): Text("follow"),
-        onPressed: (){
-cont.virffollow(idclien);
+        onPressed: ()async{
 
-cont.sendmessageToAll(users: idclien, idmsg: "0", msg: "New follower", isfolew: false);
-cont.virffollow(idclien);
+await cont.sendmessageToAll(users: idclien, idmsg: "0", msg: "New follower", isfolew: false);
+ await cont.virffollow(idclien);
+ cont.retundata( idclien);
 
       }): IconButton(onPressed: (){
-            Get.to( ScreenCHat(idclien: idclien.toString() , idmsg: "0",imageprofile:imageprofile , name: name,));
+        cont.retundata( idclien);
+
+            Get.to( ScreenCHat(idclien: idclien.toString() ,name: name,
+             idmsg:   cont.rsltdatamesage.length==1?
+                   cont.rsltdatamesage[0]["msgid"].toString():"0", imageprofile: imageprofile,)
+         );
       },   icon: Icon(Icons.message_rounded, color: Colors.white,));
     }
   );

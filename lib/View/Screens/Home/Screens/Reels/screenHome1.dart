@@ -14,6 +14,7 @@ class ScreenReels extends StatefulWidget {
 }
 
 class _ScreenReelsState extends State<ScreenReels> {
+
    screenHomewidget(context) {
     // var controllervo= Get.put(ReelsController());
 
@@ -117,7 +118,11 @@ onPageChanged: (int position) {
                   );
    }
 
- 
+ @override
+  void dispose() {
+    controllervideoplay.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return screenHomewidget(context);

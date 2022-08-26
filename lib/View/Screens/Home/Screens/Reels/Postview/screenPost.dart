@@ -139,7 +139,7 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
     
                                   }, icon:  GetBuilder<ControllerLikCont>(init: ControllerLikCont(),
                                     builder: (contt) {
-                                      return Icon(Icons.favorite, size: 30,color:contt.Listlikes.contains(uiddd)?Colors.red: Colors.white,);
+                                      return Icon(Icons.favorite, size: 30,color:contt.Listlikes.contains(uiddd.toString())==true?Colors.red: Colors.white,);
                                     }
                                   )),
                                     GetBuilder<ControllerLikCont>(init: ControllerLikCont(),
