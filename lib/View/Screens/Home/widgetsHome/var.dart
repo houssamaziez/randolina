@@ -9,7 +9,7 @@ import 'package:flutter/rendering.dart';
   late CurvedAnimation borderRadiusCurve;
   late AnimationController hideBottomBarAnimationController;
 
-  var bottomNavIndex = 0; //default index of a first screen
+  int bottomNavIndex = 0; //default index of a first screen
 
   
   final iconList = <IconData>[

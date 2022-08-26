@@ -26,12 +26,7 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
-dependency_overrides:
-  video_player:
-    git:
-      url: https://github.com/sanekyy/plugins.git
-      ref: caching
-      path: packages/video_player/video_player
+
 dependencies:
   flutter:
     sdk: flutter
@@ -59,11 +54,15 @@ dependencies:
   video_compress: ^3.1.1
   cached_network_image: 
   intl: ^0.17.0
+  http: ^0.13.5
   get_storage: ^2.0.3
   custom_sliding_segmented_control: ^1.7.1
   datetime_picker_formfield: ^2.0.1
   image_cropper: ^3.0.0
   dropdown_button2: ^1.7.2
+  preload_page_view: ^0.1.6
+  shaky_animated_listview: ^0.0.5
+  firebase_chat: ^0.0.6+1
   # cache_video_player: ^0.0.4
   
 

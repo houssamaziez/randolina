@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:randolina/Model/user.dart' as model;
 import 'package:randolina/View/Screens/Home/Home.dart';
 import 'package:randolina/View/Screens/Registre/Signin/screenSignin.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
 class ControllerAth extends GetxController{
 bool isloadingSignin = false;
 bool isloadingLogin = false;
@@ -38,28 +38,31 @@ Reference ref=   firebaseStorage.ref().child("profilePics").child(firebaseAuth.c
  // ignore: non_constant_identifier_names
  String UrlImage=await snp.ref.getDownloadURL();
 return UrlImage;
+} index(vale){
+isloadingSignin=vale;
+update();
 }
 //  Foncton resgitre data of User and Create compte in firebase
 void registreUser(
   { required String username ,
   required String email,
   required String password,
-  required File? file, 
   required String phone,
   required String wilaya,
   required String typeUser,
+  required String uerlimage,
    }
 )async{
 try {
   isloadingSignin= true ;
   update();
   // ignore: unnecessary_null_comparison
-  if(username.isNotEmpty && email.isNotEmpty && password.isNotEmpty && phone.isNotEmpty&& wilaya.isNotEmpty && file !=null){
+  if(username.isNotEmpty && email.isNotEmpty && password.isNotEmpty && phone.isNotEmpty&& wilaya.isNotEmpty && uerlimage.isNotEmpty){
 
  // ignore: non_constant_identifier_names
  UserCredential UserCred = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 //  get url of image 
- String uerlimage= await uploadimage(file);
+
 //  get data of User
  model.User  user= model.User(typeUser:typeUser ,
   email: email,phone:phone , wilaya: wilaya,
@@ -89,13 +92,16 @@ late Rx<File?> _pickedImage;
 File? get profilePhoto =>  _pickedImage.value;
 // ignore: prefer_typing_uninitialized_variables
 var image;
+var path;
 //  Get image picker
 pickImage() async{
   //  get image
-final imagePicker=await ImagePicker().pickImage(source: ImageSource .gallery);
+final imagePicker=await ImagePicker().pickImage(source: ImageSource .gallery,  imageQuality:10 );
 if (imagePicker!=null) {
   Get.snackbar("Profile Picture", "You have successfully selected your profile picture");
   _pickedImage =Rx<File?>(File(imagePicker.path));
+  path=imagePicker.path;
+  update;
  image=_pickedImage.value;
  update();
 }

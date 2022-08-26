@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:randolina/ct.dart'; 
+import 'package:randolina/const.dart'; 
 class ScreenStart extends StatelessWidget {
   const ScreenStart({Key? key}) : super(key: key);
   @override

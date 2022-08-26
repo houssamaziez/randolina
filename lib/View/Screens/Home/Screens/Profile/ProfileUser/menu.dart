@@ -2,7 +2,17 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/View/Screens/Registre/Signin/screenSignin.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
+
+
+ Align minu() {
+    return Align(
+alignment:Alignment.topRight,
+child: Padding(
+  padding: const EdgeInsets.only(right: 10, top: 30),
+  child: const MyHomePage(),
+));
+  }
 
 
 class MyHomePage extends StatefulWidget {

@@ -3,9 +3,11 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Model/video.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/View/Screens/Home/Home.dart';
+import 'package:randolina/const.dart';
 import 'package:video_compress/video_compress.dart';
 
 class VideoController extends GetxController {
@@ -31,9 +33,12 @@ _uploadImagetostorage(id, videoPath)async{
     return File(videopath);
   }
 
+index(vale){
+islodeinvideo=vale;
+update();
+}
 
-
-_uploadVideoToStorge(id ,videopath)async{
+_uploadVideoToStorge(id ,videopath,)async{
 
  var ref= firebaseStorage.ref().child("videos").child(id);
  TaskSnapshot uploadtask=await ref.putFile(await _comprassvideo(videopath), );
@@ -43,37 +48,30 @@ _uploadVideoToStorge(id ,videopath)async{
   return downloadUrl;
 }
   // upload video
-  uploadvideo( {required  detialsvideo,required  videopath,} )async{
+  uploadvideo(context ,{required  detialsvideo,required  videopath,videourcl} )async{
 try {
   islodeinvideo= true;
   update();
  var uid= firebaseAuth.currentUser!.uid;
+ update();
  DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
  var aldocs= await firestor.collection("thumbnails").get();
  int len=    Random().nextInt(100000000);
  
-  var videourl=await    _uploadVideoToStorge("video $uid $len", videopath);
   var thumbnail=await _uploadImagetostorage('video $uid $len', videopath);
-
   Video video=  Video(
-    
-    username: (userdocs.data()! as Map <String, dynamic>)["name"], uid: uid, id: 'video $uid $len', likes: [], caption:detialsvideo , videoUrl: videourl, thumbnial: thumbnail, profilephoto: (userdocs.data()! as Map <String, dynamic>)["photoProfil"], comentr: 0, shereCount: 0);
-
+    username: (userdocs.data()! as Map <String, dynamic>)["name"], uid: uid, id: 'video $uid $len', likes: [], caption:detialsvideo , videoUrl: videourcl, thumbnial: thumbnail, profilephoto: (userdocs.data()! as Map <String, dynamic>)["photoProfil"], comentr: 0, shereCount: 0);
   await firestor.collection("Videos").doc('video $uid $len').set(video.tojeson());
-
    islodeinvideo= false;
   update();
-  Get.back();
+  Get.offAll(ScreenHome());
 } catch (e) {
     islodeinvideo= false;
   update();
   Get.snackbar("error", e.toString());
 }
   }
-
-
- var  isvscrenvideoddd= true;
-
+ var  isvscrenvideoddd= false;
  chngescren(){
   if (isvscrenvideoddd==true) {
   isvscrenvideoddd = false;
@@ -81,8 +79,6 @@ try {
 } else  {
   isvscrenvideoddd = true;
   update();
-
-
 }  
  }
 }

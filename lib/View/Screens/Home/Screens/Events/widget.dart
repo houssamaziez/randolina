@@ -2,7 +2,7 @@
 import 'package:get/get.dart';
 
 import '../../../../../Controller/iventController.dart';
-import '../../../../../ct.dart';
+import '../../../../../const.dart';
 
 bottun({
   required title ,required color,required function

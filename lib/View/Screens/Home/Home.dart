@@ -12,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:randolina/Controller/imagecontroller.dart';
 import 'package:randolina/View/Screens/Home/ConfermScreens/confermVideo.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/screenHomeEvents.dart';
-import 'package:randolina/View/Screens/Home/Screens/Profile/screenProfile.dart';
+import 'package:randolina/View/Screens/Home/Screens/Profile/ProfileUser/screenProfile.dart';
 import 'package:randolina/View/Screens/Home/Screens/StoreView/screenStore.dart';
 import 'package:randolina/View/Screens/Home/widgetsHome/var.dart';
 import 'package:randolina/View/Screens/Registre/TypeUser/Store/screen.dart';
@@ -20,8 +20,8 @@ import 'package:randolina/View/Widgets/BottumCenter.dart';
 import 'package:randolina/View/Widgets/dailolgCompress.dart';
 import 'package:video_compress/video_compress.dart';
 
-import '../../../ct.dart';
-import 'Screens/screenHome1.dart';
+import '../../../const.dart';
+import 'Screens/Reels/screenHome1.dart';
 // var compressvideoInf;
 
 class ScreenHome extends StatefulWidget {
@@ -44,28 +44,10 @@ pickVideo(ImageSource src,  BuildContext context)async{
   final video = await ImagePicker().pickVideo(source: src);
 String? sizeinisil;
   if (video!=null) {
-   
-    showDialog(context: context,
-
-barrierDismissible: false,
- builder: ((context) =>Dialog(child:Dailogcompress() ,) ));
-    await VidecCompressApi.compress(File(video.path)).then((value) async{
-
-      sizeinisil=value!.path.toString();
-      print("___________________${await video.length()}________________________________");
-      print("___________________${sizeinisil}________________________________");
-     Navigator.pop(context);
-      Get.to(ConfrVideo(videofile:value.file, 
+      Get.to(ConfrVideo(videofile: File(video.path), 
     
-    videopath:value.path ,  size:"siz :${await video.length()}\nsiz :${value.filesize} ",
+    videopath:video.path ,  size:"siz :${await video.length()}\nsiz :${video.length()} ",
     ));
-
-    }
-);
-    
-
-
-   
   }
 
 }
@@ -73,9 +55,9 @@ barrierDismissible: false,
   @override
   Widget build(BuildContext context) {
    var listScreen=[
-       ScreenReels(),
-        ScreenStore1(),
-       ScreenEvents(),
+      const ScreenReels(),
+       const ScreenStore1(),
+      const ScreenEvents(),
          SceenProflile(),
 ];
     return Stack(

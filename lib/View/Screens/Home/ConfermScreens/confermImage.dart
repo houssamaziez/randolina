@@ -1,12 +1,19 @@
 // ignore_for_file: file_names
 
+import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart';
+import 'package:path/path.dart';
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/imagecontroller.dart';
 import 'package:randolina/View/Screens/Registre/widgets.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
+
 
 class ConfrImage extends StatefulWidget {
   const ConfrImage({Key? key}) : super(key: key);
@@ -20,8 +27,7 @@ class ConfrImage extends StatefulWidget {
 class _ConfrImageState extends State<ConfrImage> {
   ImageController uploadvideocontroller= Get.put(ImageController());
 String details="";
-  
- 
+         
   @override
   Widget build(BuildContext context) {
     return Scaffold(backgroundColor: color1.withOpacity(0.2),
@@ -30,10 +36,38 @@ String details="";
           padding: const EdgeInsets.only(bottom: 23),
           child: FloatingActionButton(
             backgroundColor: color1,
-            onPressed: (){
+            onPressed: ()async{
               if (contr.islodeinImage==false) {
-              uploadvideocontroller.uploadImage(detailspost: details, imagepath:uploadvideocontroller.imagefile as File );
                 
+           uploadVideo( videoFile) async{
+  var data;
+    var uri = Uri.parse(urlserverfile);
+    var request = new MultipartRequest("POST", uri);
+    var multipartFile = await http. MultipartFile.fromPath("files", videoFile);
+    request.files.add(multipartFile);
+    StreamedResponse response = await request.send();
+  StreamSubscription<String> f=  response.stream.transform(utf8.decoder).listen((value) {
+               uploadvideocontroller.uploadImage(
+                Imageurl: value,
+                detailspost: details, imagepath:uploadvideocontroller.imagefile as File );
+
+    });
+ 
+
+    if(response.statusCode==200){
+      print("Video uploaded");
+
+      return data;
+    }else{
+      print("Video upload failed");
+
+      return data;
+
+    }
+  }
+   
+              var c=await uploadVideo(contr.image);   
+              print("_______$c");
               }
               },
           

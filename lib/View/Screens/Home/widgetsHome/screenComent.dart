@@ -1,26 +1,24 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:randolina/View/Screens/Registre/widgets.dart';
+import '../../../../Controller/controllerLiksComnt.dart';
+import '../../../../const.dart';
 
-import '../../../../../Controller/controllerLiksComnt.dart';
-import '../../../../../ct.dart';
-
+// ignore: must_be_immutable
 class ScreenComent extends StatelessWidget {
    ScreenComent({Key? key,required this.id,required this.doc }) : super(key: key);
 var controllerlikcomnt=Get.put(ControllerLikCont());
 TextEditingController controllertexfild=TextEditingController();
 final id , doc;
-
- late String commenter;
+late String commenter;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
 floatingActionButton: Row(children: [Expanded(child:Padding(
   padding: const EdgeInsets.only(left: 40),
   child:   textfield(title: "Commenter ...",controller:  controllertexfild),

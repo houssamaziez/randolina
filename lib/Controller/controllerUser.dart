@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
 
 class UserController extends GetxController{
  String typeUser="";

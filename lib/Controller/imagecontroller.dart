@@ -12,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:randolina/Model/post.dart';
 import 'package:randolina/View/Screens/Home/ConfermScreens/confermImage.dart';
 
-import '../ct.dart';
+import '../const.dart';
 
 class ImageController extends  GetxController{
 late Rx<File?> _pickedImage;
@@ -68,9 +68,12 @@ _uploadImageToStorge(id ,imagepath)async{
 }
 
 bool islodeinImage= false;
+ index(vale){
+islodeinImage=vale;
+update();
+}
 
-
-uploadImage( { required  imagepath,required detailspost} )async{
+uploadImage( { required  imagepath,required detailspost,required Imageurl} )async{
 try {
   islodeinImage= true;
   update();
@@ -78,7 +81,6 @@ try {
  DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
  int len=    Random().nextInt(100000000);
  
-  var Imageurl=await    _uploadImageToStorge("image $uid $len", imagepath);
 
   Post post=  Post(username: (userdocs.data()! as Map <String, dynamic>)["name"], uid: uid, id: "image $uid $len", likes: [], details:detailspost , urlImage: Imageurl, comentr: 0, photouser: (userdocs.data()! as Map <String, dynamic>)["photoProfil"], time: DateTime.now());
 

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
 
 class ProfileProduct extends StatelessWidget {
   const ProfileProduct({Key? key,required this.image,required this.tag,required this.list}) : super(key: key);

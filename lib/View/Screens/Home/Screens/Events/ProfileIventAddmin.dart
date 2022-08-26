@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/iventController.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/editivent.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
 
 class ProfileEvent extends StatefulWidget {
     ProfileEvent({Key? key,required this.image,required this.tag,required this.list}) : super(key: key);
@@ -145,7 +145,7 @@ isconferm
     return StreamBuilder(
           stream:firestor.collection('Ivent').doc( widget.list["id"]) .collection('participate').where("conferm",isEqualTo: isconferm).snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            var items = snapshot.data?.docs ?? [];
+            List items = snapshot.data?.docs ?? [];
             listlenghtconfimed=items.length;
       if (snapshot.connectionState == ConnectionState.waiting) {
          return const Padding(

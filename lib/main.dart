@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:randolina/Controller/AuthonticationController.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
 import 'View/Screens/screenStart/screenStart.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +17,7 @@ void main() async {
 // islogin.write("islogin", false);
    runApp(const MyApp());
     await controllerUser.getData();
+    
 }
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

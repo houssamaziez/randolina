@@ -1,10 +1,11 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/storController.dart';
 import 'package:randolina/View/Screens/Home/Screens/StoreView/profileStore.dart';
-import 'package:randolina/main.dart';
 
 enum SegmentType { news, map, paper }
 
@@ -35,6 +36,7 @@ posistion=-1;
     super.initState();
     controller = CustomSegmentedController();
     controller.addListener(() {
+      // ignore: avoid_print
       print('listener ${controller.value}');
     });
   }
@@ -44,13 +46,13 @@ posistion=-1;
   );
   @override
   Widget build(BuildContext context) {
-    final _listscreen= [
+    final listscreen= [
  screenstordata(list:listdata ),screenstordata(list:listAll ),
 ];
 
     return Scaffold(backgroundColor: Colors.white,
       appBar: AppBar(
-        shape:RoundedRectangleBorder(
+        shape:const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         bottom: Radius.circular(30),
       ),) ,
@@ -60,16 +62,16 @@ posistion=-1;
             child: Padding(
               padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
               child: Container(
+                decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.4),
+                borderRadius:const BorderRadius.all(Radius.circular(30))),
                 child: Row(children: [
                   IconButton(
           color: Colors.black,
-          onPressed: (){}, icon: Icon(Icons.search)),
+          onPressed: (){}, icon: const Icon(Icons.search)),
 
-          Text("What are you looking for...",style: TextStyle(color: Colors.grey),)
-                ],),
-                decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.4),
-                borderRadius:const BorderRadius.all(Radius.circular(30))),),
+          const Text("What are you looking for...",style: TextStyle(color: Colors.grey),)
+                ],),),
             ),
           ),
           IconButton(
@@ -89,9 +91,9 @@ posistion=-1;
               child: CustomSlidingSegmentedControl<int>(
                 initialValue: initial,
                 height: 24,
-                children: {
-                  0: const Text('My product'),
-                  1: const Text('All products'),
+                children: const {
+                  0: Text('My product'),
+                  1: Text('All products'),
                 },
                 decoration: BoxDecoration(
                   color: CupertinoColors.lightBackgroundGray,
@@ -124,7 +126,7 @@ posistion=-1;
               ),
             ),
        
-       Container(child: _listscreen[initial]),
+       Container(child: listscreen[initial]),
        
         ],
         ),);
@@ -134,11 +136,11 @@ posistion=-1;
     return Column(
 children: [
  Padding(
- padding:  EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
+ padding:  const EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
  child: Container(
  decoration: BoxDecoration(
   color: Colors.white,
-  borderRadius: BorderRadius.only(
+  borderRadius: const BorderRadius.only(
     topLeft: Radius.circular(10),
       topRight: Radius.circular(10),
       bottomLeft: Radius.circular(10),
@@ -149,24 +151,24 @@ children: [
       color: Colors.grey.withOpacity(0.3),
       spreadRadius: 3,
       blurRadius: 5,
-      offset: Offset(0, 3), // changes position of shadow
+      offset: const Offset(0, 3), // changes position of shadow
     ),
-
-  ],
-),
-child: Row(
-  children: [Spacer(),
-    Text("Add"),
-    Icon(Icons.add),Spacer(),
 
   ],
 ),
   height: 40, 
  width: double.infinity,
+child: Row(
+  children: const [Spacer(),
+    Text("Add"),
+    Icon(Icons.add),Spacer(),
+
+  ],
+),
  ),
  )
 , GridView.count(
- physics: NeverScrollableScrollPhysics(),
+ physics: const NeverScrollableScrollPhysics(),
 crossAxisCount: 2,
 childAspectRatio: (2 / 2.5),
 shrinkWrap: true,
@@ -213,12 +215,12 @@ posistion=index;
                       const Spacer(),
                       Container(width: double.infinity,
                       height: 50,
-                      child: Center(child: Text(list[index]["price"].toString()+" DA",
+                      color: Colors.white.withOpacity(0.5),
+                      child: Center(child: Text("${list[index]["price"]} DA",
                        style:const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 22,
-                color: Colors.black),),),
-                      color: Colors.white.withOpacity(0.5),)
+                color: Colors.black),),),)
                       ],),),
             ),),
        posistion==index?Padding(
@@ -236,8 +238,8 @@ posistion=index;
               child: Container(
                 width: double.infinity,height: 40,
                 decoration: BoxDecoration(color: Colors.red.withOpacity(0.8),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Center(child:
+                  borderRadius: const BorderRadius.all(Radius.circular(20))),
+              child: const Center(child:
                Text('Delete',
                style: TextStyle(fontWeight: FontWeight.bold),)),
               ),
@@ -247,7 +249,7 @@ posistion=index;
               child: Container(
                 width: double.infinity,height: 40,
                 decoration: BoxDecoration(color: Colors.green.withOpacity(0.8),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                  borderRadius: const BorderRadius.all(Radius.circular(20))),
               child:const Center(child:
                Text('Edit',
                style: TextStyle(fontWeight: FontWeight.bold),)),

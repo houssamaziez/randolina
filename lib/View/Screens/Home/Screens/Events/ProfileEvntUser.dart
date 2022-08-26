@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/addIvent.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
 
 import '../../../../../Controller/iventController.dart';
 

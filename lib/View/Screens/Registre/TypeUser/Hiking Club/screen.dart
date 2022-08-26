@@ -5,8 +5,16 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/AuthonticationController.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
+import 'dart:async';
+import 'dart:io';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart';
+import 'package:path/path.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import '../../widgets.dart';
 
 class ScreenHikingClub extends StatefulWidget {
@@ -192,16 +200,38 @@ setState(() {
             ):button(title: 'Next', istrue: true,
             
             function: ()async{
-            setState(() {
-              controllerath.registreUser(
+                      uploadVideo( videoFile) async{
+          contr.index(true);
+  var data;
+    var uri = Uri.parse(urlserverfile);
+    var request = new MultipartRequest("POST", uri);
+    var multipartFile = await http. MultipartFile.fromPath("files", videoFile);
+    request.files.add(multipartFile);
+    StreamedResponse response = await request.send();
+  response.stream.transform(utf8.decoder).listen((value) {
+             
+   controllerath.registreUser(uerlimage:value,
                 username: _username,
                email:_email,typeUser:widget. typeUser,
                 password: _password,
-                 file: controllerath.profilePhoto,
               phone:_phone ,
               wilaya: _wilaya,
               );
-            });
+    });
+              contr.index(false);
+ 
+
+    if(response.statusCode==200){
+      print("Video uploaded");
+    }else{
+      print("Video upload failed");
+
+      return data;
+
+    }
+  }
+              var c=await uploadVideo( controllerath.path);   
+  
                 // stp++;
                   
                  }

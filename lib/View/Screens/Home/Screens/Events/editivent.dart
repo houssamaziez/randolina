@@ -8,7 +8,7 @@ import 'package:randolina/View/Screens/Home/Screens/Events/addIvent.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/View/Widgets/time.dart';
 
-import '../../../../../ct.dart';
+import '../../../../../const.dart';
 import '../../../Registre/widgets.dart';
 
 class EditIvent extends StatefulWidget {
@@ -135,6 +135,8 @@ appBar: appbarev(),
                 idivnt:widget.id , 
                 
               destination: _destination, details:_details, distance: _distance, nombresplaces:_nombresplaces, price: _price,   );
+   Navigator.pop(context);
+   Navigator.pop(context);
          }) , 
             const SizedBox(height: 20,),
                suptitle(title: 'Date de l’évenement :'),
@@ -154,11 +156,14 @@ appBar: appbarev(),
                      buttonivnt(
                       title: "Edit date",
                       function: (){
+                     widget.    _controller.uploadImageindex(true);
            widget.  _controller.editiventdate(datedubteivent: datedubteiventt!=null?datedubteiventt:_datedubteivent,
                 idivnt:widget.id , 
                  datedubte:datedubte.isNotEmpty?datedubte: _datedubte, 
               datefine:  datefine.isNotEmpty?datefine: _datefine , destination: _destination, details:_details, distance: _distance, nombresplaces:_nombresplaces, price: _price,   );
-         }) ,  ],),
+                     widget.    _controller.uploadImageindex(false);
+       Navigator.pop(context, );
+     }) ,  ],),
       ),
     );
   }
@@ -196,7 +201,6 @@ child:   Container(child:
       blurRadius: 5,
       offset: const Offset(0, 3), // changes position of shadow
     ),
- 
  ],
  ),
  height: 50, 

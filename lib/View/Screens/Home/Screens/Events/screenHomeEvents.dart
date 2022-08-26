@@ -11,8 +11,10 @@ import 'package:randolina/View/Screens/Home/Screens/Events/ProfileIventAddmin.da
 import 'package:randolina/View/Screens/Home/Screens/Events/addIvent.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/ProfileEvntUser.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/editivent.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/iventSearch.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/View/Widgets/search.dart';
+import 'package:randolina/const.dart';
 enum SegmentType { news, map, paper }
 enum TestType { segmentation, max, news }
 class ScreenEvents extends StatefulWidget {
@@ -76,17 +78,21 @@ ins();
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-              child: Container(
-                child: Row(children: [
-                  IconButton(
-          color: Colors.black,
-          onPressed: (){}, icon: const Icon(Icons.search)),
-
-          const Text("What are you looking for...",style: const TextStyle(color: Colors.grey),)
-                ],),
-                decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.4),
-                borderRadius:const BorderRadius.all(Radius.circular(30))),),
+              child: InkWell(onTap: (){
+                Get.to(ScreenSearchIvent(tablename:"destination" , docss: "Ivent"));
+              },
+                child: Container(
+                  child: Row(children: [
+                    IconButton(
+                        color: Colors.black,
+                        onPressed: (){}, icon: const Icon(Icons.search)),
+              
+                        const Text("What are you looking for...",style: const TextStyle(color: Colors.grey),)
+                  ],),
+                  decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.4),
+                  borderRadius:const BorderRadius.all(Radius.circular(30))),),
+              ),
             ),
           ),
           IconButton(

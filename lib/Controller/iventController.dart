@@ -1,3 +1,4 @@
+// ignore: duplicate_ignore
 // ignore: file_names
 // ignore_for_file: file_names
 
@@ -5,12 +6,10 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
 import '../Model/event.dart';
-import '../View/Screens/Home/Screens/Events/addIvent.dart';
-import '../ct.dart';
+import '../const.dart';
 
 class IventsController extends  GetxController{
 late Rx<File?> _pickedImage;
@@ -25,10 +24,10 @@ getdatativent({required idpost})async{
 
 participer( {idpost,required list})async{
   var uid= firebaseAuth.currentUser!.uid;
-  DocumentSnapshot<Map<String, dynamic>> _post=await  firestor.collection("Ivent").doc(idpost).get();
+  DocumentSnapshot<Map<String, dynamic>> post=await  firestor.collection("Ivent").doc(idpost).get();
  DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
 
-if ((_post.data()!)["participate"].contains(uid)) {
+if ((post.data()!)["participate"].contains(uid)) {
   await  firestor.collection("Ivent").doc(idpost).update({"participate":FieldValue.arrayRemove([uid])});
 await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(uid).delete();
  await  firestor.collection("User").doc(uid).collection("participate").doc(idpost).delete();
@@ -70,21 +69,15 @@ await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(ui
 }
 
 
-_uploadImageToStorge(id ,imagepath)async{
-
- var ref= firebaseStorage.ref().child("ImagePost").child(id);
- TaskSnapshot uploadtask=await ref.putFile( imagepath, );
- TaskSnapshot snp=await uploadtask;
- var downloadUrl=snp.ref.getDownloadURL();
- 
-  return downloadUrl;
-}
 
 bool islodeinImage= false;
 
-
+uploadImageindex(vale){
+islodeinImage=vale;
+update();
+}
 uploadImage( {
-  
+ required Imageurl,
    required  imagepath,required 
 details, required destination,required price  ,required distance,required nombresplaces,required datedubte,required datefine
 
@@ -97,7 +90,6 @@ try {
  DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
  int len=    Random().nextInt(100000000);
  
-  var Imageurl=await    _uploadImageToStorge("image $uid $len", imagepath);
 
   Ivent post=  Ivent(datedubte:datedubte,datefine:datefine ,distance: distance,
   images: [],
@@ -129,6 +121,7 @@ try {
 
 
   
+// ignore: prefer_typing_uninitialized_variables
 var edittext;
 editivent( {
  required idivnt,
@@ -165,13 +158,19 @@ try {
     edittext= false;
   update();
   Get.snackbar("error", e.toString());
+  Get.back();
+
 }
   }
 
 
+// ignore: prefer_typing_uninitialized_variables
 var editdate;
    
-
+editiventdateindex(vale){
+editdate=vale;
+update();
+}
 editiventdate( {
  required idivnt,
   required 
@@ -181,8 +180,6 @@ details, required destination, required price, datedubteivent  ,required distanc
 } )async{
 
 try {
-  editdate= true;
-  update();
 //  var uid= firebaseAuth.currentUser!.uid;
 //  DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
 //  int len=    Random().nextInt(100000000);
@@ -196,15 +193,16 @@ try {
 "time":datedubteivent,
     }
   ).then((value) {
-    Get.back();
-    Get.back();
+   
   });
-   editdate= false;
-  update();
+  Get.back();
+
 } catch (e) {
     editdate= false;
   update();
   Get.snackbar("error", e.toString());
+  Get.back();
+
 }
   }
 
@@ -224,7 +222,8 @@ try {
 
 
  catch (e) {
-  
+  // ignore: avoid_print
+  print(e);
 }
 }
 deletpart(uid, idpost)async{
@@ -237,7 +236,8 @@ try {
   await  firestor.collection("Ivent").doc(idpost).update({"confermnum":FieldValue.arrayRemove([uid])});
 
 } catch (e) {
-  
+  // ignore: avoid_print
+  print(e);
 }
 }
 

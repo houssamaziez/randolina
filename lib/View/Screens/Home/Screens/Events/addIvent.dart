@@ -1,14 +1,24 @@
 import 'dart:io';
+// ignore_for_file: file_names
 
+import 'dart:async';
+import 'dart:io';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart';
+import 'package:path/path.dart';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:randolina/Controller/iventController.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/View/Widgets/time.dart';
 
-import '../../../../../ct.dart';
+import '../../../../../const.dart';
 import '../../../Registre/widgets.dart';
  String details="",destination="",price=""  ,distance="", nombresplaces="";
   String datedubte="" , datefine="";
@@ -122,16 +132,43 @@ appBar: appbarev(),
          )  ,
        
         //   BUTTON ADD IVENT
-         buttonivnt(function: (){
+         buttonivnt(function: () async {
         
           if (image==null || destination.isEmpty || details.isEmpty || distance.isEmpty || nombresplaces.isEmpty || price.isEmpty || datedubte.isEmpty || datefine.isEmpty) {
             Get.snackbar("Form", "Make sure all fields are filled in");
             }else{
-         
-              widget.  _controller.uploadImage(imagepath: image, datedubte:datedubte, 
-              datefine: datefine, destination: destination, details:details, distance: distance, nombresplaces:nombresplaces, price: price,   );
-         
-          }
+
+         uploadVideo( videoFile) async{
+          widget._controller.uploadImageindex(true);
+  var data;
+    var uri = Uri.parse(urlserverfile);
+    var request = new MultipartRequest("POST", uri);
+    var multipartFile = await http. MultipartFile.fromPath("files", videoFile);
+    request.files.add(multipartFile);
+    StreamedResponse response = await request.send();
+  response.stream.transform(utf8.decoder).listen((value) {
+               widget.  _controller.uploadImage(imagepath: image, datedubte:datedubte, 
+              datefine: datefine, destination: destination, details:details, distance: distance, nombresplaces:nombresplaces, price: price, Imageurl: value,   );
+         widget._controller.uploadImageindex(false);
+Navigator.pop(context);
+
+    });
+ 
+
+    if(response.statusCode==200){
+      print("Video uploaded");
+    }else{
+      print("Video upload failed");
+
+      return data;
+
+    }
+  }
+              var c=await uploadVideo( imagepath);   
+  }
+   
+             
+           
          }) , 
           ],),
       ),

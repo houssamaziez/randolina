@@ -47,11 +47,9 @@ subscription.unsubscribe();
       padding: const EdgeInsets.all(20.0),
       child: Column(mainAxisSize: MainAxisSize.min,
         children: [
-
-          Text("Compress video !"),
+          Text("Video analysis and review ..."),
 SizedBox(height: 20,),
           LinearProgressIndicator(value:value , minHeight: 12,), 
-
           ElevatedButton(onPressed: (){
             VideoCompress.cancelCompression();
             Get.back();
@@ -75,7 +73,7 @@ try {
   await VideoCompress.setLogLevel(0);
   return   await VideoCompress.compressVideo(
  file.path,
-quality: VideoQuality.LowQuality,
+quality: VideoQuality.MediumQuality, deleteOrigin: true,
 includeAudio: true);
 } on Exception catch (e) {
   Get.snackbar('error', e.toString());

@@ -1,23 +1,29 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/videocotroller.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/View/Widgets/search.dart';
+import 'package:randolina/const.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../../../Controller/ReelsController.dart';
-import '../../../../../Controller/controllerLiksComnt.dart';
-import '../Postview/screenComent.dart';
+import '../../../../../../Controller/controllerLiksComnt.dart';
+import '../../Profile/profileClien/profileUser.dart';
+import '../../../widgetsHome/screenComent.dart';
+import '../../messages/screenAllMessage.dart';
 
 class VideoreelsScreen extends StatefulWidget {
 
-  final UrlVideo, thumbnial,likes,id, comentr, caption, username, profilephoto;
-  bool _isloading=false;
-    VideoreelsScreen({Key? key,required this.UrlVideo,required this.thumbnial,required this.likes,required this.comentr,required this.caption,required this.username,required this.profilephoto,required this.id}) : super(key: key);
+  // ignore: prefer_typing_uninitialized_variables
+  final UrlVideo, thumbnial,isprofile,likes,id, comentr, caption, username, profilephoto ,uidUser;
+  final bool _isloading=false;
+    const VideoreelsScreen({Key? key,required this.UrlVideo,required this.thumbnial,required this.likes,required this.comentr,required this.caption,required this.username,required this.profilephoto,required this.id,required this.uidUser,required this.isprofile}) : super(key: key);
 
   @override
   State<VideoreelsScreen> createState() => _VideoreelsScreenState();
@@ -31,19 +37,22 @@ var _uid= firebaseAuth.currentUser!.uid;
 @override
   void initState() {
  print( widget. _isloading);
-    super.initState();
   controller  = VideoPlayerController.network(
-        widget.UrlVideo, )
+        widget.UrlVideo,  )
       ..initialize().then((  con) {
 setState(() {
- widget. _isloading=true;
+    controller.play();
 });
       });
+    controller.play();
+
 setState(() {
     controller.play();
     controller.setVolume(1);
     // controller.setLooping(true);  
-});  }
+}); 
+    super.initState();
+}
     PageReels(context,  {url}) {
     // var controllervo= Get.put(ReelsController());
     return InkWell(onTap: (){},
@@ -52,9 +61,10 @@ setState(() {
   }
   @override
   void dispose() {
-    // TODO: implement dispose
+        controller.pause();
+        controller.dispose();
+
     super.dispose();
-    controller.dispose();
     
   }
    _jamclick(){
@@ -66,7 +76,6 @@ Get.defaultDialog(
 
 );
 Timer(const Duration(seconds: 2), (){
-  
 Get.back();
 });
   }
@@ -79,25 +88,25 @@ Get.back();
       Container(
         width: double.infinity,
         height: size.height,
-        child: Image.network(widget.thumbnial, fit: BoxFit.cover,)),
+        
+        child:CachedNetworkImage(width: double.infinity,
+                                                                fit: BoxFit.cover,
+                                                                imageUrl:widget.thumbnial.toString(),
+                                                                placeholder: (context, url) => spinkit,
+                                                                errorWidget: (context, url, error) =>
+                                                                    const Icon(Icons.error),
+                                                              ),
+        
+        
+      ),
    PageReels(context, url: widget.UrlVideo),
-                Column(
-                  children: [
-                    Container(
-                      height: size.height-58,
-                        color: Colors.amber,
-                        child: Column(children: [
-                        ],),),
-
-                    Spacer(),
-                    SizedBox(height:58 ,)
-                  ],
-                ),
-    
-                Padding(
+              
+         widget.     isprofile==false?  Padding(
                       padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
                       child: Row(children: [
-                        IconButton(onPressed: (){}, icon: Icon(Icons.search, size: 30,color: Colors.white,)),
+                        IconButton(onPressed: (){
+                          Get.to(()=> const ScreenSearch(docs: "User",tablename: "name", docs: null,));
+                        }, icon: Icon(Icons.search, size: 30,color: Colors.white,)),
                        const Spacer(),
                         Spacer(),
                         InkWell(onTap: (){
@@ -124,11 +133,21 @@ Get.back();
 
                         
                         
-                        IconButton(onPressed: (){}, icon:Image.asset("images/bubble-chat.png")),
+                        IconButton(onPressed: (){
+                                      Get.to(ScreenAllMessage());
+                          
+                        }, icon:Image.asset("images/bubble-chat.png")),
 
                         ],),
-                    ),
-   
+                    ):Padding(
+                      padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
+                      child: Row(children: [
+                        IconButton(onPressed: (){
+                        Navigator.pop(context);
+                        }, icon: Icon(Icons.arrow_back, size: 30,color: Colors.white,)),
+                       const Spacer(),
+                        ],),
+                    ) ,
                         Positioned(right: 10,
                         bottom: size.height*0.17,
                           child: Column(
@@ -157,15 +176,28 @@ Get.back();
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children:[
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                backgroundImage: NetworkImage(widget.profilephoto),radius: 24,),
-                            SizedBox(width: 10,),
-
-                              Text(widget.username, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-
-                              ],
+                           InkWell(onTap: (){
+                                           Get.to(SceenProflileAll(data: {}, id: widget.uidUser,imageprofile:widget.profilephoto ,name:  widget.username ));
+ },
+            child:Row(
+                      children: [  SizedBox(height: 50,width: 50,
+             child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(Radius.circular(1000)),
+                                  child: CachedNetworkImage(width: double.infinity,
+                                                                          fit: BoxFit.cover,
+                                                                          imageUrl:widget.profilephoto.toString(),
+                                                                          placeholder: (context, url) => spinkit,
+                                                                          errorWidget: (context, url, error) =>
+                                                                              const Icon(Icons.error),
+                                                                        ),
+                                ),
+           ),
+                               SizedBox(width: 10,),
+                            
+                                Text(widget.username, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                            
+                                ],
+                              ),
                             ),
                          const   SizedBox(height: 10,),
                               Container(
@@ -193,7 +225,7 @@ onDoubleTap: _jamclick,
       },
         child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: double.maxFinite,
+                    height: double.infinity,
                     child:VideoPlayer(controller),
                   ),
       );

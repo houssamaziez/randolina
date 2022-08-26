@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/View/Screens/Registre/widgets.dart';
 
-import 'TypeUser/Agency/screen.dart';
 import 'TypeUser/Hiking Club/screen.dart';
-import 'TypeUser/Store/screen.dart';
-import 'TypeUser/User/screen.dart';
+// ignore: prefer_typing_uninitialized_variables
 var typeuser;
 
 class ScreenChos extends StatefulWidget {

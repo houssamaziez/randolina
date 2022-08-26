@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/AuthonticationController.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
 
 import '../screenChos.dart';
 import '../widgets.dart';

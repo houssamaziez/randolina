@@ -1,5 +1,5 @@
   import 'package:flutter/material.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
 int indextlist=-1;
 
 AppBar appbar({isback= false, function}) {

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:randolina/Controller/controllerUser.dart';
 
 import 'Controller/AuthonticationController.dart';
+
+
+String nameservice="unwrapped-ceremony.000webhostapp.com";
+String urlserverfile=  "https://$nameservice/phptest/addfile.php";
+String urlserverlogine=  "https://$nameservice/phptest/logine.php";
+String urlserverGetpost= "https://$nameservice/phptest/postview.php";
 // var firebase 
 FirebaseAuth firebaseAuth= FirebaseAuth.instance;
 FirebaseStorage firebaseStorage= FirebaseStorage.instance;

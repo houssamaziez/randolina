@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Model/comment.dart';
-import 'package:randolina/ct.dart';
+import 'package:randolina/const.dart';
 
 class ControllerLikCont extends  GetxController{
 
@@ -73,6 +73,33 @@ Get.back();
 
   }, child: const Text("Confirm")));
 
+}
+
+
+
+
+
+
+
+
+var Listlikes;
+getlikelength(id) async {
+   DocumentSnapshot<Map<String, dynamic>> myVideos = await firestor
+        .collection('Post').doc(id)
+        .get();
+  Listlikes=myVideos.data()!["likes"];
+  update();
+}
+
+var Listlikesvideo;
+
+
+getlikelengthVideo(id) async {
+   DocumentSnapshot<Map<String, dynamic>> myVideos = await firestor
+        .collection('Videos').doc(id)
+        .get();
+  Listlikesvideo=myVideos.data()!["likes"];
+  update();
 }
 
 }
