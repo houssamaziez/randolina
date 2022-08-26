@@ -81,7 +81,7 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
                       padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
                       child: Row(children: [
                         IconButton(onPressed: (){
-                          // Get.to(()=> ScreenSearch(docs: "User",tablename: "name",));
+                          Get.to(()=> ScreenSearch(docs: "User",tablename: "name",));
                         }, icon: Icon(Icons.search, size: 30,color: Colors.white,)),
                        const Spacer(),
                         Spacer(),

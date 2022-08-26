@@ -105,7 +105,7 @@ Get.back();
                       padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
                       child: Row(children: [
                         IconButton(onPressed: (){
-                          Get.to(()=> const ScreenSearch(docs: "User",tablename: "name", docs: null,));
+                          Get.to(()=>   ScreenSearch(docs: "User",tablename: "name",));
                         }, icon: Icon(Icons.search, size: 30,color: Colors.white,)),
                        const Spacer(),
                         Spacer(),

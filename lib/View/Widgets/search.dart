@@ -15,7 +15,7 @@ import '../Screens/Home/Screens/Events/editivent.dart';
 
 class ScreenSearch extends StatefulWidget {
   final tablename,docs;
-   const ScreenSearch({Key? key,required this.tablename,required this.docs, required String docs}) : super(key: key);
+     ScreenSearch({Key? key,required this.tablename,required this. docs,}) : super(key: key);
   @override
   State<ScreenSearch> createState() => _ScreenSearchState();
 }
@@ -44,9 +44,8 @@ String textsearch="";
           textsearch=v;
         });},
       ),backgroundColor: Colors.white,),
-body: listserach(stream: firestor.collection("Ivent"), tablename: widget. tablename ));
+body: listserach(stream: firestor.collection(widget.docs), tablename: widget. tablename ));
   }
-  
   StreamBuilder<QuerySnapshot<Map<String, dynamic>>> listserach({required stream, required tablename}) {
      return StreamBuilder(
             stream: stream.snapshots(),
@@ -63,7 +62,7 @@ if (snapshot.connectionState == ConnectionState.waiting) {
         if (snapshot.hasError) {
           return const Text('Error');
         } else if (snapshot.hasData) {
-             controllersearch.search(items, textsearch, "destination");
+             controllersearch.search(items, textsearch,"name", );
           return        GetBuilder<ControllerSearch>(
             init: ControllerSearch(),
             builder: (cont) {
@@ -73,7 +72,30 @@ if (snapshot.connectionState == ConnectionState.waiting) {
                 itemCount:cont.reslut.length>10?10:cont.reslut.length,
                 itemBuilder: 
                (context,index) {
-                  return cardivent(items, index, context, controllivent);}
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(onTap: (){
+                      Get.to(SceenProflileAll(data: items[index], id: items[index]['uid'], imageprofile: items[index]['photoProfil'], name: items[index]['name']));
+                    },
+                      child: Card(child: ListTile(
+                        leading: SizedBox(height: 50,width: 50,
+                              child:ClipRRect(
+                                borderRadius: const BorderRadius.all(Radius.circular(1000)),
+                                child: CachedNetworkImage(width: double.infinity,
+                                                                        fit: BoxFit.cover,
+                                                                        imageUrl:items[index]['photoProfil'] .toString(),
+                                                                        placeholder: (context, url) => spinkit,
+                                                                        errorWidget: (context, url, error) =>
+                                                                            const Icon(Icons.error),
+                                                                      ),
+                              ),
+                            ),
+                        title:Text(items[index]['name'] ) ,
+                        subtitle: Text(items[index]['wilaya'] ) ,
+                        
+                        ),),
+                    ),
+                  );}
               
               
               ): Image.asset("images/People search-rafiki.png");
