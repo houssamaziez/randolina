@@ -35,6 +35,10 @@ const spinkit = SpinKitSpinningLines(
   color: Colors.blue,
   size: 50.0,
 );
+const minispinkit = SpinKitSpinningLines(
+  color: Colors.blue,
+  size: 20.0,
+);
 
 
 GetStorage islogin= GetStorage();

@@ -110,6 +110,8 @@ Get.back();
                        const Spacer(),
                         Spacer(),
                         InkWell(onTap: (){
+                         controller.dispose();
+
                             cotrollervideo.chngescren();
                         },
                           child: GetBuilder<VideoController>(init:VideoController() ,
@@ -134,6 +136,8 @@ Get.back();
                         
                         
                         IconButton(onPressed: (){
+        controller.dispose();
+
                                       Get.to(ScreenAllMessage());
                           
                         }, icon:Image.asset("images/bubble-chat.png")),
@@ -177,6 +181,8 @@ Get.back();
                           mainAxisAlignment: MainAxisAlignment.start,
                           children:[
                            InkWell(onTap: (){
+        controller.dispose();
+
                                            Get.to(SceenProflileAll(data: {}, id: widget.uidUser,imageprofile:widget.profilephoto ,name:  widget.username ));
  },
             child:Row(

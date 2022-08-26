@@ -9,6 +9,7 @@ import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/postcle
 import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/widgets.dart';
 import 'package:randolina/const.dart';
 
+import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../Reels/Postview/screenPost.dart';
 import '../../Reels/VideoView/screenVideo.dart';
 import 'infoclien.dart';
@@ -22,6 +23,12 @@ class SceenProflileAll extends StatefulWidget {
 class _SceenProflileAllState extends State<SceenProflileAll> {
 int postnumber=0;
 var controllecr=Get.put(ProfileController());
+var foloowcontr=Get.put( ControllerMessanger());
+@override
+  void initState() {
+  foloowcontr.virffollow(widget. id);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     controllecr.getcontlike(widget. id);
@@ -31,7 +38,7 @@ var controllecr=Get.put(ProfileController());
             children: [ 
               infoproileclien(widget.id),
               postclien(context, controllecr,widget. id, postnumber),
-              iconback(context,widget.id,widget.imageprofile,widget.name ),  
+              iconback(context,widget.id,widget.imageprofile,widget.name,widget. data),  
                       ],
           
         

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../../Controller/ProfileController.dart';
 import '../../../../../../const.dart';
 
@@ -94,7 +95,7 @@ Padding infoproileclien(id) {
                             ),const VerticalDivider(color: Colors.white),
                             Padding(
                               padding:  const EdgeInsets.all(8.0),
-                              child: Text("47.2K followers", style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),),
+                              child: followers(context, id),
                             ),const VerticalDivider(color: Colors.white),
                         GetBuilder<ProfileController>(
                                 init: ProfileController(),
@@ -122,4 +123,35 @@ Padding infoproileclien(id) {
              ),
  );
   }
+
+  followers(BuildContext context, users) {
+ return GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
+    builder: (cont) {
+      return FutureBuilder(
+        future:cont.addfollow(users),
+        builder: (
+          BuildContext context,
+          AsyncSnapshot snapshot,
+        ) {
+          print(snapshot.connectionState);
+          if (snapshot.connectionState == ConnectionState.waiting) {
+          return  Text("... followers",style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),);
+          } else if (snapshot.connectionState == ConnectionState.done) {
+              List dataa=snapshot.data;
+
+            if (snapshot.hasError) {
+              return  Text("... followers",style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),);
+            } else if (snapshot.hasData) {
+               return Text(dataa.length.toString()+' followers', style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),);
+            } else {
+              return   Text("... followers",style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),);
+            }
+          } else {
+            return Text('State: ${snapshot.connectionState}');
+          }
+        },
+      );
+    }
+  );
+}
 

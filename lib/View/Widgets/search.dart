@@ -75,7 +75,7 @@ if (snapshot.connectionState == ConnectionState.waiting) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(onTap: (){
-                      Get.to(SceenProflileAll(data: items[index], id: items[index]['uid'], imageprofile: items[index]['photoProfil'], name: items[index]['name']));
+                      Get.to(SceenProflileAll(data: cont.reslut[index], id: cont.reslut[index]['uid'], imageprofile:cont.reslut[index]['photoProfil'], name:cont.reslut[index]['name']));
                     },
                       child: Card(child: ListTile(
                         leading: SizedBox(height: 50,width: 50,
@@ -83,15 +83,15 @@ if (snapshot.connectionState == ConnectionState.waiting) {
                                 borderRadius: const BorderRadius.all(Radius.circular(1000)),
                                 child: CachedNetworkImage(width: double.infinity,
                                                                         fit: BoxFit.cover,
-                                                                        imageUrl:items[index]['photoProfil'] .toString(),
+                                                                        imageUrl:cont.reslut[index]['photoProfil'] .toString(),
                                                                         placeholder: (context, url) => spinkit,
                                                                         errorWidget: (context, url, error) =>
                                                                             const Icon(Icons.error),
                                                                       ),
                               ),
                             ),
-                        title:Text(items[index]['name'] ) ,
-                        subtitle: Text(items[index]['wilaya'] ) ,
+                        title:Text(cont.reslut[index]['name'] ) ,
+                        subtitle: Text(cont.reslut[index]['wilaya'] ) ,
                         
                         ),),
                     ),

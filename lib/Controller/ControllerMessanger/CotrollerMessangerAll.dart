@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Model/message.dart';
+import 'package:randolina/View/Screens/Home/Screens/messages/screenAllMessage.dart';
 import 'package:randolina/View/Screens/Registre/screenChos.dart';
 import 'package:randolina/const.dart';
 
@@ -10,13 +11,15 @@ import '../../View/Screens/Home/Screens/messages/screenchat.dart';
 class ControllerMessanger extends GetxController{
   sendmessageToAll({
     required users,required idmsg,
-    required msg
+    required msg, isfolew=true
   })async{
     var _uid= firebaseAuth.currentUser!.uid;
  int len=    Random().nextInt(100000000);
  int lenc=    Random().nextInt(100000000);
 print(msg);
-if (idmsg=="0") {
+
+if (isfolew==true) {
+  if (idmsg=="0") {
 print("waiting ...$users");
 
   QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
@@ -31,15 +34,15 @@ if (rslt.length==0) {
   time: DateTime.now().toString(),
    users: [_uid,users],
  );
- firestor.collection('Massenger').doc("$_uid $lenc").set(mseg.toJson()).then((value) =>Get.to(ScreenCHat(idclien: users, idmsg:  "$_uid $lenc", imageprofile: "imageprofile", name: "name")));
-sendmessages(idmsg: "$_uid $lenc", msg:msg );
+ firestor.collection('Massenger').doc("$_uid $lenc").set(mseg.toJson()).then((value) =>print("object"));
+  sendmessages(idmsg: "$_uid $lenc", msg:msg );
              
 //  User kayn fi data base 
 } else {
   firestor.collection('Massenger').doc(rslt[0]["msgid"]).update({
   "msg":msg,
   "time":DateTime.now().toString(),
- }).then((value) =>Get.to( ScreenCHat(idclien: users, idmsg: rslt[0]["msgid"], imageprofile: "imageprofile", name: "name")));
+ }).then((value) =>print('object'));
 sendmessages(idmsg: rslt[0]["msgid"], msg:msg );
 }
 }else{
@@ -84,13 +87,41 @@ sendmessages(idmsg:"$_uid $len", msg:msg );
 
 
 }
+} else {
+  relaodfolow=true;
+  update();
+
+List d= await addfollow(users);
+  if (d.length==0) {
+    
+       Listmessage mseg= Listmessage(
+  msg: msg,
+  msgid: "$_uid $lenc",
+  time: DateTime.now().toString(),
+   users: [_uid,users],
+ );
+ firestor.collection('Massenger').doc("$_uid $lenc").set(mseg.toJson()).then((value) =>print("object"));
+  
+  }
+await virffollow(users);
+
+  relaodfolow=false;
+  update();
 }
-retundata(users)async{
+
+}
+ late List rsltdatamesage= [];
+retundata(users, )async{
    QuerySnapshot<Map<String, dynamic>> data;
  data=await firestor.collection('Massenger').orderBy('time', descending: true).get().then((value) => 
  data=value);
-  List rslt=data.docs.where((element) => element["users"].contains(users)) .toList();
-print(rslt.length);
+    rsltdatamesage=data.docs.where((element) => element["users"].contains(users)) .toList();
+update();
+if (rsltdatamesage.length!=0) {
+ print(rsltdatamesage.length);
+} else {
+  
+}
 }
 
 
@@ -98,8 +129,6 @@ getdata()async{
 var rslt;
 QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
 rslt=data.docs.where((element) => element["users"].contains(firebaseAuth.currentUser!.uid)) .toList();
-
-
 return rslt;
 }
 
@@ -110,8 +139,29 @@ return data ;
 }
 
 
+ bool isfolow=true;
+ bool relaodfolow=false;
 
 
+addfollow(users)async{
+  
+  QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
+  List rslt=data.docs.where((element) => element["users"].contains(users)) .toList();
+  return rslt;
+}
+virffollow(users)async{
+  QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
+  List rslt=data.docs.where((element) => element["users"].contains(users)) .toList();
+if (rslt.length==0) {
+  isfolow=false;
+  update();
+}else{
+  isfolow=true;
+  update();
+
+
+}
+}
 
 
 sendmessages({msg ,idmsg}){

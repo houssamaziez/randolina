@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/screenAllMessage.dart';
+import 'package:shaky_animated_listview/scroll_animator.dart';
 
 import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../const.dart';
@@ -24,16 +27,19 @@ TextEditingController _controllertext=TextEditingController();
 @override
   void initState() {
    if (widget. idmsg=="0") {
-     
+ controllerMessanger.retundata(widget. idclien);
+
+
+
    }
    
     super.initState();
   }
+  var idm;
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-
      appBar: AppBar(actions: [IconButton(onPressed: (){},
       icon: Icon(Icons.call, color: Colors.black,)), SizedBox(width: 10,)],
       leading: IconButton(onPressed: (){
@@ -53,7 +59,8 @@ TextEditingController _controllertext=TextEditingController();
                                                                   ),
                           ),
                         ),
-        SizedBox(width: 10,),  Expanded(child: Text(widget.name, style: TextStyle(color: Colors.black),)),
+        SizedBox(width: 10,), 
+         Expanded(child: Text(widget.name, style: TextStyle(color: Colors.black),)),
         ],
       ),
         shape:const RoundedRectangleBorder(
@@ -64,11 +71,22 @@ TextEditingController _controllertext=TextEditingController();
     ),
       body: Stack(
         children: <Widget>[
-          StreamBuilder(
-          stream: firestor.collection('Massenger').doc(widget.idmsg).collection("messages").orderBy("time", descending: true).snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            var items = snapshot.data?.docs ?? [];
-              return ListView.builder(reverse: true,
+        GetBuilder<ControllerMessanger>(
+            init: ControllerMessanger(),
+            builder: (cont) {
+              if (cont.rsltdatamesage.length==1) {
+          
+                  idm=cont.rsltdatamesage[0]["msgid"];
+            
+              }else{
+                idm=widget.idmsg;
+  
+   }
+              return   idm=='0'?Expanded(child: Center(child: Text("no data"),)): StreamBuilder(
+              stream: firestor.collection('Massenger').doc(idm).collection("messages").orderBy("time", descending: true).snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                var items = snapshot.data?.docs ?? [];
+                  return ListView.builder(reverse: true,
   itemCount: items.length,
   
   shrinkWrap: true,
@@ -79,17 +97,19 @@ TextEditingController _controllertext=TextEditingController();
       child: Align(
         alignment: (items[index]["uid"] != firebaseAuth.currentUser!.uid?Alignment.topLeft:Alignment.topRight),
         child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: (items[index]["uid"]  != firebaseAuth.currentUser!.uid?Colors.grey.shade200:Colors.blue[200]),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Text(items[index]["message"], style: const TextStyle(fontSize: 15),),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: (items[index]["uid"]  != firebaseAuth.currentUser!.uid?Colors.grey.shade200:Colors.blue[200]),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Text(items[index]["message"], style: const TextStyle(fontSize: 15),),
         ),
       ),
     );
   },
 );
+                }
+              );
             }
           ),
           Align(
@@ -131,6 +151,7 @@ TextEditingController _controllertext=TextEditingController();
 
 controllerMessanger.sendmessageToAll(users: widget.idclien, msg: _controllertext.text, idmsg: widget.idmsg);
               _controllertext.clear();
+ 
               }
                     },
                     child: const Icon(Icons.send,color: Colors.white,size: 18,),

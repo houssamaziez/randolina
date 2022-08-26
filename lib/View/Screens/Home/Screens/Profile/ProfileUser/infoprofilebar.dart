@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../../../Controller/ProfileController.dart';
 import '../../../../../../const.dart';
+import '../profileClien/infoclien.dart';
 
 Padding infoprofile(String uid) {
     return Padding(
@@ -91,7 +92,7 @@ Padding infoprofile(String uid) {
                               ),const VerticalDivider(color: Colors.white),
                         Padding(
                           padding:  const EdgeInsets.all(8.0),
-                          child: Text("47.2K followers", style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),),
+                          child:followers(context, uid),
                         ),const VerticalDivider(color: Colors.white),
                         GetBuilder<ProfileController>(
                                 init: ProfileController(),
