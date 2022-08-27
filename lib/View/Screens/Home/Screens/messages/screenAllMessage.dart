@@ -34,7 +34,7 @@ var controllerMessanger= Get.put(ControllerMessanger());
   }
   @override
   Widget build(BuildContext context) {
-   Timer(const Duration(seconds:10), (){
+   Timer(const Duration(seconds:20), (){
   
       setState(() {
       });
