@@ -3,11 +3,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Model/message.dart';
-import 'package:randolina/View/Screens/Home/Screens/messages/screenAllMessage.dart';
-import 'package:randolina/View/Screens/Registre/screenChos.dart';
 import 'package:randolina/const.dart';
 
-import '../../View/Screens/Home/Screens/messages/screenchat.dart';
 class ControllerMessanger extends GetxController{
   sendmessageToAll({
     required users,required idmsg,
@@ -184,13 +181,23 @@ sendmessages({msg ,idmsg}){
   }).then((value) => null);
     
   }
+
+
+
+
+
 int  msgevu=0;
+var msgeviewvu=0;
+getvumsg(){
+  msgeviewvu=message.read('msg');
+  update();
+  print(msgeviewvu);
+}
 getmsegeNosee()async{
 QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
 List c=data.docs.where((element) => element["users"].contains(firebaseAuth.currentUser!.uid)) .toList();
 msgevu=c.length;
 update();
-print(msgevu);
 }
 
 

@@ -176,12 +176,13 @@ String? sizeinisil;
 var contrmsg=Get.put(ControllerMessanger());
 @override
   void initState() {
+    contrmsg.getvumsg();
     super.initState();
     intial();
     contrmsg.getmsegeNosee();
     if (message.read("msg")==null
     ) {
-      print("nulllllllllllllll");
+      message.write("msg", 0);
     }
   }
   

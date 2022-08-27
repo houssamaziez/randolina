@@ -135,7 +135,6 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
     controllerlikcomnt.likePOST(idpost:id);
     controllerlikcomnt.getlikelength(id);
     
-
     
                                   }, icon:  GetBuilder<ControllerLikCont>(init: ControllerLikCont(),
                                     builder: (contt) {
@@ -144,7 +143,7 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
                                   )),
                                     GetBuilder<ControllerLikCont>(init: ControllerLikCont(),
                                     builder: (contt) {
-                                      return Text( contt.Listlikes.length.toString(), style: TextStyle(color: Colors.white),);
+                                      return Text( contt.Listlikes.length==null?0.toString(): contt.Listlikes.length.toString(), style: TextStyle(color: Colors.white),);
                                      }
                                    ),
                                 const SizedBox(height: 15,),

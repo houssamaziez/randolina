@@ -20,10 +20,16 @@ class _ScreenAllMessageState extends State<ScreenAllMessage> {
 var controllerMessanger= Get.put(ControllerMessanger());
 @override
   void initState() {
+    print("object");
       controllerMessanger.getdata();
-    controllerMessanger.getmsegeNosee();
+      controllerMessanger.getmsegeNosee();
+          message.write("msg", controllerMessanger.msgevu);
+    print("object");
 
-       message.write("msg", 0);
+        print(message.read("msg"));
+    print("object");
+   
+    
     super.initState();
   }
   @override
@@ -106,26 +112,35 @@ Get.to(ScreenSearch(docs: "User",tablename: "name",));
       } else if (snapshot.hasData) {
         return GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
          builder: (cont) {
-           return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index){
-            String data ="";
-            List j=snapshot.data[index]["users"].where((element) => element != firebaseAuth.currentUser!.uid.toString()).toList();
-            //  var c=j.sort((a,b)=> a["time"].compareTo(b[DateTime.now().toString()])) as List;
-            return SizedBox(
-              child:Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: InkWell(onTap: (){
-        print("hhhhhhhhhhhhhhhhh${snapshot.data[index]["msg"]}");
-
- },
-        child: Card(
-          child:cardmsge(j , snapshot.data[index]["msg"] , snapshot.data[index]["time"],snapshot.data[index]["msgid"] )
-        ),
-      ),
-    ));
- 
-  });
+           return RefreshIndicator(onRefresh: ()async{
+            
+           return Future.delayed(Duration(seconds: 1), (){
+setState(() {
+              
+            });
+           });
+           },
+             child: ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index){
+              String data ="";
+              List j=snapshot.data[index]["users"].where((element) => element != firebaseAuth.currentUser!.uid.toString()).toList();
+              //  var c=j.sort((a,b)=> a["time"].compareTo(b[DateTime.now().toString()])) as List;
+              return SizedBox(
+                child:Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: InkWell(onTap: (){
+                   print("hhhhhhhhhhhhhhhhh${snapshot.data[index]["msg"]}");
+           
+            },
+                   child: Card(
+                     child:cardmsge(j , snapshot.data[index]["msg"] , snapshot.data[index]["time"],snapshot.data[index]["msgid"] )
+                   ),
+                 ),
+               ));
+            
+             }),
+           );
          }
        );
     

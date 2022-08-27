@@ -7,6 +7,8 @@ import 'package:randolina/View/Screens/Home/Screens/Reels/Postview/screenPost.da
 import 'package:randolina/View/Screens/Home/Screens/Reels/VideoView/screenVideo.dart';
 import 'package:randolina/const.dart';
 
+import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
+
 class ScreenReels extends StatefulWidget {
   const ScreenReels({Key? key}) : super(key: key);
   @override
@@ -119,7 +121,13 @@ onPageChanged: (int positione) {
                   username:  items[index]["username"] ,
                   );
    }
+var controllerMessanger= Get.put(ControllerMessanger());
 
+@override
+  void initState() {
+    
+    super.initState();
+  }
  @override
   void dispose() {
     // TODO: implement dispose

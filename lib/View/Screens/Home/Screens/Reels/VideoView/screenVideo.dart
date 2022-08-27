@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:randolina/Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import 'package:randolina/Controller/videocotroller.dart';
 import 'package:randolina/View/Widgets/search.dart';
 import 'package:randolina/const.dart';
@@ -17,6 +18,7 @@ import '../../../../../../Controller/controllerLiksComnt.dart';
 import '../../Profile/profileClien/profileUser.dart';
 import '../../../widgetsHome/screenComent.dart';
 import '../../messages/screenAllMessage.dart';
+import '../Postview/widgetS/appbarvide.dart';
 
 class VideoreelsScreen extends StatefulWidget {
 
@@ -85,7 +87,6 @@ Get.back();
       Container(
         width: double.infinity,
         height: size.height,
-        
         child:CachedNetworkImage(width: double.infinity,
                                                                 fit: BoxFit.cover,
                                                                 imageUrl:widget.thumbnial.toString(),
@@ -93,9 +94,7 @@ Get.back();
                                                                 errorWidget: (context, url, error) =>
                                                                     const Icon(Icons.error),
                                                               ),
-        
-        
-      ),
+                                 ),
    PageReels(context, url: widget.UrlVideo),
               
          widget.     isprofile==false?  Padding(
@@ -111,33 +110,18 @@ Get.back();
 
                             cotrollervideo.chngescren();
                         },
-                          child: GetBuilder<VideoController>(init:VideoController() ,
-                            builder: (cont) {
-                              return Row(
-                                children: [
-                                          const  Padding(
-                                padding:  EdgeInsets.all(8.0),
-                                child: Text( "Images", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                              )  ,
-                                  Image.asset(  cont.isvscrenvideoddd== true?"images/switch (3).png":"images/switch (2).png"),
-                            const  Padding(
-                                padding:  EdgeInsets.all(8.0),
-                                child: Text( "Videos", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                              )  ,],
-                              );
-                            }
-                          ),
+                          child: appbarvideo(),
                         ),
                         Spacer(),
 
                         
                         
                         IconButton(onPressed: (){
-        controller.dispose();
-
-                                      Get.to(ScreenAllMessage());
-                          
-                        }, icon:Image.asset("images/bubble-chat.png")),
+                           Get.to(ScreenAllMessage());
+                        }, icon:
+                            Image.asset("images/bubble-chat.png"),
+                         
+                      ),
 
                         ],),
                     ):Padding(
@@ -212,7 +196,8 @@ Get.back();
    
    ],) ,);
   }
-     screenVideo(context,VideoPlayerController controller) {
+
+  screenVideo(context,VideoPlayerController controller) {
       return InkWell(
         
 onDoubleTap: _jamclick,
