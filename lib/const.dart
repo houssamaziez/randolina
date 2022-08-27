@@ -42,6 +42,7 @@ const minispinkit = SpinKitSpinningLines(
 
 
 GetStorage islogin= GetStorage();
+GetStorage message= GetStorage();
 
 
 class HexColor extends Color {

@@ -44,6 +44,7 @@ class _ScreenReelsState extends State<ScreenReels> {
 }
 
    StreamBuilder<QuerySnapshot<Map<String, dynamic>>> listreels({required stream, count}) {
+    int position =0;
      return StreamBuilder(
             stream: stream.snapshots(),
 
@@ -63,15 +64,16 @@ if (snapshot.connectionState == ConnectionState.waiting) {
           return        Expanded(
             child: PageView.builder(
                  scrollDirection: Axis.vertical,
-onPageChanged: (int position) {
-            print('page changed. current: $position');
+onPageChanged: (int positione) {
+            print('page changed. current: $positione');
+              position=positione;
           },
               itemCount: items.length,
               itemBuilder: 
              (context,index) {
                 return Container(height: heightphon(context),
                 width:widthphon(context),
-                  child:count=="video"?scrvideo(items, index ): photosreels(items, index),
+                  child:count=="video"?scrvideo(items, index , position): photosreels(items, index),
                 );
               }
             ),
@@ -104,9 +106,9 @@ onPageChanged: (int position) {
                                       );
    }
 
-   VideoreelsScreen scrvideo(List<QueryDocumentSnapshot<Object?>> items, int index) {
+   VideoreelsScreen scrvideo(List<QueryDocumentSnapshot<Object?>> items, int index, position) {
      return VideoreelsScreen(isprofile: false,
-      uidUser: items[index]["uid"],
+      uidUser: items[index]["uid"],numvidoe: position,
                   id:items[index]["id"] ,
                   UrlVideo: items[index]["videoUrl"],
                   caption:  items[index]["caption"],
@@ -120,7 +122,7 @@ onPageChanged: (int position) {
 
  @override
   void dispose() {
-    controllervideoplay.dispose();
+    // TODO: implement dispose
     super.dispose();
   }
   @override

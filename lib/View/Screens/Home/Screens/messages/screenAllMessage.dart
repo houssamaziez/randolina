@@ -1,22 +1,16 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/widgets.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/screenchat.dart';
+import 'package:randolina/View/Screens/Home/Screens/messages/widget/cardmessage.dart';
 import 'package:randolina/View/Widgets/search.dart';
-import 'package:shaky_animated_listview/animators/grid_animator.dart';
-
 import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../const.dart';
 
 class ScreenAllMessage extends StatefulWidget {
-   ScreenAllMessage({Key? key}) : super(key: key);
+   const ScreenAllMessage({Key? key}) : super(key: key);
 
   @override
   State<ScreenAllMessage> createState() => _ScreenAllMessageState();
@@ -26,13 +20,16 @@ class _ScreenAllMessageState extends State<ScreenAllMessage> {
 var controllerMessanger= Get.put(ControllerMessanger());
 @override
   void initState() {
-      controllerMessanger.getdata();print(1);
+      controllerMessanger.getdata();
+    controllerMessanger.getmsegeNosee();
+
+       message.write("msg", 0);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(minutes:1), (){
-      controllerMessanger.getdata();
+   Timer(const Duration(seconds:10), (){
+  
       setState(() {
       });
     });
@@ -40,12 +37,13 @@ var controllerMessanger= Get.put(ControllerMessanger());
 floatingActionButton: FloatingActionButton(
   backgroundColor: color1,
   onPressed: (){
-Get.to(  ScreenSearch(docs: "User",tablename: "name",));
+Get.to(ScreenSearch(docs: "User",tablename: "name",));
   }, child: const Icon(Icons.search),),
        appBar: AppBar(
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back, color: Colors.black,)),
+          
+        }, icon: const Icon(Icons.arrow_back, color: Colors.black,)),
         title:const Text("All Messages", style: TextStyle(color: Colors.black),),centerTitle: true,
         shape:const RoundedRectangleBorder(
       borderRadius:  BorderRadius.vertical(
@@ -53,19 +51,17 @@ Get.to(  ScreenSearch(docs: "User",tablename: "name",));
       ),) ,
         backgroundColor: Colors.white,
     ),
-    
-       body:bodymsges() );
+       body:
+       
+       bodymsges() );
   }
-
   FutureBuilder<dynamic> cardmsge(List<dynamic> j , msg, time, msgid) {
       var dateFormat = DateFormat.jm();
-    print("______${j[0]}_______");
+    print("${j[0]}");
     return FutureBuilder(future:controllerMessanger.getdatauser(j[0]),
             builder: (context,AsyncSnapshot snapshot2 ) {
         print("---DDD---"+snapshot2.data.toString());
-
                 if (snapshot2.connectionState == ConnectionState.waiting) {
-
        return errordata();
       
     } else if (snapshot2.connectionState == ConnectionState.done) {
@@ -74,24 +70,10 @@ Get.to(  ScreenSearch(docs: "User",tablename: "name",));
       } else if (snapshot2.hasData) {
         return InkWell(onTap:(){
           Get.to(        ScreenCHat(idclien: j[0], idmsg:msgid ,imageprofile: snapshot2.data["photoProfil"].toString(),  name:snapshot2.data["name"].toString() ,)
-)    ; 
+              ); 
         },
-          child: ListTile(
-                leading: SizedBox(width: 50,height: 50,
-                  child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(Radius.circular(1000)),
-                                        child: CachedNetworkImage(width: double.infinity,
-                                                                                fit: BoxFit.cover,
-                                                                                imageUrl:snapshot2.data["photoProfil"].toString().toString(),
-                                                                                placeholder: (context, url) => spinkit,
-                                                                                errorWidget: (context, url, error) =>
-                                                                                    const Icon(Icons.error),
-                                                                              ),
-                                      ),
-                ),
-                                    title: Text(snapshot2.data["name"].toString()),
-                                    subtitle:Text(msg.toString()) ,trailing:Text(dateFormat.format(DateTime.parse(time))   .toString()) ,
-              ),
+          child:Cardmessage(controllerMessanger: controllerMessanger,
+            snapshot2: snapshot2,msg: msg,dateFormat: dateFormat,time: time),
         );
       } else {
         return errordata();
@@ -103,6 +85,12 @@ Get.to(  ScreenSearch(docs: "User",tablename: "name",));
             }
           );
   }
+
+
+  
+
+
+
   FutureBuilder<dynamic> bodymsges( ) {
     return FutureBuilder(future:controllerMessanger.getdata(),
             builder: (context,AsyncSnapshot snapshot ) {

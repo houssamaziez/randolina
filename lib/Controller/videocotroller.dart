@@ -9,6 +9,7 @@ import 'package:randolina/Model/video.dart';
 import 'package:randolina/View/Screens/Home/Home.dart';
 import 'package:randolina/const.dart';
 import 'package:video_compress/video_compress.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoController extends GetxController {
  bool  islodeinvideo=false;
@@ -24,20 +25,16 @@ _uploadImagetostorage(id, videoPath)async{
  var downloadUrl=snp.ref.getDownloadURL();
  return downloadUrl;
 }
-
-
-  _comprassvideo(videopath)async{
+ _comprassvideo(videopath)async{
     
     var compressvideo=  await VideoCompress.compressVideo(videopath, );
 
     return File(videopath);
   }
-
 index(vale){
 islodeinvideo=vale;
 update();
 }
-
 _uploadVideoToStorge(id ,videopath,)async{
 
  var ref= firebaseStorage.ref().child("videos").child(id);
@@ -81,4 +78,26 @@ try {
   update();
 }  
  }
+
+
+// controll video 
+late VideoPlayerController controller ;
+
+
+@override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+  }
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+  }
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
 }

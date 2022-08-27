@@ -14,6 +14,7 @@ class ControllerMessanger extends GetxController{
     required msg, isfolew=true
   })async{
     var _uid= firebaseAuth.currentUser!.uid;
+    
  int len=    Random().nextInt(100000000);
  int lenc=    Random().nextInt(100000000);
 print(msg);
@@ -23,7 +24,7 @@ if (isfolew==true) {
 print("waiting ...$users");
 
   QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
-  List rslt=data.docs.where((element) => element["users"].contains(users)) .toList();
+  List rslt=data.docs.where((element) => element["users"].contains(users) &&element["users"].contains(_uid)) .toList();
 print(rslt.length);
 
 //  user mahoch fi data base 
@@ -112,10 +113,12 @@ await virffollow(users);
 }
  late List rsltdatamesage= [];
 retundata(users, )async{
+  var uidd=firebaseAuth.currentUser!.uid;
+
    QuerySnapshot<Map<String, dynamic>> data;
  data=await firestor.collection('Massenger').orderBy('time', descending: true).get().then((value) => 
  data=value);
-    rsltdatamesage=data.docs.where((element) => element["users"].contains(users)) .toList();
+    rsltdatamesage=data.docs.where((element) => element["users"].contains(users) &&element["users"].contains(uidd)) .toList();
 update();
 if (rsltdatamesage.length!=0) {
  print(rsltdatamesage.length);
@@ -138,20 +141,23 @@ data =await firestor.collection("User").doc(uid).get();
 return data ;
 }
 
-
+List v=[];
+ 
  bool isfolow=false;
  bool relaodfolow=false;
 
 
 addfollow(users)async{
+  var uidd=firebaseAuth.currentUser!.uid;
   
   QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
-  List rslt=data.docs.where((element) => element["users"].contains(users)) .toList();
+  List rslt=data.docs.where((element) => element["users"].contains(users) &&element["users"].contains(uidd)) .toList();
   return rslt;
 }
 virffollow(users)async{
+  var uidd=firebaseAuth.currentUser!.uid;
   QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
-  List rslt=data.docs.where((element) => element["users"].contains(users)) .toList();
+  List rslt=data.docs.where((element) => element["users"].contains(users) &&element["users"].contains(uidd)) .toList();
 if (rslt.length==0) {
   isfolow=false;
   update();
@@ -178,5 +184,14 @@ sendmessages({msg ,idmsg}){
   }).then((value) => null);
     
   }
+int  msgevu=0;
+getmsegeNosee()async{
+QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
+List c=data.docs.where((element) => element["users"].contains(firebaseAuth.currentUser!.uid)) .toList();
+msgevu=c.length;
+update();
+print(msgevu);
+}
+
 
 }

@@ -173,7 +173,7 @@ postnumber =items.length;
   return Padding(
         padding: const  EdgeInsets.all(2.0),
         child: InkWell(onTap: (){
-          Get.to( VideoreelsScreen(isprofile:true ,
+          Get.to( VideoreelsScreen(isprofile:true ,numvidoe: 2,
     uidUser: items[index]["uid"],
                 id:items[index]["id"] ,
                 UrlVideo: items[index]["videoUrl"],

@@ -11,13 +11,8 @@ void main() async {
   await Firebase.initializeApp();
   await GetStorage.init();
   Get.put(ControllerAth());
-//  await controllerUser.getData();
-// Get.put(ReelsController());
-// await firebaseAuth.signOut();
-// islogin.write("islogin", false);
    runApp(const MyApp());
     await controllerUser.getData();
-    
 }
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

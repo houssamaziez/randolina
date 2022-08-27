@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:randolina/Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import 'package:randolina/Controller/imagecontroller.dart';
 import 'package:randolina/View/Screens/Home/ConfermScreens/confermVideo.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/screenHomeEvents.dart';
@@ -39,8 +40,10 @@ class ScreenHome extends StatefulWidget {
 
 
 class _ScreenHomeState extends State<ScreenHome> with TickerProviderStateMixin {
+  
  late File videofile;
 pickVideo(ImageSource src,  BuildContext context)async{
+  
   final video = await ImagePicker().pickVideo(source: src);
 String? sizeinisil;
   if (video!=null) {
@@ -170,11 +173,16 @@ String? sizeinisil;
      ],
     );
   }
-
+var contrmsg=Get.put(ControllerMessanger());
 @override
   void initState() {
     super.initState();
     intial();
+    contrmsg.getmsegeNosee();
+    if (message.read("msg")==null
+    ) {
+      print("nulllllllllllllll");
+    }
   }
   
   

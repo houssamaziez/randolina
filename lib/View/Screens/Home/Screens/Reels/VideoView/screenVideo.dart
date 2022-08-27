@@ -22,37 +22,37 @@ class VideoreelsScreen extends StatefulWidget {
 
   // ignore: prefer_typing_uninitialized_variables
   final UrlVideo, thumbnial,isprofile,likes,id, comentr, caption, username, profilephoto ,uidUser;
-  final bool _isloading=false;
-    const VideoreelsScreen({Key? key,required this.UrlVideo,required this.thumbnial,required this.likes,required this.comentr,required this.caption,required this.username,required this.profilephoto,required this.id,required this.uidUser,required this.isprofile}) : super(key: key);
+  final bool _isloading=false ;
+  final int numvidoe;
+    const VideoreelsScreen({Key? key,required this.UrlVideo,required this.thumbnial,required this.likes,required this.comentr,required this.caption,required this.username,required this.profilephoto,required this.id,required this.uidUser,required this.isprofile, required this.numvidoe}) : super(key: key);
 
   @override
   State<VideoreelsScreen> createState() => _VideoreelsScreenState();
 }
-      late VideoPlayerController controllervideoplay ;
 
 class _VideoreelsScreenState extends State<VideoreelsScreen> {
 var controllerlikcomnt=Get.put(ControllerLikCont());
 var _uid= firebaseAuth.currentUser!.uid;
   var cotrollervideo= Get.put(VideoController());
+      late VideoPlayerController controller ;
 @override
   void initState() {
  print( widget. _isloading);
-  controllervideoplay  = VideoPlayerController.network(
+  controller  = VideoPlayerController.network(
         widget.UrlVideo,  )
       ..initialize().then((  con) {
-    controllervideoplay.play();
+ widget.numvidoe !=0? controller.play():controller.pause();
       });
-    controllervideoplay.play();
-
-    controllervideoplay.play();
-    controllervideoplay.setVolume(1);
+ 
+ 
+    controller.setVolume(1);
     // controller.setLooping(true);  
     super.initState();
 }
     PageReels(context,  {url}) {
     // var controllervo= Get.put(ReelsController());
     return InkWell(onTap: (){},
-      child: screenVideo(context,controllervideoplay),
+      child: screenVideo(context,controller),
     );
   }
   @override
@@ -61,10 +61,8 @@ var _uid= firebaseAuth.currentUser!.uid;
     super.dispose();
      
   }
-
   des()async{
-     await   controllervideoplay.dispose();
-
+     await   controller.dispose();
   }
    _jamclick(){
 if(widget.likes.contains(_uid.toString())==false){
@@ -109,7 +107,7 @@ Get.back();
                        const Spacer(),
                         Spacer(),
                         InkWell(onTap: (){
-                         controllervideoplay.dispose();
+                         controller.dispose();
 
                             cotrollervideo.chngescren();
                         },
@@ -135,7 +133,7 @@ Get.back();
                         
                         
                         IconButton(onPressed: (){
-        controllervideoplay.dispose();
+        controller.dispose();
 
                                       Get.to(ScreenAllMessage());
                           
@@ -180,7 +178,7 @@ Get.back();
                           mainAxisAlignment: MainAxisAlignment.start,
                           children:[
                            InkWell(onTap: (){
-        controllervideoplay.dispose();
+        controller.dispose();
 
                                            Get.to(SceenProflileAll(data: {}, id: widget.uidUser,imageprofile:widget.profilephoto ,name:  widget.username ));
  },
