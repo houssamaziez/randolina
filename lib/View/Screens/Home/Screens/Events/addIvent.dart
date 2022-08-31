@@ -14,7 +14,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:randolina/Controller/iventController.dart';
+import 'package:randolina/Controller/eventController.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/View/Widgets/time.dart';
 
@@ -147,7 +147,9 @@ appBar: appbarev(),
     request.files.add(multipartFile);
     StreamedResponse response = await request.send();
   response.stream.transform(utf8.decoder).listen((value) {
-               widget.  _controller.uploadImage(imagepath: image, datedubte:datedubte, 
+               widget.  _controller.uploadImage(
+                datedubteivent: datedubteiventt,
+                imagepath: image, datedubte:datedubte, 
               datefine: datefine, destination: destination, details:details, distance: distance, nombresplaces:nombresplaces, price: price, Imageurl: value,   );
          widget._controller.uploadImageindex(false);
 Navigator.pop(context);

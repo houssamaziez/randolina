@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Ivent {
 
-final time,price,distance,nombresplaces,datedubte,datefine, details, username ,destination, photouser, urlImage, participate,uid , id, images;
+final time,price,save, distance,nombresplaces,datedubte,datefine, details, username ,destination, photouser, urlImage, participate,uid , id, images;
 
 
-  Ivent( {
+  Ivent(  {required this.save,
     
    required this. price  ,required this.distance,required this.nombresplaces,required this.datedubte,required this.datefine,
     required this.destination, required this.images,    required this.uid,required this.id,
@@ -27,7 +27,7 @@ Map <String , dynamic> tojeson ()=>
 "photouser":photouser,
 "urlImage":urlImage,
 "participate":participate,
-"price":price,
+"save":save,
 "uid":uid,
 "id":id,
 "images":images,
@@ -35,7 +35,7 @@ Map <String , dynamic> tojeson ()=>
 static Ivent fromsnap(DocumentSnapshot snap){
       var snapshot=snap.data() as Map <String , dynamic>;
       return Ivent(
-
+save:snapshot["save"],
         datedubte:snapshot["datedubte"] ,
         datefine:snapshot["datefine"] ,
         distance:snapshot["distance"] ,

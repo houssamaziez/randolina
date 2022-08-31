@@ -15,8 +15,8 @@ import '../../Reels/VideoView/screenVideo.dart';
 import 'infoclien.dart';
 
 class SceenProflileAll extends StatefulWidget {
-  final data ,id,imageprofile,name;
-    const SceenProflileAll({Key? key,required this.data,required this.id, required this.imageprofile,required this.name}) : super(key: key);
+  final  id,imageprofile,name;
+    const SceenProflileAll({Key? key ,required this.id, required this.imageprofile,required this.name}) : super(key: key);
   @override
   State<SceenProflileAll> createState() => _SceenProflileAllState();
 }
@@ -34,14 +34,23 @@ var foloowcontr=Get.put( ControllerMessanger());
     controllecr.getcontlike(widget. id);
     return Scaffold(
       backgroundColor: color1,
-      body:  Stack(
-            children: [ 
-              infoproileclien(widget.id),
-              postclien(context, controllecr,widget. id, postnumber),
-              iconback(context,widget.id,widget.imageprofile,widget.name,widget. data),  
-                      ],
+      body:  RefreshIndicator(onRefresh: ()async{
+            
+           return Future.delayed(Duration(seconds: 1), (){
+setState(() {
+              
+            });
+           });
+           },
+             child:  Stack(
+              children: [ 
+                infoproileclien(widget.id),
+                postclien(context, controllecr,widget. id, postnumber),
+                iconback(context,widget.id,widget.imageprofile,widget.name,),  
+                        ],
+            
           
-        
+        ),
       ),
       
       

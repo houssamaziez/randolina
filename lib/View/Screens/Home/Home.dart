@@ -12,13 +12,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:randolina/Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import 'package:randolina/Controller/imagecontroller.dart';
 import 'package:randolina/View/Screens/Home/ConfermScreens/confermVideo.dart';
-import 'package:randolina/View/Screens/Home/Screens/Events/screenHomeEvents.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/ScreenHome/screenHomeEvents.dart';
 import 'package:randolina/View/Screens/Home/Screens/Profile/ProfileUser/screenProfile.dart';
 import 'package:randolina/View/Screens/Home/Screens/StoreView/screenStore.dart';
 import 'package:randolina/View/Screens/Home/widgetsHome/var.dart';
-import 'package:randolina/View/Screens/Registre/TypeUser/Store/screen.dart';
 import 'package:randolina/View/Widgets/BottumCenter.dart';
-import 'package:randolina/View/Widgets/dailolgCompress.dart';
 import 'package:video_compress/video_compress.dart';
 
 import '../../../const.dart';
@@ -176,14 +174,9 @@ String? sizeinisil;
 var contrmsg=Get.put(ControllerMessanger());
 @override
   void initState() {
-    contrmsg.getvumsg();
     super.initState();
     intial();
-    contrmsg.getmsegeNosee();
-    if (message.read("msg")==null
-    ) {
-      message.write("msg", 0);
-    }
+  
   }
   
   

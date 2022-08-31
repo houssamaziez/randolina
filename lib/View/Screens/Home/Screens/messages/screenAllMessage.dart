@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/screenchat.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/widget/cardmessage.dart';
@@ -34,29 +35,47 @@ var controllerMessanger= Get.put(ControllerMessanger());
   }
   @override
   Widget build(BuildContext context) {
-   Timer(const Duration(seconds:20), (){
-  
-      setState(() {
-      });
-    });
+ 
     return Scaffold(
 floatingActionButton: FloatingActionButton(
   backgroundColor: color1,
   onPressed: (){
 Get.to(ScreenSearch(docs: "User",tablename: "name",));
   }, child: const Icon(Icons.search),),
-       appBar: AppBar(
-        leading: IconButton(onPressed: (){
-          Navigator.pop(context);
-          
-        }, icon: const Icon(Icons.arrow_back, color: Colors.black,)),
-        title:const Text("All Messages", style: TextStyle(color: Colors.black),),centerTitle: true,
+      appBar: AppBar(
         shape:const RoundedRectangleBorder(
-      borderRadius:  BorderRadius.vertical(
+      borderRadius: const BorderRadius.vertical(
         bottom: Radius.circular(30),
       ),) ,
         backgroundColor: Colors.white,
-    ),
+        actions: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+              child: InkWell(onTap: (){
+          Get.to(ScreenSearch(docs: "User",tablename: "name",));
+
+              },
+                child: Container(
+                  child: Row(children: [
+                    IconButton(
+                        color: Colors.black,
+                        onPressed: (){}, icon: const Icon(Icons.search)),
+              
+                        const Text("What are you looking for...",style: const TextStyle(color: Colors.grey),)
+                  ],),
+                  decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.4),
+                  borderRadius:const BorderRadius.all(Radius.circular(30))),),
+              ),
+            ),
+          ),
+         
+          IconButton(
+          color: Colors.black,
+          onPressed: (){}, icon:const Icon(Icons.bookmark)),
+          ],),
+      
        body:
        
        bodymsges() );
@@ -64,10 +83,12 @@ Get.to(ScreenSearch(docs: "User",tablename: "name",));
   FutureBuilder<dynamic> cardmsge(List<dynamic> j , msg, time, msgid) {
       var dateFormat = DateFormat.jm();
     print("${j[0]}");
+   
     return FutureBuilder(future:controllerMessanger.getdatauser(j[0]),
             builder: (context,AsyncSnapshot snapshot2 ) {
-        print("---DDD---"+snapshot2.data.toString());
+              
                 if (snapshot2.connectionState == ConnectionState.waiting) {
+                  
        return errordata();
       
     } else if (snapshot2.connectionState == ConnectionState.done) {
@@ -75,6 +96,7 @@ Get.to(ScreenSearch(docs: "User",tablename: "name",));
         return errordata();
       } else if (snapshot2.hasData) {
         return InkWell(onTap:(){
+          controllerMessanger.cleanrsltdatamesage();
           Get.to(        ScreenCHat(idclien: j[0], idmsg:msgid ,imageprofile: snapshot2.data["photoProfil"].toString(),  name:snapshot2.data["name"].toString() ,)
               ); 
         },
@@ -91,22 +113,18 @@ Get.to(ScreenSearch(docs: "User",tablename: "name",));
             }
           );
   }
-
-
-  
-
-
-
   FutureBuilder<dynamic> bodymsges( ) {
+    
     return FutureBuilder(future:controllerMessanger.getdata(),
             builder: (context,AsyncSnapshot snapshot ) {
-        print("---DDD---"+snapshot.data.toString());
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-
-       return errordata();
+            // GetStorage _message= GetStorage();
+          //  _message.write("listmsg", snapshot);
       
-    } else if (snapshot.connectionState == ConnectionState.done) {
+       if (snapshot.connectionState == ConnectionState.waiting) {
+            return errordata();
+    } 
+    else
+     if (snapshot.connectionState == ConnectionState.done) {
       if (snapshot.hasError) {
         return errordata();
       } else if (snapshot.hasData) {
@@ -120,26 +138,7 @@ setState(() {
             });
            });
            },
-             child: ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index){
-              String data ="";
-              List j=snapshot.data[index]["users"].where((element) => element != firebaseAuth.currentUser!.uid.toString()).toList();
-              //  var c=j.sort((a,b)=> a["time"].compareTo(b[DateTime.now().toString()])) as List;
-              return SizedBox(
-                child:Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: InkWell(onTap: (){
-                   print("hhhhhhhhhhhhhhhhh${snapshot.data[index]["msg"]}");
-           
-            },
-                   child: Card(
-                     child:cardmsge(j , snapshot.data[index]["msg"] , snapshot.data[index]["time"],snapshot.data[index]["msgid"] )
-                   ),
-                 ),
-               ));
-            
-             }),
+             child: listmessage(snapshot),
            );
          }
        );
@@ -155,6 +154,29 @@ setState(() {
           );
   }
 
+  ListView listmessage(AsyncSnapshot<dynamic> snapshot) {
+    return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index){
+            String data ="";
+            List j=snapshot.data[index]["users"].where((element) => element != firebaseAuth.currentUser!.uid.toString()).toList();
+            //  var c=j.sort((a,b)=> a["time"].compareTo(b[DateTime.now().toString()])) as List;
+            return SizedBox(
+              child:Padding(
+               padding: const EdgeInsets.all(8.0),
+               child: InkWell(onTap: (){
+                 print("hhhhhhhhhhhhhhhhh${snapshot.data[index]["msg"]}");
+         
+          },
+                 child: Card(
+                   child:cardmsge(j , snapshot.data[index]["msg"] , snapshot.data[index]["time"],snapshot.data[index]["msgid"] )
+                 ),
+               ),
+             ));
+          
+           });
+  }
+
     
 }
 
@@ -166,15 +188,18 @@ setState(() {
 
  
 
-  ListTile errordata() {
-    return ListTile(
-              leading: SizedBox(width: 50,height: 50,
-                child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(Radius.circular(1000)),
-                                      child: Image.asset('images/user.png')
-                                    ),
-              ),
-                                  title: const Text('loading ...'),
-                                  subtitle:const Text("loading ....") ,
-            );
+    errordata() {
+ return   Card(
+   
+   child: ListTile(
+     leading: SizedBox(width: 50,height: 50,
+       child: ClipRRect(
+                             borderRadius: const BorderRadius.all(Radius.circular(1000)),
+                             child: Image.asset('images/user.png')
+                           ),
+     ),
+                         title: const Text('loading ...'),
+                         subtitle:const Text("loading ....") ,
+   ),
+ );
   }

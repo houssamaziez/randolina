@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/controllersearch.dart';
-import 'package:randolina/View/Screens/Home/Screens/Events/ProfileIventAddmin.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/Admine/ProfileIventAddmin.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/profileUser.dart';
 
-import '../../../../../Controller/iventController.dart';
+import '../../Controller/eventController.dart';
 import '../../../../../const.dart';
 import '../Screens/Home/Screens/Events/ProfileEvntUser.dart';
 import '../Screens/Home/Screens/Events/editivent.dart';
@@ -75,7 +75,9 @@ if (snapshot.connectionState == ConnectionState.waiting) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(onTap: (){
-                      Get.to(SceenProflileAll(data: cont.reslut[index], id: cont.reslut[index]['uid'], imageprofile:cont.reslut[index]['photoProfil'], name:cont.reslut[index]['name']));
+                      Get.to(SceenProflileAll(
+                         id: cont.reslut[index]['uid'], 
+                         imageprofile:cont.reslut[index]['photoProfil'], name:cont.reslut[index]['name']));
                     },
                       child: Card(child: ListTile(
                         leading: SizedBox(height: 50,width: 50,

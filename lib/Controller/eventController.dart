@@ -51,7 +51,8 @@ await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(ui
 "distance":list["distance"] ,
   "images": list["images"],
   "nombresplaces": list["nombresplaces"],
-  "participate":list["participate"],
+  "save":list["save"],
+    "participate":list["participate"],
   "price":list["price"] ,
     "destination":list["destination"] ,
     "username":list["username"] , 
@@ -68,8 +69,52 @@ await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(ui
 
 }
 
+seveevent( {idpost,required list})async{
+  var uid= firebaseAuth.currentUser!.uid;
+  DocumentSnapshot<Map<String, dynamic>> post=await  firestor.collection("Ivent").doc(idpost).get();
+ DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
 
+if ((post.data()!)["save"].contains(uid.toString())==true) {
+  await  firestor.collection("Ivent").doc(idpost).update({"save":FieldValue.arrayRemove([uid])});
+await  firestor.collection("Ivent").doc(idpost).collection("save").doc(uid).delete();
+ await  firestor.collection("User").doc(uid).collection("save").doc(idpost).delete();
+ 
+}else{
+ await  firestor.collection("Ivent").doc(idpost).collection("save").doc(uid).set({
+    "username": (userdocs.data()! as Map <String, dynamic>)["name"], 
+    "uid": (userdocs.data()! as Map <String, dynamic>)["uid"], 
+    "phone": (userdocs.data()! as Map <String, dynamic>)["phone"], 
+    "photoProfil": (userdocs.data()! as Map <String, dynamic>)["photoProfil"], 
+    "wilaya": (userdocs.data()! as Map <String, dynamic>)["wilaya"], 
+    "conferm":false
+  });
+ 
+  
+  await  firestor.collection("Ivent").doc(idpost).update({"save":FieldValue.arrayUnion([uid])});
 
+   await  firestor.collection("User").doc(uid).collection("save").doc(idpost).set({
+"datedubte":list["datedubte"],
+"datefine":list["datefine"] ,
+"distance":list["distance"] ,
+  "images": list["images"],
+  "nombresplaces": list["nombresplaces"],
+  "save":list["save"],
+    "participate":list["participate"],
+  "price":list["price"] ,
+    "destination":list["destination"] ,
+    "username":list["username"] , 
+    "uid":list["uid"]  ,
+     "id":list["id"], 
+    "details":list["details" ], 
+    "urlImage":list["urlImage"] ,
+     "photouser":list["photouser"],
+      "time":list["time"] 
+  } );
+  await firestor.collection("User").doc(uid).collection("save").doc(idpost).update({"save":FieldValue.arrayUnion([uid])});
+  
+}
+
+}
 bool islodeinImage= false;
 
 uploadImageindex(vale){
@@ -78,8 +123,8 @@ update();
 }
 uploadImage( {
  required Imageurl,
-   required  imagepath,required 
-details, required destination,required price  ,required distance,required nombresplaces,required datedubte,required datefine
+   required  imagepath,required datedubteivent,
+required details, required destination,required price  ,required distance,required nombresplaces,required datedubte,required datefine
 
 
 } )async{
@@ -91,17 +136,24 @@ try {
  int len=    Random().nextInt(100000000);
  
 
-  Ivent post=  Ivent(datedubte:datedubte,datefine:datefine ,distance: distance,
+  Ivent post=  Ivent(datedubte:datedubte,datefine:datefine ,distance: distance,save: [],
   images: [],
   nombresplaces: nombresplaces,
   participate:[],
   price:price ,
     destination: destination,
-    username: (userdocs.data()! as Map <String, dynamic>)["name"], uid: uid, id: "image $uid $len", details:details , urlImage: Imageurl, photouser: (userdocs.data()! as Map <String, dynamic>)["photoProfil"], time: DateTime.now());
+    username: (userdocs.data()! as Map <String, dynamic>)["name"], uid: uid, id: "image $uid $len", details:details , urlImage: Imageurl, photouser: (userdocs.data()! as Map <String, dynamic>)["photoProfil"], time: datedubteivent,);
 
   await firestor.collection("Ivent").doc("image $uid $len").set(post.tojeson()).then((value) =>  Get.back());
+    await firestor.collection("Ivent").doc("image $uid $len").update(
+    {
+
+"time":datedubteivent  ,
+    }
+  );
    islodeinImage= false;
   update();
+
 } catch (e) {
     islodeinImage= false;
   update();
@@ -134,12 +186,7 @@ details, required destination, required price, required distance,required nombre
 try {
   edittext= true;
   update();
-//  var uid= firebaseAuth.currentUser!.uid;
-//  DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
-//  int len=    Random().nextInt(100000000);
  
-//   var Imageurl=await    _uploadImageToStorge("image $uid $len", imagepath);
-
   await firestor.collection("Ivent").doc(idivnt ).update(
     {
 "price":price,
@@ -180,12 +227,7 @@ details, required destination, required price, datedubteivent  ,required distanc
 } )async{
 
 try {
-//  var uid= firebaseAuth.currentUser!.uid;
-//  DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
-//  int len=    Random().nextInt(100000000);
  
-//   var Imageurl=await    _uploadImageToStorge("image $uid $len", imagepath);
-
   await firestor.collection("Ivent").doc(idivnt ).update(
     {
 "datedubte":datedubte,

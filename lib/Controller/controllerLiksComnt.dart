@@ -82,16 +82,15 @@ Get.back();
 
 
 
-var Listlikes;
+List Listlikes = [];
 getlikelength(id) async {
    DocumentSnapshot<Map<String, dynamic>> myVideos = await firestor
         .collection('Post').doc(id)
         .get();
-  Listlikes=myVideos.data()!["likes"];
+  Listlikes=await myVideos.data()!["likes"];
   update();
 }
-
-var Listlikesvideo;
+ var Listlikesvideo;
 
 
 getlikelengthVideo(id) async {

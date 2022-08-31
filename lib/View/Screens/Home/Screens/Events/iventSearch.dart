@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/controllersearch.dart';
-import 'package:randolina/View/Screens/Home/Screens/Events/ProfileIventAddmin.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/Admine/ProfileIventAddmin.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/profileUser.dart';
 
-import '../../../../../Controller/iventController.dart';
+import '../../../../../Controller/eventController.dart';
 import '../../../../../const.dart';
 import 'ProfileEvntUser.dart';
 import 'editivent.dart';

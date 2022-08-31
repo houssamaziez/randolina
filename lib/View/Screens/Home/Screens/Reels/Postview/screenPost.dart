@@ -130,18 +130,12 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
                             bottom: size.height*0.17,
                               child: Column(
                                 children: [
-                                  IconButton(onPressed: (){
-    
+                                 IconButton(onPressed: (){
     controllerlikcomnt.likePOST(idpost:id);
-    controllerlikcomnt.getlikelength(id);
     
-    
-                                  }, icon:  GetBuilder<ControllerLikCont>(init: ControllerLikCont(),
-                                    builder: (contt) {
-                                      return Icon(Icons.favorite, size: 30,color:contt.Listlikes.contains(uiddd.toString())==true?Colors.red: Colors.white,);
-                                    }
-                                  )),
-                                    GetBuilder<ControllerLikCont>(init: ControllerLikCont(),
+
+                              }, icon:  Icon(Icons.favorite, size: 30,color:likes.contains(firebaseAuth.currentUser!.uid.toString())?Colors.red: Colors.white,)),
+                              GetBuilder<ControllerLikCont>(init: ControllerLikCont(),
                                     builder: (contt) {
                                       return Text( contt.Listlikes.length==null?0.toString(): contt.Listlikes.length.toString(), style: TextStyle(color: Colors.white),);
                                      }
@@ -166,7 +160,7 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 InkWell(onTap: (){
-                                  Get.to(SceenProflileAll(data: data, id:userid,imageprofile: photouser,name:  username ));
+                                  Get.to(SceenProflileAll(  id:userid,imageprofile: photouser,name:  username ,));
                                 },
                                   child: Row(
                                     children: [

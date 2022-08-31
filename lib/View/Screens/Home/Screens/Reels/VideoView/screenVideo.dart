@@ -164,7 +164,7 @@ Get.back();
                            InkWell(onTap: (){
         controller.dispose();
 
-                                           Get.to(SceenProflileAll(data: {}, id: widget.uidUser,imageprofile:widget.profilephoto ,name:  widget.username ));
+                                           Get.to(SceenProflileAll( id: widget.uidUser,imageprofile:widget.profilephoto ,name:  widget.username,  ));
  },
             child:Row(
                       children: [  SizedBox(height: 50,width: 50,

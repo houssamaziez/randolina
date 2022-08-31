@@ -1,10 +1,19 @@
   import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../../const.dart';
 
-AppBar appbarmessage(BuildContext context, name, imageprofile) {
-    return AppBar(actions: [IconButton(onPressed: (){},
+AppBar appbarmessage(BuildContext context, name, imageprofile,idcl ) {
+    return AppBar(actions: [IconButton(onPressed: ()async{
+var _controllerUser=Get.put(ControllerMessanger());
+ var _data= await  _controllerUser.getdatauser(idcl);
+ if (_data!=null) {
+      launchCaller(_data["phone"].toString());
+   return;
+ }
+    },
     icon: Icon(Icons.call, color: Colors.black,)), SizedBox(width: 10,)],
     leading: IconButton(onPressed: (){
       Navigator.pop(context);

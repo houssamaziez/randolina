@@ -22,22 +22,31 @@ class _ScreenReelsState extends State<ScreenReels> {
 
   PageController controller = PageController();
   return Scaffold(backgroundColor: Colors.black,
-      body: Container(height: heightphon(context)+20,
-      width: widthphon(context),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-         GetBuilder<VideoController>(
-   init: VideoController(),
-                    builder: (controllers) {
-             return controllers.isvscrenvideoddd==true?
-                        listreels(stream: firestor.collection('Post').orderBy("time", descending: true,  ),
-                     count: "photos"  ):listreels(stream: firestor.collection('Videos'),
-                     count: "video"  );
-                
-          
-         })
-    ],
+      body:RefreshIndicator(onRefresh: ()async{
+            
+           return Future.delayed(Duration(seconds: 1), (){
+setState(() {
+              
+            });
+           });
+           },
+             child:  SizedBox(height: heightphon(context)+20,
+        width: widthphon(context),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+           GetBuilder<VideoController>(
+         init: VideoController(),
+                      builder: (controllers) {
+               return controllers.isvscrenvideoddd==true?
+                          listreels(stream: firestor.collection('Post').orderBy("time", descending: true,  ),
+                       count: "photos"  ):listreels(stream: firestor.collection('Videos'),
+                       count: "video"  );
+                  
+            
+           })
+          ],
+          ),
         ),
       ),
     );
@@ -94,7 +103,6 @@ onPageChanged: (int positione) {
    ScreenPost photosreels(List<QueryDocumentSnapshot<Object?>> items, int index) {
      return ScreenPost(userid: items[index]["uid"],
                                 data: {
-                                  
                                 },isprofile: false,
                                         comentr:items[index]["comentr"].toString(),
                                         urlImage:items[index]["urlImage"],

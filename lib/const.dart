@@ -6,6 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:randolina/Controller/controllerUser.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'Controller/AuthonticationController.dart';
 
@@ -60,3 +61,19 @@ class HexColor extends Color {
 var post=firestor.collection('Post').orderBy("time", descending: true);
 
   UserController controllerUser= Get.put(UserController());
+var shape=  RoundedRectangleBorder(
+    borderRadius: const BorderRadius.vertical(
+      bottom: Radius.circular(30),
+    ),) ;
+
+
+
+
+    launchCaller(String num) async {
+    String  url = "tel:$num";   
+    if (await canLaunch(url)) {
+       await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }   
+}

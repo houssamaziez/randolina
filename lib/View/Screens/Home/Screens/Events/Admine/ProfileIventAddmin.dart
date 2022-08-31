@@ -3,9 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:randolina/Controller/iventController.dart';
+import 'package:randolina/Controller/eventController.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/Admine/screenParts.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/editivent.dart';
 import 'package:randolina/const.dart';
+
+import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 
 class ProfileEvent extends StatefulWidget {
     ProfileEvent({Key? key,required this.image,required this.tag,required this.list}) : super(key: key);
@@ -29,15 +32,13 @@ var controllerivent= Get.put(IventsController());
   }
   @override
   Widget build(BuildContext context) {
-
- 
     return Scaffold(backgroundColor: Colors.white,
        body: ListView(children: [
     Stack(
   children: [
         Container(
       width: widthphon(context),
-      height: heightphon(context, size: 0.6),
+      height: heightphon(context, size: 0.36),
       decoration:const BoxDecoration(
         borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(15),bottomRight: Radius.circular(15),
@@ -77,30 +78,14 @@ var controllerivent= Get.put(IventsController());
   widget.list["destination"], style: const TextStyle(fontSize: 27, fontWeight: FontWeight.bold),)),
  const SizedBox(height: 40,),
  
-const SizedBox(height: 40,),
         listparti(true),
          Divider(
               height: 1,
               color: Colors.grey,
             ),
-const SizedBox(height: 40,),
-
-     
-const SizedBox(height: 40,),
-
+const SizedBox(height: 20,),
         listparti(false),
-const SizedBox(height: 20,),  
-    Padding(
-  padding: const EdgeInsets.all(8.0),
-  child:   Row(
-    children: [
-      const Text('price:', style:  TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-     const Spacer() 
-   ,
-    Text('${widget.list["price"].toString()} DA', style: const TextStyle(fontSize: 25,color: Colors.blue, fontWeight: FontWeight.bold),),],
- 
-  ),
-),
+const SizedBox(height: 10,),  
   Padding(
  padding:  const EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
  child: InkWell(onTap: (){
@@ -138,10 +123,12 @@ const SizedBox(height: 20,),
 ,     ],),
     );
   }
+    bool _issee=false;
 
   StreamBuilder<QuerySnapshot<Map<String, dynamic>>> listparti(
 isconferm
   ) {
+
     return StreamBuilder(
           stream:firestor.collection('Ivent').doc( widget.list["id"]) .collection('participate').where("conferm",isEqualTo: isconferm).snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -159,35 +146,44 @@ isconferm
       } else if (snapshot.hasData) {
         return 
          Column(
-           children: [  Row(
+           children: [
+            
+Row(
     children: [
         Padding(
        padding:  EdgeInsets.all(8.0),
        
        child: Text(
-       isconferm==true? "Confirmed List: ":"Unconfirmed list:", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+       isconferm==true? "Confirmed List: ":"Unconfirmed list:", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
  ),Spacer(),
      Padding(
        padding:  EdgeInsets.all(12.0),
        
        child: Text(
-       listlenghtconfimed.toString()+"/"+widget.list["nombresplaces"], style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500 , color: Colors.grey
+       listlenghtconfimed.toString()+"/"+widget.list["nombresplaces"], style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500 , color: Colors.grey
         ),),
+
  ),
+ TextButton(onPressed: (){
+    ScreenPart(list:widget. list, items: items, isconferm: isconferm);
+Get.to(    ScreenPart(list:widget. list, items: items, isconferm: isconferm,)
+);
+ }, child: Text("See All"))
     ],
   ),
 
              ListView.builder(
  physics:const NeverScrollableScrollPhysics(),
 shrinkWrap: true,
-itemCount:  items.length,
+itemCount: items.length>1?1: items.length,
 itemBuilder: 
  ( context, indext) {
   print(items.isEmpty);
 
   isconferm==true?listlenghtconfimed=items.length: listlenghtunconfimed =items.length;
 
-  return   items.isEmpty?Text("List is empty", style: TextStyle(color: Colors.black),):  newMethod(indext,items, context, widget.list["id"], isconferm);
+  return   items.isEmpty?Text("List is empty", style: TextStyle(color: Colors.black),): 
+   newMethod(indext,items, context, widget.list["id"], isconferm);
 }
 ),
            ],
@@ -242,7 +238,15 @@ setState(() {
                   elevation: 4,
                 
                   child: ListTile(
-                  trailing: const Icon(Icons.phone, color: Colors.blue,),
+                  trailing:IconButton(onPressed: ()async{
+var _controllerUser=Get.put(ControllerMessanger());
+ var _data= await  _controllerUser.getdatauser(list[indext]['uid']);
+ if (_data!=null) {
+      launchCaller(_data["phone"].toString());
+   return;
+ }
+                  },
+                    icon: const Icon(Icons.phone, color: Colors.blue,)),
                   subtitle:  Text(list[indext]['phone'],  style:const TextStyle( color: Colors.blue)),
                   leading:CircleAvatar(backgroundColor: Colors.grey,
                     radius: 24,

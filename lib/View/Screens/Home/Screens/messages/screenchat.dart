@@ -2,13 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:randolina/View/Screens/Home/Screens/messages/screenAllMessage.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/widget/ListeMessages.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/widget/appbar.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/widget/buttonSendMessage.dart';
-import 'package:shaky_animated_listview/scroll_animator.dart';
 import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
-import '../../../../../const.dart';
 class ScreenCHat extends StatefulWidget {
   final idclien , idmsg, imageprofile, name;
     ScreenCHat({Key? key,required this.idclien,required this.idmsg,required this.imageprofile,required this.name}) : super(key: key);
@@ -29,7 +26,7 @@ TextEditingController _controllertext=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: appbarmessage(context,widget. name,widget. imageprofile),
+     appBar: appbarmessage(context,widget. name,widget. imageprofile,widget. idclien),
       body: Stack(
         children:  [
         listmessages(idm,widget.idmsg),

@@ -8,6 +8,7 @@ import 'package:randolina/View/Screens/Home/Screens/Profile/ProfileUser/postprof
 import 'package:randolina/const.dart';
 
 import '../../../../../../Controller/ProfileController.dart';
+import '../../../../../../Controller/controllerUser.dart';
 import '../../Reels/Postview/screenPost.dart';
 import '../../Reels/VideoView/screenVideo.dart';
 
@@ -33,11 +34,16 @@ print(piceUser);
 
 int postnumber=0;
 var controllecr=Get.put(ProfileController());
+  final UserController _controllerUserr= Get.put(UserController());
+
 @override
   void initState() {
         controllecr.getcontlike(firebaseAuth.currentUser!.uid);
-
+ ins();
     super.initState();
+  }
+   ins()async{
+    await _controllerUserr.getData();
   }
   @override
   Widget build(BuildContext context) {
@@ -45,18 +51,27 @@ var controllecr=Get.put(ProfileController());
  var uid= firebaseAuth.currentUser!.uid;
     return Scaffold(
       backgroundColor: color1,
-      body:  Stack(
-            children: [ 
-              infoprofile(uid),
+      body:  RefreshIndicator(onRefresh: ()async{
+            
+           return Future.delayed(Duration(seconds: 1), (){
+setState(() {
+              
+            });
+           });
+           },
+             child:  Stack(
+              children: [ 
+                infoprofile(uid),
+            
+                postprofile(context, uid, controllecr, postnumber),
+      
+      
+      
+      minu(),
+              ],
+            
           
-              postprofile(context, uid, controllecr, postnumber),
-
-
-
-minu(),
-            ],
-          
-        
+        ),
       ),
       
       

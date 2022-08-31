@@ -3,9 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/addIvent.dart';
+import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/profileUser.dart';
 import 'package:randolina/const.dart';
 
-import '../../../../../Controller/iventController.dart';
+import '../../../../../Controller/eventController.dart';
 
 class ProfileEventUser extends StatelessWidget {
    ProfileEventUser({Key? key,required this.image,required this.tag,required this.list}) : super(key: key);
@@ -21,14 +22,16 @@ final String image, tag;
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
-          child: Container(width: double.infinity,height: 100,
+          child: Container(
+            width: double.infinity,height: 100,
           
-          child: Row(children: [ 
-            Padding(
-        padding:  EdgeInsets.only(left: 20, ),
-        child: Text(list['price'].toString()+" DA", style: TextStyle( color: Colors.black87, fontSize: 30, fontWeight: FontWeight.w900),),
-      ),
-            Expanded(child: buttonivnt(function:(){
+              child: Row(children: [ 
+                  Padding(
+                     padding:  EdgeInsets.only(left: 20, ),
+                    child: Text(list['price'].toString()+" DA", style: TextStyle( color: Colors.black87, fontSize: 30, fontWeight: FontWeight.w900),),
+                        ),
+            Expanded(child: buttonivnt(
+              function:(){
 
               
 uid==list['uid']?Get.defaultDialog(title: "Edit",
@@ -78,11 +81,38 @@ Get.back();
      padding: const EdgeInsets.only(right: 20,left: 20 ),
      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
       children:  [
-      
       Padding(
-        padding:  EdgeInsets.only(top: 40, ),
+        padding:  EdgeInsets.only(top: 30, ),
+        child: InkWell(onTap: (){
+          Get.to(SceenProflileAll(  id: list['uid'], imageprofile: list['photouser'], name: list['username'], 
+          
+          ));
+        },
+          child: Row(
+          children: [
+            SizedBox(height: 35,width: 35,
+                            child:ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(1000)),
+                              child: CachedNetworkImage(width: double.infinity,
+                                                                      fit: BoxFit.cover,
+                                                                      imageUrl:list['photouser'].toString(),
+                                                                      placeholder: (context, url) => spinkit,
+                                                                      errorWidget: (context, url, error) =>
+                                                                          const Icon(Icons.error),
+                                                                    ),
+                            ),
+                          ),
+          SizedBox(width: 10,), 
+           Text(list['username'],style: TextStyle( color: Colors.grey, fontSize: 22, fontWeight: FontWeight.bold)),
+             ],
+            ),
+        ),
+      ),
+           Padding(
+        padding:  EdgeInsets.only(top: 20,left: 10 ),
         child: Text(list['destination'], style: TextStyle( color: Colors.black87, fontSize: 30, fontWeight: FontWeight.bold),),
       ),
+    
       SizedBox(height: 20,),
       suptitle(title: "Description :"),
       

@@ -107,6 +107,13 @@ await virffollow(users);
   update();
 }
 
+
+}
+
+
+cleanrsltdatamesage(){
+  rsltdatamesage= [];
+  // update();
 }
  late List rsltdatamesage= [];
 retundata(users, )async{
@@ -148,7 +155,7 @@ addfollow(users)async{
   var uidd=firebaseAuth.currentUser!.uid;
   
   QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
-  List rslt=data.docs.where((element) => element["users"].contains(users) &&element["users"].contains(uidd)) .toList();
+  List rslt=data.docs.where((element) => element["users"].contains(users) ) .toList();
   return rslt;
 }
 virffollow(users)async{

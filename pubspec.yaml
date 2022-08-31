@@ -65,6 +65,7 @@ dependencies:
   firebase_chat: ^0.0.6+1
   refresh_loadmore: ^2.0.5
   pull_to_refresh: ^2.0.0
+  url_launcher: ^6.1.5
   # cache_video_player: ^0.0.4
   
 

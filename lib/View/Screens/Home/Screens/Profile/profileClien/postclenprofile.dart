@@ -7,6 +7,7 @@ import '../../../../../../Controller/ProfileController.dart';
 import '../../../../../../const.dart';
 import '../../Reels/Postview/screenPost.dart';
 import '../../Reels/VideoView/screenVideo.dart';
+import '../ProfileUser/iventcard_in_profile.dart';
 
 ListView postclien(BuildContext context, controllecr, id, postnumber) {
     return ListView(
@@ -24,6 +25,15 @@ ListView postclien(BuildContext context, controllecr, id, postnumber) {
              
                 
                 child: Column(children: [
+                      const SizedBox(height: 15,),
+
+Container(width: 100,
+                     height:0.5,color: Colors.grey,
+                  ),
+                  const SizedBox(height: 15,),
+                              iventinprofile(id),
+  
+                  
                   const SizedBox(height: 15,),
                 
                   Container(width: 100,
@@ -76,10 +86,7 @@ const SizedBox(height: 15,),
                             ),
                           ),
                          
-                          // Padding(
-                          //   padding:  const EdgeInsets.all(7.0),
-                          //   child: Text("124 following", style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),),
-                          // ),
+                    
 
          ],),
                    ),

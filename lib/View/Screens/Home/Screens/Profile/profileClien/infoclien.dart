@@ -103,10 +103,7 @@ Padding infoproileclien(id) {
                                   return Text("${contt.likescont.toString()} Likes", style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),);
                                 }
                               ),
-                         // Padding(
-                            //   padding:  const EdgeInsets.all(7.0),
-                            //   child: Text("124 following", style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),),
-                            // ),
+     
                             const Spacer(),
          ],),),
           ),

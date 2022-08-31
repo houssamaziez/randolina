@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randolina/View/Screens/Home/Screens/Profile/ProfileUser/iventcard_in_profile.dart';
 
 import '../../../../../../Controller/ProfileController.dart';
 import '../../../../../../const.dart';
@@ -12,6 +13,8 @@ ListView postprofile(BuildContext context, String uid, controllecr,postnumber) {
     return ListView(
               children: [
                 SizedBox(height: heightphon(context,size: 0.35)),
+
+
    Container(
                 decoration: const BoxDecoration(
                 color: Colors.white,
@@ -25,10 +28,14 @@ ListView postprofile(BuildContext context, String uid, controllecr,postnumber) {
                 
                 child: Column(children: [
                   const SizedBox(height: 15,),
-                
-                  Container(width: 100,
+
+Container(width: 100,
                      height:0.5,color: Colors.grey,
                   ),
+                  const SizedBox(height: 15,),
+                              iventinprofile(firebaseAuth.currentUser!.uid),
+  
+                  
 const SizedBox(height: 15,),
                    SizedBox(height: 60,
                      child: Row(children:[

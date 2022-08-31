@@ -1,7 +1,7 @@
  import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../Controller/iventController.dart';
+import '../../../../../Controller/eventController.dart';
 import '../../../../../const.dart';
 
 bottun({
@@ -53,7 +53,7 @@ bottun({
      
      child:    Center(child: Text(title,style: const TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.bold),),),
      
-      height: 22.00, 
+      height:27.00, 
      
      width: 80.00,
      
