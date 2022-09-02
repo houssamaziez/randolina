@@ -56,7 +56,7 @@ class _ScreenChosState extends State<ScreenChos> {
 
               break;
              case 3:
-              Get.to(const ScreenHikingClub(title:"Store" , typeUser: "Agency" ,));
+              Get.to(const ScreenHikingClub(title:"Store" , typeUser: "Store" ,));
               typeuser=3;
               break;
           

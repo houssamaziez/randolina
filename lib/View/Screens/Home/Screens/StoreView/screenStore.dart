@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/storController.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/ScreenHome/appBar.dart';
+import 'package:randolina/View/Screens/Home/Screens/StoreView/appBar.dart';
 import 'package:randolina/View/Screens/Home/Screens/StoreView/profileStore.dart';
+
+import '../../../../../Controller/controllerUser.dart';
+import '../Events/addIvent.dart';
 
 enum SegmentType { news, map, paper }
 
@@ -46,231 +51,231 @@ posistion=-1;
   );
   @override
   Widget build(BuildContext context) {
-    final listscreen= [
- screenstordata(list:listdata ),screenstordata(list:listAll ),
-];
-
+ final list=[ listStore(listdata),  listStore(listdata),  listStore(listdata)];
+    
     return Scaffold(backgroundColor: Colors.white,
-      appBar: AppBar(
-        shape:const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        bottom: Radius.circular(30),
-      ),) ,
-        backgroundColor: Colors.white,
-        actions: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-              child: Container(
-                decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.4),
-                borderRadius:const BorderRadius.all(Radius.circular(30))),
-                child: Row(children: [
-                  IconButton(
-          color: Colors.black,
-          onPressed: (){}, icon: const Icon(Icons.search)),
-
-          const Text("What are you looking for...",style: TextStyle(color: Colors.grey),)
-                ],),),
-            ),
+      appBar:AppbarStorehome(),
+       body: RefreshIndicator(onRefresh: ()async{
+            
+           return Future.delayed(Duration(seconds: 1), (){
+             setState(() {
+              
+            });
+           });
+           },
+             child: ListView(
+            children: [
+             GetBuilder<UserController>(
+        init: UserController(),
+      builder: (context) {
+                  return Container(child:   context.typeUser=="Store"? Padding(
+ padding: const EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
+ child: InkWell(onTap: (){
+  Get.to(AddIvent());
+ },
+   child: Container(
+   decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius:const BorderRadius.only(
+          topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10)
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: const Offset(0, 3), // changes position of shadow
           ),
-          IconButton(
-          color: Colors.black,
-          onPressed: (){}, icon:const Icon(Icons.filter_alt)),
-          IconButton(
-          color: Colors.black,
-          onPressed: (){}, icon:const Icon(Icons.bookmark)),
-          ],),
-       body: ListView(
-          // mainAxisSize: MainAxisSize.min,
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-          const SizedBox(height: 20),
-            Center(
-              child: CustomSlidingSegmentedControl<int>(
-                initialValue: initial,
-                height: 24,
-                children: const {
-                  0: Text('My product'),
-                  1: Text('All products'),
-                },
-                decoration: BoxDecoration(
-                  color: CupertinoColors.lightBackgroundGray,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                thumbDecoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(6),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(.3),
-                      blurRadius: 4.0,
-                      spreadRadius: 1.0,
-                      offset: const Offset(
-                        0.0,
-                        2.0,
-                      ),
-                    ),
-                  ],
-                ),
-
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInToLinear,
-                onValueChanged: (v) {
-                  setState(() {
-                    initial = v;
-                    posistion=-1;
-                  });
-                },
-              ),
-            ),
-       
-       Container(child: listscreen[initial]),
-       
+ 
         ],
-        ),);
-  }
-
-  Column screenstordata({required list}) {
-    return Column(
-children: [
- Padding(
- padding:  const EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
- child: Container(
- decoration: BoxDecoration(
-  color: Colors.white,
-  borderRadius: const BorderRadius.only(
-    topLeft: Radius.circular(10),
-      topRight: Radius.circular(10),
-      bottomLeft: Radius.circular(10),
-      bottomRight: Radius.circular(10)
-  ),
-  boxShadow: [
-    BoxShadow(
-      color: Colors.grey.withOpacity(0.3),
-      spreadRadius: 3,
-      blurRadius: 5,
-      offset: const Offset(0, 3), // changes position of shadow
-    ),
-
-  ],
-),
-  height: 40, 
- width: double.infinity,
-child: Row(
-  children: const [Spacer(),
-    Text("Add"),
-    Icon(Icons.add),Spacer(),
-
-  ],
-),
+ ),
+        height: 40, 
+   width: double.infinity,
+ child: Row(
+        children:const[ Spacer(),
+           Text("Add"),
+           Icon(Icons.add), Spacer(),
+        ],
+ ),
+   ),
  ),
  )
-, GridView.count(
+:Container(),);
+                }
+              ),
+            const SizedBox(height: 20),
+            // All events && My events
+              chosen(),
+         GetBuilder<UserController>(
+          init: UserController(),
+           builder: (context) {
+             return list[posistion] ;
+           }
+         ),
+          ],
+          ),
+       ),);
+  
+  
+         }
+    listStore(List list) {
+    return GridView.count(
  physics: const NeverScrollableScrollPhysics(),
 crossAxisCount: 2,
 childAspectRatio: (2 / 2.5),
 shrinkWrap: true,
 children: List.generate(list.length, (index) {
-  return Padding(
-    padding: const EdgeInsets.all(10.0),
-    child: InkWell(
-      onTap: (){
-        Get.to(ProfileProduct(image: list[index]["image"].toString(), tag: index.toString(), list: list[index]));
-      },
-      onLongPress: (){
+return Padding(
+  padding: const EdgeInsets.all(10.0),
+  child: cardStors(list, index),);}),
+);
+  }
+
+  InkWell cardStors(list, int index) {
+    return InkWell(
+    onTap: (){
+      Get.to(ProfileProduct(image: list[index]["image"].toString(), tag: index.toString(), list: list[index]));
+    },
+    onLongPress: (){
 
 controllerstor.delletpost();
 setState(() {
 posistion=index;
  });
-    },
+  },
 
-      child: Stack(
-        children: [
-          Card(
-            child: Hero(tag: index.toString(),
-              child: Container(height: double.infinity,width: double.infinity,
-              decoration: BoxDecoration(
-              color: Colors.grey[600],image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(list[index]["image"].toString())),
-                borderRadius:const BorderRadius.all(Radius.circular(5))),
-                child:Column(children: [
-                      Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: Row(
-                       children: [
-                         CircleAvatar(backgroundColor: Colors.grey,radius: 24,
-                       backgroundImage: NetworkImage(list[index]["imageprofile"].toString()),),
-                       const SizedBox(width: 10,), 
-                       Text(list[index]["title"].toString(),
-                       style:const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white),),
-                      ],
-              ),
-                      ),
-                      const Spacer(),
-                      Container(width: double.infinity,
-                      height: 50,
-                      color: Colors.white.withOpacity(0.5),
-                      child: Center(child: Text("${list[index]["price"]} DA",
-                       style:const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-                color: Colors.black),),),)
-                      ],),),
-            ),),
-       posistion==index?Padding(
-         padding: const EdgeInsets.all(5.0),
-         child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          color: Colors.grey.withOpacity(0.7),
-          child: Center(child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-             const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, ),
-              child: Container(
-                width: double.infinity,height: 40,
-                decoration: BoxDecoration(color: Colors.red.withOpacity(0.8),
-                  borderRadius: const BorderRadius.all(Radius.circular(20))),
-              child: const Center(child:
-               Text('Delete',
-               style: TextStyle(fontWeight: FontWeight.bold),)),
-              ),
+    child: Stack(
+      children: [
+        Card(
+          child: Hero(tag: index.toString(),
+            child: Container(height: double.infinity,width: double.infinity,
+            decoration: BoxDecoration(
+            color: Colors.grey[600],image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(list[index]["image"].toString())),
+              borderRadius:const BorderRadius.all(Radius.circular(5))),
+              child:Column(children: [
+                    Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Row(
+                     children: [
+                       CircleAvatar(backgroundColor: Colors.grey,radius: 24,
+                     backgroundImage: NetworkImage(list[index]["imageprofile"].toString()),),
+                     const SizedBox(width: 10,), 
+                     Text(list[index]["title"].toString(),
+                     style:const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white),),
+                    ],
             ),
+                    ),
+                    const Spacer(),
+                    Container(width: double.infinity,
+                    height: 50,
+                    color: Colors.white.withOpacity(0.5),
+                    child: Center(child: Text("${list[index]["price"]} DA",
+                     style:const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              color: Colors.black),),),)
+                    ],),),
+          ),),
+     posistion==index?Padding(
+       padding: const EdgeInsets.all(5.0),
+       child: Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.grey.withOpacity(0.7),
+        child: Center(child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+           const Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, ),
+            child: Container(
+              width: double.infinity,height: 40,
+              decoration: BoxDecoration(color: Colors.red.withOpacity(0.8),
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
+            child: const Center(child:
+             Text('Delete',
+             style: TextStyle(fontWeight: FontWeight.bold),)),
+            ),
+          ),
  Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20,top: 20 ),
-              child: Container(
-                width: double.infinity,height: 40,
-                decoration: BoxDecoration(color: Colors.green.withOpacity(0.8),
-                  borderRadius: const BorderRadius.all(Radius.circular(20))),
-              child:const Center(child:
-               Text('Edit',
-               style: TextStyle(fontWeight: FontWeight.bold),)),
-              ),
+            padding: const EdgeInsets.only(left: 20, right: 20,top: 20 ),
+            child: Container(
+              width: double.infinity,height: 40,
+              decoration: BoxDecoration(color: Colors.green.withOpacity(0.8),
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
+            child:const Center(child:
+             Text('Edit',
+             style: TextStyle(fontWeight: FontWeight.bold),)),
             ),
-            const  Spacer(),
+          ),
+          const  Spacer(),
 
-            ],
-          ),)),
-       ):Container()
-        ],
-      ),
-    ),);}),
-)
- ],
-);
+          ],
+        ),)),
+     ):Container()
+      ],
+    ),
+  );
   }
 
 
+  chosen() {
+    
+    return Center(
+            child: GetBuilder<UserController>(
+        init: UserController(),
+              builder: (context) {
+                return CustomSlidingSegmentedControl<int>(
+                  initialValue: initial,
+                  height: 24,
+                  children:context.typeUser=="Store"?  {
+                    0:   Text('My product'),
+                    1:   Text('My requests'),
+                     2:  Text('All products'),
 
-
+                  }:{
+                   0 :  Text('My requests'),
+                    1 :  Text('All products'),
+                  },
+                  decoration: BoxDecoration(
+                    color: CupertinoColors.lightBackgroundGray,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  thumbDecoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(.3),
+                        blurRadius: 4.0,
+                        spreadRadius: 1.0,
+                        offset: const Offset(
+                          0.0,
+                          2.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInToLinear,
+                  onValueChanged: (v) {
+                    setState(() {
+                      initial = v;
+                      posistion=-1;
+                    });
+                  },
+                );
+              }
+            ),
+          );
+  }
 }
 
 

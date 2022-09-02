@@ -74,8 +74,9 @@ if (snapshot.connectionState == ConnectionState.waiting) {
         } else if (snapshot.hasData) {
           return        Expanded(
             child: PageView.builder(
-                 scrollDirection: Axis.vertical,
+                 scrollDirection: Axis.vertical, 
 onPageChanged: (int positione) {
+  
             print('page changed. current: $positione');
               position=positione;
           },
@@ -120,7 +121,7 @@ onPageChanged: (int positione) {
      return VideoreelsScreen(isprofile: false,
       uidUser: items[index]["uid"],numvidoe: position,
                   id:items[index]["id"] ,
-                  UrlVideo: items[index]["videoUrl"],
+                  UrlVideo: items[index]["videoUrl"]!,
                   caption:  items[index]["caption"],
                   comentr: items[index]["comentr"],
                   likes: items[index]["likes"],

@@ -65,7 +65,7 @@ var iscont=data.docs.where((element) => element["users"].contains(firebaseAuth.c
  firestor.collection('Massenger').doc(idmsg).update({
   "msg":msg,
   "time":DateTime.now().toString(),
- }).then((value) => Get.snackbar('complet', "djfnsjfndsf"));
+ });
 sendmessages(idmsg:idmsg, msg:msg );
 
    } else {
@@ -75,7 +75,7 @@ sendmessages(idmsg:idmsg, msg:msg );
   time: DateTime.now().toString(),
    users: [_uid,users ],
  );
- firestor.collection('Massenger').doc("$_uid $len").set(mseg.toJson()).then((value) => Get.snackbar('complet', "djfnsjfndsf"));
+ firestor.collection('Massenger').doc("$_uid $len").set(mseg.toJson());
 sendmessages(idmsg:"$_uid $len", msg:msg );
 
    }
@@ -154,8 +154,10 @@ List v=[];
 addfollow(users)async{
   var uidd=firebaseAuth.currentUser!.uid;
   
-  QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
-  List rslt=data.docs.where((element) => element["users"].contains(users) ) .toList();
+  QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').get();
+  List rslt=data.docs.where((element) => element["users"].contains(users) && element["users"].contains( uidd)) .toList();
+         cleanrsltdatamesage();
+  
   return rslt;
 }
 virffollow(users)async{

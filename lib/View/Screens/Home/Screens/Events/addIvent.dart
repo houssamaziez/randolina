@@ -6,25 +6,21 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
-import 'package:path/path.dart';
-
+import 'package:image_cropper/image_cropper.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:randolina/Controller/eventController.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/View/Widgets/time.dart';
-
 import '../../../../../const.dart';
 import '../../../Registre/widgets.dart';
  String details="",destination="",price=""  ,distance="", nombresplaces="";
   String datedubte="" , datefine="";
  late DateTime datedubteiventt;
 class AddIvent extends StatefulWidget {
-  var _controller= Get.put(IventsController());
+  final _controller= Get.put(IventsController());
     AddIvent({Key? key}) : super(key: key);
   @override
   State<AddIvent> createState() => _AddIventState();
@@ -35,23 +31,31 @@ class _AddIventState extends State<AddIvent> {
 final imagePicker=await ImagePicker().pickImage(source: ImageSource .gallery);
 if (imagePicker!=null) {
   Get.snackbar("Profile Picture", "You have successfully selected your profile picture");
-  _pickedImage =File(imagePicker.path) ;
+  CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imagePicker.path,maxHeight: 1000,
+      aspectRatio:const CropAspectRatio(ratioX:12 , ratioY: 8) ,
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: color1,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+      ],
+    );
+  _pickedImage =File(croppedFile!.path) ;
  setState(() {
  image=_pickedImage;
  imagepath=imagePicker.path;
-   
  });
 }
   }
 // ignore: prefer_typing_uninitialized_variables
 var _pickedImage;
 File? get profilePhoto =>  _pickedImage.value;
-// ignore: prefer_typing_uninitialized_variables
 var image;
 late String imagepath;
-
 final _formKey = GlobalKey<FormState>();
-
 @override
   void dispose() {
    image=null;
@@ -60,8 +64,8 @@ final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
   return Scaffold(
-  //  APP BAR 
-appBar: appbarev(),
+  //APP BAR 
+appBar  : appbarev(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(

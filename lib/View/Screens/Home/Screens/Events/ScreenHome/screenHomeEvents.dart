@@ -33,10 +33,11 @@ class ScreenEvents extends StatefulWidget {
 class _ScreenEventsState extends State<ScreenEvents> {
   TestType initialTestType = TestType.max;
   int initial = 0;
+  late int posistion=-1;
+
   bool isPayment = false;
   int initialValue = 0;
   var uid= firebaseAuth.currentUser!.uid;
-  late int posistion=-1;
   late final CustomSegmentedController<SegmentType> controller;
   StoreController controllerstor= Get.put(StoreController());
   IventsController controllivent= Get.put(IventsController());
@@ -99,7 +100,9 @@ ins();
           ],
           ),
        ),);
-  }
+  
+  
+         }
 
   
     chosen() {

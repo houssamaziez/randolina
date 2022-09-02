@@ -38,7 +38,6 @@ Padding infoprofile(String uid) {
                             padding:  EdgeInsets.only(right: 30),
                             child: Text("Profile", style: TextStyle(color:Colors.white, fontSize: 25),),
           ),  Spacer(), 
-
 ],),
 
                           ), 

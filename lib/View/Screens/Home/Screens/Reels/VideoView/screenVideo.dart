@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import 'package:randolina/Controller/videocotroller.dart';
@@ -35,48 +36,85 @@ class VideoreelsScreen extends StatefulWidget {
 class _VideoreelsScreenState extends State<VideoreelsScreen> {
 var controllerlikcomnt=Get.put(ControllerLikCont());
 var _uid= firebaseAuth.currentUser!.uid;
-  var cotrollervideo= Get.put(VideoController());
-      late VideoPlayerController controller ;
-@override
+  var cotrollervideo= Get.put(VideoController());//player controller
+  VideoPlayerController? controller;
+
+  @override
   void initState() {
- print( widget. _isloading);
-  controller  = VideoPlayerController.network(
-        widget.UrlVideo,  )
-      ..initialize().then((  con) {
- widget.numvidoe !=0? controller.play():controller.pause();
-      });
- 
- 
-    controller.setVolume(1);
-    // controller.setLooping(true);  
+    initializePlayer(widget.UrlVideo);
+
     super.initState();
-}
-    PageReels(context,  {url}) {
+    //initialize player 
+  }
+
+//Initialize Video Player
+  void initializePlayer(String url) async {
+  try {
+      final fileInfo = await checkCacheFor(url);
+    if (fileInfo == null) {
+      controller = VideoPlayerController.network(url);
+      controller!.initialize().then((value) {
+        cachedForUrl(url);
+        setState(() {
+            widget. numvidoe==0?controller!.pause():
+          controller!.play();
+        });
+      });
+    } else {
+      final file = fileInfo.file;
+      controller = VideoPlayerController.file(file);
+      controller!.initialize().then((value) {
+        setState(() {
+         widget. numvidoe==0?controller!.pause():
+          controller!.play();
+        });
+      });
+    }
+  } catch (e) {
+    
+  }
+  }
+
+//: check for cache
+  Future<FileInfo?> checkCacheFor(String url) async {
+    final FileInfo? value = await DefaultCacheManager().getFileFromCache(url);
+    return value;
+  }
+
+//:cached Url Data
+  void cachedForUrl(String url) async {
+    await DefaultCacheManager().getSingleFile(url).then((value) {
+      print('downloaded successfully done for $url');
+    });
+  }
+//:Dispose
+  @override
+  void dispose() {
+    if (controller != null) {
+      controller!.dispose();
+    }
+    super.dispose();
+  }
+  des()async{
+     await   controller!.dispose();
+  }
+   _jamclick(){
+if(widget.likes.contains(_uid.toString())==false){
+
+  controllerlikcomnt.likeVideo(idpost:widget. id); }
+  
+  Get.dialog(Image.asset("images/likes.gif"));
+ 
+Timer(const Duration(milliseconds: 1500), (){
+Get.back();
+});
+
+  }
+  PageReels(context,  {url}) {
     // var controllervo= Get.put(ReelsController());
     return InkWell(onTap: (){},
       child: screenVideo(context,controller),
     );
-  }
-  @override
-  void dispose() {
-        des();
-    super.dispose();
-     
-  }
-  des()async{
-     await   controller.dispose();
-  }
-   _jamclick(){
-if(widget.likes.contains(_uid.toString())==false){
-  controllerlikcomnt.likeVideo(idpost:widget. id); }
-Get.defaultDialog(
-   backgroundColor: Colors.transparent, title: ''
-, content: Image.asset("images/likes.gif")
-
-);
-Timer(const Duration(seconds: 2), (){
-Get.back();
-});
   }
   @override
   Widget build(BuildContext context) {
@@ -106,7 +144,7 @@ Get.back();
                        const Spacer(),
                         Spacer(),
                         InkWell(onTap: (){
-                         controller.dispose();
+                         controller!.dispose();
 
                             cotrollervideo.chngescren();
                         },
@@ -162,7 +200,7 @@ Get.back();
                           mainAxisAlignment: MainAxisAlignment.start,
                           children:[
                            InkWell(onTap: (){
-        controller.dispose();
+        controller!.dispose();
 
                                            Get.to(SceenProflileAll( id: widget.uidUser,imageprofile:widget.profilephoto ,name:  widget.username,  ));
  },
@@ -197,12 +235,10 @@ Get.back();
    ],) ,);
   }
 
-  screenVideo(context,VideoPlayerController controller) {
+  screenVideo(context, controller) {
       return InkWell(
-        
 onDoubleTap: _jamclick,
         onTap: (){ 
-
           // If the video is playing, pause it.
       if (controller.value.isPlaying) {
         controller.pause();
@@ -214,11 +250,12 @@ onDoubleTap: _jamclick,
         child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: double.infinity,
-                    child:VideoPlayer(controller),
+                    child:(controller == null)
+        ? const Text('wait..')
+        : ((controller.value.isInitialized)
+            ? VideoPlayer(controller)
+            : const Text('Loading...')),
                   ),
       );
     }
- 
 }
-  
-

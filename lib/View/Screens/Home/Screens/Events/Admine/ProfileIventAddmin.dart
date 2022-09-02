@@ -1,14 +1,18 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/eventController.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/Admine/screenParts.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/editivent.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/const.dart';
 
 import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
+import '../../../../../../Controller/controllerUser.dart';
 
 class ProfileEvent extends StatefulWidget {
     ProfileEvent({Key? key,required this.image,required this.tag,required this.list}) : super(key: key);
@@ -21,7 +25,8 @@ final String image, tag;
 
 class _ProfileEventState extends State<ProfileEvent> {
 var listlenghtunconfimed =0;
-
+ int initial = 0;
+  late int posistion=-1;
 var listlenghtconfimed =0;
 
 var controllerivent= Get.put(IventsController());
@@ -32,59 +37,61 @@ var controllerivent= Get.put(IventsController());
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white,
+    return Scaffold(
+      appBar: appBardALL(context, "Participant List"),
+  backgroundColor: Colors.white,
        body: ListView(children: [
-    Stack(
-  children: [
-        Container(
-      width: widthphon(context),
-      height: heightphon(context, size: 0.36),
-      decoration:const BoxDecoration(
-        borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(15),bottomRight: Radius.circular(15),
-        )
-      ),
-      
-      child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(40),
-                                bottomRight: Radius.circular(40)),
-                            child: Hero(
-                                    tag: widget.tag,
-                                    child: CachedNetworkImage(width: double.infinity,
-                                                                fit: BoxFit.cover,
-                                                                imageUrl:widget.list['urlImage'].toString(),
-                                                                placeholder: (context, url) => spinkit,
-                                                                errorWidget: (context, url, error) =>
-                                                                    const Icon(Icons.error),
-                                                              ),
-                                  ), ),
-    ),
- Padding(
-   padding: const EdgeInsets.all(8.0),
-   child: CircleAvatar(backgroundColor: Colors.white,
-     child: Padding(
-       padding: const EdgeInsets.only(left: 3),
-       child: IconButton(onPressed: (){
-        Get.back();
-       }, icon:const Icon(Icons.arrow_back_ios, color: Colors.black,)),
-     ),
-   ),
- )
-  ],
-),
- const SizedBox(height: 10,), 
- Center(child: Text(
-  widget.list["destination"], style: const TextStyle(fontSize: 27, fontWeight: FontWeight.bold),)),
- const SizedBox(height: 40,),
+        SizedBox(height: 10,), 
+         Cardevent(widget. list,widget. tag),
+
  
-        listparti(true),
-         Divider(
-              height: 1,
-              color: Colors.grey,
+ const SizedBox(height: 20,),
+ Center(
+            child: GetBuilder<UserController>(
+        init: UserController(),
+              builder: (cont) {
+                return CustomSlidingSegmentedControl<int>(
+                  initialValue: initial,
+                  height: 24,
+                  children:   {
+                    0:   Text('           All           '),
+                    1:   Text('liste confirmé'),
+
+                  } ,
+                  decoration: BoxDecoration(
+                    color: CupertinoColors.lightBackgroundGray,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  thumbDecoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(.3),
+                        blurRadius: 4.0,
+                        spreadRadius: 1.0,
+                        offset: const Offset(
+                          0.0,
+                          2.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInToLinear,
+                  onValueChanged: (v) {
+                    setState(() {
+                      initial = v;
+                    });
+                  },
+                );
+              }
             ),
-const SizedBox(height: 20,),
-        listparti(false),
+          ),
+  
+       initial==0? listparti(false, ): listparti(true),
+       
+       
 const SizedBox(height: 10,),  
   Padding(
  padding:  const EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
@@ -123,14 +130,15 @@ const SizedBox(height: 10,),
 ,     ],),
     );
   }
-    bool _issee=false;
+
+ bool _issee=false;
 
   StreamBuilder<QuerySnapshot<Map<String, dynamic>>> listparti(
 isconferm
   ) {
 
     return StreamBuilder(
-          stream:firestor.collection('Ivent').doc( widget.list["id"]) .collection('participate').where("conferm",isEqualTo: isconferm).snapshots(),
+          stream:isconferm==true?  firestor.collection('Ivent').doc( widget.list["id"]) .collection('participate').where("conferm",isEqualTo: isconferm).snapshots(): firestor.collection('Ivent').doc( widget.list["id"]) .collection('participate').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             List items = snapshot.data?.docs ?? [];
             listlenghtconfimed=items.length;
@@ -150,32 +158,24 @@ isconferm
             
 Row(
     children: [
-        Padding(
-       padding:  EdgeInsets.all(8.0),
-       
-       child: Text(
-       isconferm==true? "Confirmed List: ":"Unconfirmed list:", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
- ),Spacer(),
+     Spacer(),
      Padding(
        padding:  EdgeInsets.all(12.0),
        
        child: Text(
-       listlenghtconfimed.toString()+"/"+widget.list["nombresplaces"], style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500 , color: Colors.grey
+       listlenghtconfimed.toString()+"/"+widget.list["nombresplaces"],
+        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500 , color: Colors.grey
         ),),
 
  ),
- TextButton(onPressed: (){
-    ScreenPart(list:widget. list, items: items, isconferm: isconferm);
-Get.to(    ScreenPart(list:widget. list, items: items, isconferm: isconferm,)
-);
- }, child: Text("See All"))
+ 
     ],
   ),
 
              ListView.builder(
  physics:const NeverScrollableScrollPhysics(),
 shrinkWrap: true,
-itemCount: items.length>1?1: items.length,
+itemCount:items.length,
 itemBuilder: 
  ( context, indext) {
   print(items.isEmpty);
@@ -209,7 +209,7 @@ itemBuilder:
               padding: const EdgeInsets.all(8.0),
               child: InkWell(onTap: (){
                  Get.defaultDialog(title: "Participate",
-content:isconferm==true? Text('Do you want to Delete your participation in the trip?'):Text('Do you want to confirm your participation in the trip?'),
+content:list[indext]['conferm']==true? Text('Do you want to Delete your participation in the trip?'):Text('Do you want to confirm your participation in the trip?'),
   cancel: TextButton(onPressed: (){
     setState(() {
   Navigator.pop(context);
@@ -218,7 +218,7 @@ content:isconferm==true? Text('Do you want to Delete your participation in the t
 });
 }, child: const Text("cancel")),
   confirm: TextButton(onPressed: (){
- isconferm==true?  controllerivent.deletpart(list[indext]['uid'], id): (
+ list[indext]['conferm']? controllerivent.deletpart(list[indext]['uid'], id): (
    listlenghtconfimed+1<=int.parse(widget.list["nombresplaces"])?
   
   controllerivent.confermpart(list[indext]['uid'], id) :
@@ -234,7 +234,7 @@ setState(() {
 }, child: const Text("confirm")));
               },
                 child: Card(
-                   color: isconferm==true?  Color.fromARGB(255, 219, 251, 217):Color.fromARGB(255, 254, 208, 205),
+                   color:   Color.fromARGB(255, 255, 255, 255),
                   elevation: 4,
                 
                   child: ListTile(
@@ -260,9 +260,9 @@ var _controllerUser=Get.put(ControllerMessanger());
           IconButton(onPressed: (){}, icon: Stack(
             children: [
               Center(
-                child: Image.asset(
+                child: Image.asset( list[indext]['conferm']==true?
                   
-                  "images/classment .jpg", height: 100,width: 200, fit: BoxFit.cover,),
+                  "images/classment 1.jpg":"images/classment .jpg", height: 100,width: 200, fit: BoxFit.cover,),
               ),
               Center(child: Padding(
                 padding: const EdgeInsets.only(left: 3),
@@ -275,3 +275,80 @@ var _controllerUser=Get.put(ControllerMessanger());
     );
   }
 }
+
+  Padding Cardevent(list,tag ) {
+    return Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: Card(color:  Colors.white,
+          
+          shape:  RoundedRectangleBorder(
+  borderRadius: BorderRadius.circular(15.0),
+),
+                                 
+                                  child: Stack(
+                                    children: [
+                                      Container(height: 200,width: double.infinity,
+                                      child: ClipRRect(
+                                                  borderRadius: const BorderRadius.all(
+                                                    Radius.circular(15),),
+                                                  child:Hero(tag:  tag.toString(),
+                                                    child: CachedNetworkImage(
+                                                      height: double.infinity,
+                                                      width: double.infinity,
+                                                                                    fit: BoxFit.cover,
+                                                                                    imageUrl:   list['urlImage'].toString(),
+                                                                                    placeholder: (context, url) => spinkit,
+                                                                                    errorWidget: (context, url, error) =>
+                                                                                        const Icon(Icons.error),
+                                                                                  ),
+                                                  ),
+                                          ),),
+                                           Positioned(right: 0,bottom: 0,left: 0,
+                                             child: Padding(
+                                             padding: const EdgeInsets.all(8.0),
+                                             child: Align(alignment: Alignment.bottomCenter,
+                                                   child:   Container(child: Text(  list['destination'], style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),)),
+                                             ),
+                                           ),
+                                           ),
+                                       
+                                       Padding(
+                                           padding: const EdgeInsets.all(8.0),
+                                           child: Align(alignment: Alignment.topLeft,
+                                      child:   Container(
+                                        child: Center(child: Text(" "+   list['datedubte'], 
+                                        maxLines: 1,  overflow: TextOverflow.fade,textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold, color: Colors.black54),),),
+                                        decoration: BoxDecoration(
+                                          
+                                          borderRadius: BorderRadius.all(Radius.circular(70)),
+                                          color: Colors.white.withOpacity(0.44),),
+                                        height: 50,width: 68,)
+                                ),
+                                         ),
+                                       Positioned(right: 0,top: 0,
+                                      child:  RotatedBox(
+                                              quarterTurns: 4,
+                                        child: Image.asset("images/Rectangle.png",)),
+                                    ),
+                                 Positioned(right: -3,top: 20,
+                                      child:    Transform(
+                                      // ignore: sort_child_properties_last
+                                      child:  Padding(
+                                        padding:  EdgeInsets.all(8.0),
+                                        child:  Text(
+                                        list['price']+"DA",style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      alignment: FractionalOffset.center,
+                                      transform: new Matrix4.identity()
+                                        ..rotateZ(0.88),
+                                    ),
+                                ),
+                                    ],
+                                  ),),
+       );
+  }
+   

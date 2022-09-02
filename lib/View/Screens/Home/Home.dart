@@ -102,10 +102,10 @@ String? sizeinisil;
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          iconList[index],
-                          size: 24,
-                          color: color,
+                        Image.asset(
+                         isActive ? iconListactv[index].toString(): iconList[index].toString(),
+                        
+                      
                         ),
                         const SizedBox(height: 4),
                         Padding(

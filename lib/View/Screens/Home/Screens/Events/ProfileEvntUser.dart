@@ -2,7 +2,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/Admine/ProfileIventAddmin.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/addIvent.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/profileUser.dart';
 import 'package:randolina/const.dart';
 
@@ -18,7 +20,7 @@ var uid=firebaseAuth.currentUser!.uid;
 final String image, tag;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(appBar: appBardALL(context, "Event"),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
@@ -60,22 +62,18 @@ Get.back();
           ],),
           ),),
       ),
-       body: Stack(
-         children: [
-           _imagback(context),
-            ListView(children: [
-             
-            Container(
-                
-                height: heightphon(context, size: 0.5),
-    ),
+       body: ListView(children: [
+        SizedBox(height: 10,),
+         Cardevent(  list, tag),
+        
+     
            Container(
-                decoration:const BoxDecoration(
-                               color: Color.fromARGB(255, 245, 245, 245),
-                     borderRadius:  BorderRadius.only(
-                                  topLeft: Radius.circular(50),
-                                  topRight: Radius.circular(50)),
-                ),
+           decoration:const BoxDecoration(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                borderRadius:  BorderRadius.only(
+                             topLeft: Radius.circular(50),
+                             topRight: Radius.circular(50)),
+           ),
    
    child: Padding(
      padding: const EdgeInsets.only(right: 20,left: 20 ),
@@ -90,22 +88,22 @@ Get.back();
         },
           child: Row(
           children: [
-            SizedBox(height: 35,width: 35,
-                            child:ClipRRect(
-                              borderRadius: const BorderRadius.all(Radius.circular(1000)),
-                              child: CachedNetworkImage(width: double.infinity,
-                                                                      fit: BoxFit.cover,
-                                                                      imageUrl:list['photouser'].toString(),
-                                                                      placeholder: (context, url) => spinkit,
-                                                                      errorWidget: (context, url, error) =>
-                                                                          const Icon(Icons.error),
-                                                                    ),
-                            ),
-                          ),
+       SizedBox(height: 35,width: 35,
+                       child:ClipRRect(
+                         borderRadius: const BorderRadius.all(Radius.circular(1000)),
+                         child: CachedNetworkImage(width: double.infinity,
+                                                                 fit: BoxFit.cover,
+                                                                 imageUrl:list['photouser'].toString(),
+                                                                 placeholder: (context, url) => spinkit,
+                                                                 errorWidget: (context, url, error) =>
+                                                                     const Icon(Icons.error),
+                                                               ),
+                       ),
+                     ),
           SizedBox(width: 10,), 
            Text(list['username'],style: TextStyle( color: Colors.grey, fontSize: 22, fontWeight: FontWeight.bold)),
-             ],
-            ),
+        ],
+       ),
         ),
       ),
            Padding(
@@ -158,20 +156,7 @@ Get.back();
    ),
    
    ),
-            ],)
-        , Padding(
- padding: const EdgeInsets.only(top: 25, left: 20),
- child: CircleAvatar(backgroundColor: Colors.white,
-   child: Padding(
-         padding: const EdgeInsets.only(left: 3),
-         child: IconButton(onPressed: (){
-          Get.back();
-         }, icon:const Icon(Icons.arrow_back_ios, color: Colors.black,)),
-   ),
- ),
- )
- ],
-       ),
+       ],),
     );
   }
 

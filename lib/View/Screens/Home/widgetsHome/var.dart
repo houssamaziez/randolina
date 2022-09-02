@@ -12,13 +12,19 @@ import 'package:flutter/rendering.dart';
   int bottomNavIndex = 0; //default index of a first screen
 
   
-  final iconList = <IconData>[
-    Icons.home,
-    Icons.store,
-    Icons.calendar_today_outlined,
-    Icons.person,
+  final iconList =  [
+    "images/Vector5.png",
+    "images/Vector20.png",
+    "images/Vector10.png",
+    "images/Vector2.png",
   ];
-
+  final iconListactv =  [
+    "images/Vector6.png",
+    "images/Vector15.png",
+    "images/Vector11.png",
+    "images/Vector1.png",
+ 
+  ];
 
 
 

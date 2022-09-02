@@ -194,3 +194,12 @@ height: 60,
  );
   }
 
+  AppBar appBardALL(BuildContext context, title) {
+    return AppBar(backgroundColor: Colors.white,
+      title: Text(title, style: TextStyle(color: Colors.grey),),
+      centerTitle: true,
+      leading: IconButton(onPressed: (){
+        Navigator.pop(context)
+;        }, icon: Icon(Icons.arrow_back, color: Colors.black,)),
+      shape: shape,);
+  }
