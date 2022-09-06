@@ -50,9 +50,13 @@ var controllecr=Get.put(ProfileController());
     getpiceUser();
  var uid= firebaseAuth.currentUser!.uid;
     return Scaffold(
-      backgroundColor: color1,
+      appBar: AppBar(actions: [ minu(),],
+        toolbarHeight: 0,
+    
+
+      backgroundColor: Colors.white,elevation: 0,),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body:  RefreshIndicator(onRefresh: ()async{
-            
            return Future.delayed(Duration(seconds: 1), (){
 setState(() {
               
@@ -61,13 +65,26 @@ setState(() {
            },
              child:  Stack(
               children: [ 
+                postprofile(context, uid, controllecr, postnumber),
+
+                Container(height: 140,
+                         width: double.infinity,decoration: BoxDecoration(
+                          boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        spreadRadius: 5,
+        blurRadius: 7,
+        offset: Offset(0, 3), // changes position of shadow
+      ),
+    ],
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+                          color: Colors.white),), 
                 infoprofile(uid),
             
-                postprofile(context, uid, controllecr, postnumber),
       
       
       
-      minu(),
+     
               ],
             
           

@@ -17,26 +17,19 @@ child:   InkWell(onTap: (){
 
   Get.to( ()=>uid!=items[index]['uid']? ProfileEventUser(image: items[index]['urlImage'], tag: index.toString(), list:  items[index]): ProfileEvent(image: items[index]['urlImage'], tag: index.toString(), list:  items[index]));
 },
-  child: Card(elevation: 16,
-    child: Stack(
-      children: [
-        Container(
-          width: widthphon(context),
+  child: Card( 
+    elevation: 16,
+       shape: RoundedRectangleBorder(
+    borderRadius: const BorderRadius.all(
+       Radius.circular( 30)
+    ),) ,
+  child: Container( 
         height: 280,
-        decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: const Offset(0, 3), // changes position of shadow
-          ),
-        ],
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(5))
-        
-        ),
-        child: Column(children: [const SizedBox(height: 10,), 
+          width: widthphon(context),
+
+     child: Stack(
+      children: [
+        Column(children: [const SizedBox(height: 10,), 
   barcard(items[index], uid, controllivent),
   const SizedBox(height: 10,), 
           Expanded(
@@ -53,8 +46,8 @@ child:   InkWell(onTap: (){
                               children: [
                                 Container(height: double.infinity,width: double.infinity,
                                 child: ClipRRect(
-                                            borderRadius: const BorderRadius.all(
-                                              Radius.circular(5),),
+                                            borderRadius: const BorderRadius.only(
+                                             bottomRight:  Radius.circular(20),bottomLeft: Radius.circular(20),),
                                             child:Hero(tag: index.toString(),
                                               child: CachedNetworkImage(
                                                 height: double.infinity,
@@ -71,7 +64,32 @@ child:   InkWell(onTap: (){
                child: Padding(
                                        padding: const EdgeInsets.all(8.0),
                                        child: Align(alignment: Alignment.bottomCenter,
-                     child:   Container(child: Text(items[index]['destination'], style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),)),
+                     child:   Container(child:Stack(
+  children: <Widget>[
+    // Stroked text as border.
+    Text(
+      items[index]['destination'],
+      style: TextStyle(
+        fontSize: 35,
+        foreground: Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 6
+          ..color = Color.fromARGB(255, 0, 0, 0),
+      ),
+    ),
+    // Solid text as fill.
+    Text(
+      items[index]['destination'],
+      style: TextStyle(
+        fontSize: 35,
+        color: Color.fromARGB(255, 255, 255, 255),
+      ),
+    ),
+  ],
+)
+                     
+                     
+                       ),
                ),
                                      ),
              ),
@@ -81,7 +99,7 @@ child:   InkWell(onTap: (){
                                      child: Align(alignment: Alignment.topLeft,
         child:   Container(
           child: Center(child: Text(" "+items[index]['datedubte'], 
-          maxLines: 1,  overflow: TextOverflow.fade,textAlign: TextAlign.center,
+          maxLines: 1,  overflow: TextOverflow.clip,textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.bold, color: Colors.black54),),),
@@ -122,8 +140,6 @@ child:   InkWell(onTap: (){
                                 
           )
         ],),
-        
-        ),
          Positioned(
       top: 55,left: 0, 
       right: 0,
@@ -151,7 +167,7 @@ child:   InkWell(onTap: (){
       ) , 
    ],
     ),
-  ),
+  ),),
 ),
 );
     }

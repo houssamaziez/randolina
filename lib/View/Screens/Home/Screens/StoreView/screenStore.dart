@@ -1,16 +1,18 @@
 // ignore_for_file: file_names
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/storController.dart';
-import 'package:randolina/View/Screens/Home/Screens/Events/ScreenHome/appBar.dart';
+import 'package:randolina/View/Screens/Home/Screens/StoreView/addStore.dart';
 import 'package:randolina/View/Screens/Home/Screens/StoreView/appBar.dart';
 import 'package:randolina/View/Screens/Home/Screens/StoreView/profileStore.dart';
 
 import '../../../../../Controller/controllerUser.dart';
-import '../Events/addIvent.dart';
+import '../../../../../const.dart';
 
 enum SegmentType { news, map, paper }
 
@@ -24,7 +26,7 @@ class ScreenStore1 extends StatefulWidget {
 
 class _ScreenStore1State extends State<ScreenStore1> {
     TestType initialTestType = TestType.max;
-  int initial = 0;
+  int initial = 1;
   bool isPayment = false;
   int initialValue = 0;
   late int posistion=-1;
@@ -51,7 +53,8 @@ posistion=-1;
   );
   @override
   Widget build(BuildContext context) {
- final list=[ listStore(listdata),  listStore(listdata),  listStore(listdata)];
+ final list=[liststorecard(isall: false, isuser: 'Store'),liststorecard(isall: false,isuser: ''), liststorecard(isall: true, isuser: '')];
+ final listAll=[liststorecard(isall: false,isuser: ''), liststorecard(isall: true, isuser: '')];
     
     return Scaffold(backgroundColor: Colors.white,
       appBar:AppbarStorehome(),
@@ -71,7 +74,7 @@ posistion=-1;
                   return Container(child:   context.typeUser=="Store"? Padding(
  padding: const EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
  child: InkWell(onTap: (){
-  Get.to(AddIvent());
+  Get.to(AddStore());
  },
    child: Container(
    decoration: BoxDecoration(
@@ -109,35 +112,73 @@ posistion=-1;
             const SizedBox(height: 20),
             // All events && My events
               chosen(),
-         GetBuilder<UserController>(
+             GetBuilder<UserController>(
           init: UserController(),
            builder: (context) {
-             return list[posistion] ;
-           }
-         ),
+                  return context.typeUser=="Store"?list[initial]:listAll[initial];
+                }
+              ),
+ 
           ],
           ),
        ),);
   
   
          }
-    listStore(List list) {
-    return GridView.count(
- physics: const NeverScrollableScrollPhysics(),
-crossAxisCount: 2,
-childAspectRatio: (2 / 2.5),
-shrinkWrap: true,
-children: List.generate(list.length, (index) {
-return Padding(
-  padding: const EdgeInsets.all(10.0),
-  child: cardStors(list, index),);}),
-);
-  }
 
+  StreamBuilder<QuerySnapshot<Map<String, dynamic>>> liststorecard({
+    required isall,required isuser,
+  }) {
+    var uid= firebaseAuth.currentUser!.uid;
+    return StreamBuilder(
+              stream: isall==true? firestor.collection('Store').orderBy("time", ).snapshots():
+                (
+                   isuser=="Store"?
+                   firestor.collection('Store').where("uid",isEqualTo:uid).orderBy("time", descending: true).snapshots()
+                   :
+                   firestor.collection("User").doc(uid).collection("requests").orderBy("time", descending: true).snapshots()
+                
+                ),
+              
+              
+               
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                var items = snapshot.data?.docs ?? [];
+              
+               if (snapshot.connectionState == ConnectionState.waiting) {
+                        return   const Padding(
+                          padding: const EdgeInsets.all(100.0),
+                          child: spinkit,
+                        );
+                      } else if (snapshot.connectionState == ConnectionState.active
+                          || snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasError) {
+                          return const Text('Error');
+                        } else if (snapshot.hasData) {
+                          return  GridView.count(
+               physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              childAspectRatio: (2 / 2.5),
+              shrinkWrap: true,
+              children: List.generate(items.length, (index) {
+              return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: cardStors(items, index),);}),
+              );
+                        } else {
+                          return const Text('Empty data');
+                        }
+                      } else {
+                        return Text('State: ${snapshot.connectionState}');
+                      }
+               }
+                 );
+  }
+  
   InkWell cardStors(list, int index) {
     return InkWell(
     onTap: (){
-      Get.to(ProfileProduct(image: list[index]["image"].toString(), tag: index.toString(), list: list[index]));
+      Get.to(ProfileProduct(image: list[index]["urlimage"].toString(), tag: index , list: list[index]));
     },
     onLongPress: (){
 
@@ -150,39 +191,80 @@ posistion=index;
     child: Stack(
       children: [
         Card(
-          child: Hero(tag: index.toString(),
-            child: Container(height: double.infinity,width: double.infinity,
-            decoration: BoxDecoration(
-            color: Colors.grey[600],image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(list[index]["image"].toString())),
-              borderRadius:const BorderRadius.all(Radius.circular(5))),
-              child:Column(children: [
-                    Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: Row(
-                     children: [
-                       CircleAvatar(backgroundColor: Colors.grey,radius: 24,
-                     backgroundImage: NetworkImage(list[index]["imageprofile"].toString()),),
-                     const SizedBox(width: 10,), 
-                     Text(list[index]["title"].toString(),
-                     style:const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white),),
-                    ],
-            ),
-                    ),
-                    const Spacer(),
-                    Container(width: double.infinity,
+          child:         Stack(
+            children: [
+              Container(height: double.infinity,width: double.infinity,
+                                    child: ClipRRect(
+                                                borderRadius: const BorderRadius.all(
+                                                  Radius.circular(5),),
+                                                child:Hero(tag: list[index]["urlimage"].toString(),
+                                                  child: CachedNetworkImage(
+                                                    height: double.infinity,
+                                                    width: double.infinity,
+                                                                                  fit: BoxFit.cover,
+                                                                                  imageUrl:list[index]["urlimage"].toString(),
+                                                                                  placeholder: (context, url) => spinkit,
+                                                                                  errorWidget: (context, url, error) =>
+                                                                                      const Icon(Icons.error),
+                                                                                ),
+                                                ),
+                ),),
+Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: Row(
+    children: [
+      CircleAvatar(radius: 25,
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: SizedBox(height: 50,width: 50,
+          
+                     child:  ClipRRect(
+          
+                                                          borderRadius: const BorderRadius.all(
+          
+                                                            Radius.circular(1000),),
+          
+                                                          child:Hero(tag: index.toString(),
+          
+                                                            child: CachedNetworkImage(
+          
+                                                              height: double.infinity,
+          
+                                                              width: double.infinity,
+          
+                                                                                            fit: BoxFit.cover,
+          
+                                                                                            imageUrl:list[index]["urlimage"].toString(),
+          
+                                                                                            placeholder: (context, url) => spinkit,
+          
+                                                                                            errorWidget: (context, url, error) =>
+          
+                                                                                                const Icon(Icons.error),
+          
+                                                                                          ),
+          
+                                                          ),
+          
+                          ), ),
+        ),
+      ),
+  SizedBox(width: 8,), Text(list[index]["username"].toString(), style: TextStyle(color: Colors.white,),) ],
+  ),
+), 
+            Align(alignment: Alignment.bottomCenter,
+              child: Container(width: double.infinity,
                     height: 50,
                     color: Colors.white.withOpacity(0.5),
                     child: Center(child: Text("${list[index]["price"]} DA",
                      style:const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 22,
-              color: Colors.black),),),)
-                    ],),),
-          ),),
+              color: Colors.black),),),),
+            ) ],
+          ),
+   ),
      posistion==index?Padding(
        padding: const EdgeInsets.all(5.0),
        child: Container(
@@ -239,7 +321,6 @@ posistion=index;
                     0:   Text('My product'),
                     1:   Text('My requests'),
                      2:  Text('All products'),
-
                   }:{
                    0 :  Text('My requests'),
                     1 :  Text('All products'),

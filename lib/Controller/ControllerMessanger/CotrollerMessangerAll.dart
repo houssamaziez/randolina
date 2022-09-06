@@ -9,7 +9,10 @@ class ControllerMessanger extends GetxController{
   sendmessageToAll({
     required users,required idmsg,
     required msg, isfolew=true
-  })async{
+  })async
+  {
+   
+   
     var _uid= firebaseAuth.currentUser!.uid;
     
  int len=    Random().nextInt(100000000);
@@ -110,7 +113,18 @@ await virffollow(users);
 
 }
 
+deletemsgeFollow({
+    required users, 
+   
+  })async{
+  var uidd=firebaseAuth.currentUser!.uid;
 
+    QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').get();
+  List rslt=data.docs.where((element) => element["users"].contains(users) &&element["users"].contains(uidd)) .toList();
+    await firestor.collection('Massenger').doc(rslt[0]["msgid"]).delete();
+    Get.back();
+
+}
 cleanrsltdatamesage(){
   rsltdatamesage= [];
   // update();
@@ -122,7 +136,7 @@ retundata(users, )async{
    QuerySnapshot<Map<String, dynamic>> data;
  data=await firestor.collection('Massenger').orderBy('time', descending: true).get().then((value) => 
  data=value);
-    rsltdatamesage=data.docs.where((element) => element["users"].contains(users) &&element["users"].contains(uidd)) .toList();
+   rsltdatamesage=data.docs.where((element) => element["users"].contains(users) &&element["users"].contains(uidd)) .toList();
 update();
 if (rsltdatamesage.length!=0) {
  print(rsltdatamesage.length);
@@ -137,6 +151,13 @@ var rslt;
 QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
 rslt=data.docs.where((element) => element["users"].contains(firebaseAuth.currentUser!.uid)) .toList();
 return rslt;
+}
+List rsltfollow= [];
+
+getNUMBERLfoollow(id)async{
+QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
+rsltfollow=data.docs.where((element) => element["users"].contains(id)) .toList();
+ update();
 }
 
   getdatauser(uid)async{
@@ -164,6 +185,7 @@ virffollow(users)async{
   var uidd=firebaseAuth.currentUser!.uid;
   QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
   List rslt=data.docs.where((element) => element["users"].contains(users) &&element["users"].contains(uidd)) .toList();
+getmsegeNosee(users);
 if (rslt.length==0) {
   isfolow=false;
   update();
@@ -202,9 +224,9 @@ getvumsg(){
   update();
   print(msgeviewvu);
 }
-getmsegeNosee()async{
+getmsegeNosee(id)async{
 QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
-List c=data.docs.where((element) => element["users"].contains(firebaseAuth.currentUser!.uid)) .toList();
+List c=data.docs.where((element) => element["users"].contains(id)) .toList();
 msgevu=c.length;
 update();
 }

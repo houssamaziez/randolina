@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/iventcard_in_profileclien.dart';
 
 import '../../../../../../Controller/ProfileController.dart';
 import '../../../../../../const.dart';
@@ -12,7 +13,7 @@ import '../ProfileUser/iventcard_in_profile.dart';
 ListView postclien(BuildContext context, controllecr, id, postnumber) {
     return ListView(
               children: [
-                SizedBox(height: heightphon(context,size: 0.35)),
+                SizedBox(height: heightphon(context,size: 0.17)),
    Container(
                 decoration: const BoxDecoration(
                 color: Colors.white,
@@ -27,13 +28,12 @@ ListView postclien(BuildContext context, controllecr, id, postnumber) {
                 child: Column(children: [
                       const SizedBox(height: 15,),
 
-Container(width: 100,
-                     height:0.5,color: Colors.grey,
-                  ),
-                  const SizedBox(height: 15,),
-                              iventinprofile(id),
-  
-                  
+ 
+                  const SizedBox(height: 30,),
+                            
+                  SizedBox(
+                    width: widthphon(context),
+                    child:   iventinprofileclien(id),),
                   const SizedBox(height: 15,),
                 
                   Container(width: 100,
@@ -238,7 +238,7 @@ postnumber =items.length;
             
 
 
-               SizedBox(height: heightphon(context,size: 0.72)),
+        
  ],),
                 )
               ],

@@ -10,61 +10,63 @@ bottun({
 
   return Padding(
   padding: const EdgeInsets.all(8.0),
-  child:   Row(children: [
-  
-   InkWell(onTap: function,
-     child: Container(
-     
-     decoration: BoxDecoration(
-     
-      color:color,
-     
-      borderRadius:const BorderRadius.only(
-     
-        topLeft: Radius.circular(10),
-     
-          topRight: Radius.circular(10),
-     
-          bottomLeft: Radius.circular(10),
-     
-          bottomRight: Radius.circular(10)
-     
-      ),
-     
-      boxShadow: [
-     
-        BoxShadow(
-     
-          color: color.withOpacity(0.3),
-     
-          spreadRadius: 3,
-     
-          blurRadius: 5,
-     
-          offset: const Offset(0, 3), // changes position of shadow
-     
-        ),
-     
-     
-     
-      ],
-     
+  child:   InkWell(onTap: function,
+    child: Container(
+    
+    decoration: BoxDecoration(
+     gradient: LinearGradient(
+             begin: Alignment.centerLeft,
+             end: Alignment.centerRight,
+           
+             colors: [
+                
+              color.withOpacity(0.2),
+              color.withOpacity(0.6),
+             ],
+           )
+         ,
+      
+    
+     borderRadius:const BorderRadius.only(
+    
+       topLeft: Radius.circular(10),
+    
+         topRight: Radius.circular(10),
+    
+         bottomLeft: Radius.circular(10),
+    
+         bottomRight: Radius.circular(10)
+    
      ),
-     
-     child:    Center(child: Text(title,style: const TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.bold),),),
-     
-      height:27.00, 
-     
-     width: 80.00,
-     
-     ),
-   )
-  
-  
-  
-  
-  
-  ],),
+    
+     boxShadow: [
+    
+       BoxShadow(
+    
+         color: color.withOpacity(0.2),
+    
+         spreadRadius: 1,
+    
+         blurRadius: 5,
+    
+         offset: const Offset(0, 4), // changes position of shadow
+    
+       ),
+    
+    
+    
+     ],
+    
+    ),
+    
+    child:    Center(child: Text(title,style: const TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.bold),),),
+    
+     height:27.00, 
+    
+    width: 80.00,
+    
+    ),
+  ),
 )
 ;
 }

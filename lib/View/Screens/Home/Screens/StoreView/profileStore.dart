@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/const.dart';
@@ -34,13 +35,24 @@ Stack(
         )
     
       ),
-      child: Hero(
-        tag: tag,
-        child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(40),
-                                  bottomRight: Radius.circular(40)),
-                              child: Image.network(image, fit: BoxFit.cover,))),
+      child: ClipRRect(
+                                              borderRadius:  const BorderRadius.only(
+                                bottomLeft: Radius.circular(40),
+                                bottomRight: Radius.circular(40)),
+                                              child:Hero(
+        tag: image.toString(),
+        
+        child: CachedNetworkImage(
+                                                  height: double.infinity,
+                                                  width: double.infinity,
+                                                                                fit: BoxFit.cover,
+                                                                                imageUrl:image.toString(),
+                                                                                placeholder: (context, url) => spinkit,
+                                                                                errorWidget: (context, url, error) =>
+                                                                                    const Icon(Icons.error),
+                                                                              ),
+                                              ),
+              ),
     
     ),
  
@@ -62,13 +74,6 @@ const Padding(
   padding: EdgeInsets.all(8.0),
   child:   Text('Specification', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
 ),SizedBox(height: 20,),
-const Padding(
-  padding: EdgeInsets.all(8.0),
-  child:   Text('Option :', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-),const Padding(
-  padding: EdgeInsets.all(8.0),
-  child:   Text('Algérienne, Mayaunèse, Ketchup, Sauce blanche.', style: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.bold),),
-),
 Padding(
   padding: const EdgeInsets.all(8.0),
   child:   Row(
@@ -76,13 +81,20 @@ Padding(
       Text('Name:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
    Spacer() 
    ,
-    Text('Burger Cheese', style: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.bold),),],
+    Text(list["name"], style: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.bold),),
+    SizedBox(width: 8,)],
   ),
-),Padding(
-  padding: const EdgeInsets.all(8.0),
-  child:   Text('A great Cheese Burger  with deffirent gridient.', style: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.bold),),
 ),
-    
+SizedBox(height: 20,),
+
+const Padding(
+  padding: EdgeInsets.all(8.0),
+  child:   Text('Option :', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+),  Padding(
+  padding: EdgeInsets.all(8.0),
+  child:   Text(list["details"], style: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.bold),),
+),
+ 
   SizedBox(height: 20,),  
     Padding(
   padding: const EdgeInsets.all(8.0),

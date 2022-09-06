@@ -11,6 +11,7 @@ import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/profile
 import '../../../../../../Controller/videocotroller.dart';
 import '../../../../../../const.dart';
 import '../../../../../Widgets/search.dart';
+import '../menu.dart';
 
 class ScreenPost extends StatelessWidget {
   var cotrollervideo= Get.put(VideoController());
@@ -146,10 +147,10 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
                                     Get.to(ScreenComent(id: id, doc: 'Post',));
                                   }, icon:Image.asset("images/CMNT.png")),
                                    Text( comentr.toString(), style: TextStyle(color: Colors.white),),
-                                const SizedBox(height: 10,),
-                                  IconButton(onPressed: (){
-                                    
-                                  }, icon:Image.asset("images/Vector35 (1).png")),
+                                  Padding(
+                               padding: const EdgeInsets.only(left: 10, bottom: 10),
+                               child: minureels(userid, id, 'Post'),
+                             )
                                 ],
                               ),
                             ),

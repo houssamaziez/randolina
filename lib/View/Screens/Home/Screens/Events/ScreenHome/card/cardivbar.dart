@@ -30,6 +30,9 @@ Expanded(
   content: Text(items['participate'].contains(uid)?"Do you want to cancel your participation in the trip?":'Do you want to confirm your participation in the trip?'),
   
     cancel: TextButton(onPressed: (){
+    final _controller= Get.put(IventsController());
+
+    _controller.participer(idpost:items['id'], list:items  );
   
   Get.back();
   
@@ -48,10 +51,35 @@ Expanded(
   
   Spacer(),
   
+  uid==items['uid']? 
   IconButton(onPressed: (){
     final _controller= Get.put(IventsController());
     _controller.seveevent(idpost:items['id'], list:items  );
-  }, icon: Icon(items['save'].contains(uid)?Icons.bookmark:Icons.bookmark_border, color: Colors.black,)) ],),
+  }, icon: Icon(items['save'].contains(uid)?Icons.delete:Icons.bookmark_border, color: Colors.black,))
+  : IconButton(
+    onPressed: (){
+    final _controller= Get.put(IventsController());
+    Get.defaultDialog(title: "Delete Event",
+  
+  content: Text( "Confirm delete !"),
+  
+    cancel: TextButton(onPressed: (){
+  
+  Get.back();
+  
+  }, child: const Text("cancel")),
+  
+    confirm: TextButton(onPressed: (){
+  
+   
+      _controller.deleltevent(items['id'] );
+
+  
+  Get.back();
+  
+  }, child: const Text("confirm")));
+  },
+   icon: Icon(items['save'].contains(uid)?Icons.bookmark:Icons.bookmark_border, color: Colors.black,))],),
 )
 ],),
 ));

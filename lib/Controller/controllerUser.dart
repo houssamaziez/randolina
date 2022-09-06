@@ -4,6 +4,8 @@ import 'package:randolina/const.dart';
 
 class UserController extends GetxController{
  String typeUser="";
+ String typeclien="";
+ String follow="";
 
 
  getData()async{
@@ -13,4 +15,11 @@ typeUser= (userdocs.data()! as Map <String, dynamic>)["typeUser"];
 return typeUser;
  }
  
+  getDataclien(id)async{
+
+ DocumentSnapshot userdocs=await firestor.collection("User").doc(id).get();
+typeclien= (userdocs.data()! as Map <String, dynamic>)["typeUser"];
+update();
+return typeclien;
+ }
 }

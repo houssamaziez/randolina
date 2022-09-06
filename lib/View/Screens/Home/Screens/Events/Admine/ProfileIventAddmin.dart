@@ -307,7 +307,32 @@ var _controllerUser=Get.put(ControllerMessanger());
                                              child: Padding(
                                              padding: const EdgeInsets.all(8.0),
                                              child: Align(alignment: Alignment.bottomCenter,
-                                                   child:   Container(child: Text(  list['destination'], style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),)),
+                                                   child:    Container(child:Stack(
+  children: <Widget>[
+    // Stroked text as border.
+    Text(
+     list['destination'],
+      style: TextStyle(
+        fontSize: 35,
+        foreground: Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 6
+          ..color = Color.fromARGB(255, 0, 0, 0),
+      ),
+    ),
+    // Solid text as fill.
+    Text(
+     list['destination'],
+      style: const TextStyle(
+        fontSize: 35,
+        color: Color.fromARGB(255, 255, 255, 255),
+      ),
+    ),
+  ],
+)
+                     
+                     
+                       ),
                                              ),
                                            ),
                                            ),

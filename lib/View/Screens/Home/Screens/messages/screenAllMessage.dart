@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/screenchat.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/widget/cardmessage.dart';
 import 'package:randolina/View/Widgets/search.dart';
@@ -23,7 +24,7 @@ var controllerMessanger= Get.put(ControllerMessanger());
   void initState() {
     print("object");
       controllerMessanger.getdata();
-      controllerMessanger.getmsegeNosee();
+      // controllerMessanger.getmsegeNosee(firebaseAuth.currentUser!.uid);
           message.write("msg", controllerMessanger.msgevu);
     print("object");
 
@@ -42,40 +43,7 @@ floatingActionButton: FloatingActionButton(
   onPressed: (){
 Get.to(ScreenSearch(docs: "User",tablename: "name",));
   }, child: const Icon(Icons.search),),
-      appBar: AppBar(
-        shape:const RoundedRectangleBorder(
-      borderRadius: const BorderRadius.vertical(
-        bottom: Radius.circular(30),
-      ),) ,
-        backgroundColor: Colors.white,
-        actions: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-              child: InkWell(onTap: (){
-          Get.to(ScreenSearch(docs: "User",tablename: "name",));
-
-              },
-                child: Container(
-                  child: Row(children: [
-                    IconButton(
-                        color: Colors.black,
-                        onPressed: (){}, icon: const Icon(Icons.search)),
-              
-                        const Text("What are you looking for...",style: const TextStyle(color: Colors.grey),)
-                  ],),
-                  decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.4),
-                  borderRadius:const BorderRadius.all(Radius.circular(30))),),
-              ),
-            ),
-          ),
-         
-          IconButton(
-          color: Colors.black,
-          onPressed: (){}, icon:const Icon(Icons.bookmark)),
-          ],),
-      
+      appBar: appBardALL(context, "Messages"),
        body:
        
        bodymsges() );
@@ -160,12 +128,10 @@ setState(() {
             itemBuilder: (context, index){
             String data ="";
             List j=snapshot.data[index]["users"].where((element) => element != firebaseAuth.currentUser!.uid.toString()).toList();
-            //  var c=j.sort((a,b)=> a["time"].compareTo(b[DateTime.now().toString()])) as List;
             return SizedBox(
               child:Padding(
                padding: const EdgeInsets.all(8.0),
                child: InkWell(onTap: (){
-                 print("hhhhhhhhhhhhhhhhh${snapshot.data[index]["msg"]}");
          
           },
                  child: Card(

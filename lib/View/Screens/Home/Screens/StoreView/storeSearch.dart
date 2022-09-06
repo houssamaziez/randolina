@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:randolina/Controller/controllersearch.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/Admine/ProfileIventAddmin.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
-import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/profileUser.dart';
+import 'package:randolina/View/Screens/Home/Screens/StoreView/profileStore.dart';
 
 import '../../../../../Controller/eventController.dart';
 import '../../../../../const.dart';
@@ -24,7 +24,7 @@ final _controller=TextEditingController();
 var controllersearch= Get.put(ControllerSearch());
   IventsController controllivent= Get.put(IventsController());
 
-String textsearch="";
+String _textsearch="";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,10 +41,10 @@ String textsearch="";
         ),
         controller:_controller ,
         onChanged: (v){setState(() {
-          textsearch=v;
+          _textsearch=v;
         });},
       ),backgroundColor: Colors.white,),
-body: listserach(stream: firestor.collection("Ivent"), tablename: widget. tablename ));
+body: listserach(stream: firestor.collection("Store"), tablename: widget. tablename ));
   }
   
   StreamBuilder<QuerySnapshot<Map<String, dynamic>>> listserach({required stream, required tablename}) {
@@ -63,20 +63,22 @@ if (snapshot.connectionState == ConnectionState.waiting) {
         if (snapshot.hasError) {
           return const Text('Error');
         } else if (snapshot.hasData) {
-             controllersearch.search(items, textsearch, "destination");
+             controllersearch.search(items, _textsearch, "name");
           return        GetBuilder<ControllerSearch>(
             init: ControllerSearch(),
             builder: (cont) {
               // ignore: unnecessary_null_comparison
-              return cont.reslut.length!=0&&textsearch.isNotEmpty? ListView.builder(
-                   scrollDirection: Axis.vertical,
-                itemCount:cont.reslut.length>10?10:cont.reslut.length,
-                itemBuilder: 
-               (context,index) {
-                  return cardivent(items, index, context, controllivent);}
-              
-              
-              ): Image.asset("images/People search-rafiki.png");
+                 return Container(height: double.infinity,
+                   child: ListView.builder(
+                    itemCount:cont.reslut.length ,
+                    shrinkWrap: true,
+                    itemBuilder: 
+                   (contex, index){
+                    return  _card(cont.reslut, index);
+                   }
+                   ),
+                 );
+ 
             }
           );
         } else {
@@ -89,6 +91,103 @@ if (snapshot.connectionState == ConnectionState.waiting) {
                        }
                       );
    }
+
+  InkWell _card( items, index) {
+    return InkWell(
+  onTap: (){
+    Get.to(ProfileProduct(image: items[index]["urlimage"].toString(), tag: items , list: items[index]));
+  },
+  onLongPress: (){
+
+// controllerstor.delletpost();
+setState(() {
+// posistion=index;
+ });
+},
+
+  child: SizedBox(height: 200,width: 300,
+    child: Stack(
+      children: [
+        Card(
+          child:         Stack(
+            children: [
+              Container(height: double.infinity,width: double.infinity,
+                                    child: ClipRRect(
+                                                borderRadius: const BorderRadius.all(
+                                                  Radius.circular(5),),
+                                                child:Hero(tag: items[index]["urlimage"].toString(),
+                                                  child: CachedNetworkImage(
+                                                    height: double.infinity,
+                                                    width: double.infinity,
+                                                                                  fit: BoxFit.cover,
+                                                                                  imageUrl:items[index]["urlimage"].toString(),
+                                                                                  placeholder: (context, url) => spinkit,
+                                                                                  errorWidget: (context, url, error) =>
+                                                                                      const Icon(Icons.error),
+                                                                                ),
+                                                ),
+                ),),
+  Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: Row(
+    children: [
+      CircleAvatar(radius: 25,
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: SizedBox(height: 50,width: 50,
+          
+                     child:  ClipRRect(
+          
+                                                          borderRadius: const BorderRadius.all(
+          
+                                                            Radius.circular(1000),),
+          
+                                                          child:Hero(tag: index.toString(),
+          
+                                                            child: CachedNetworkImage(
+          
+                                                              height: double.infinity,
+          
+                                                              width: double.infinity,
+          
+                                                                                            fit: BoxFit.cover,
+          
+                                                                                            imageUrl:items[index]["urlimage"].toString(),
+          
+                                                                                            placeholder: (context, url) => spinkit,
+          
+                                                                                            errorWidget: (context, url, error) =>
+          
+                                                                                                const Icon(Icons.error),
+          
+                                                                                          ),
+          
+                                                          ),
+          
+                          ), ),
+        ),
+      ),
+  SizedBox(width: 8,), Text(items[index]["username"].toString(), style: TextStyle(color: Colors.white,),) ],
+  ),
+  ), 
+            Align(alignment: Alignment.bottomCenter,
+              child: Container(width: double.infinity,
+                    height: 50,
+                    color: Colors.white.withOpacity(0.5),
+                    child: Center(child: Text("${items[index]["price"]} DA",
+                     style:const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              color: Colors.black),),),),
+            ) ],
+          ),
+   ),
+    ],
+    ),
+  ),
+);
+  }
   Padding cardivent(List<QueryDocumentSnapshot<Object?>> items, int index, BuildContext context, controllivent) {
       return Padding(
 padding: const EdgeInsets.all(8.0),

@@ -32,7 +32,7 @@ class _CardmessageState extends State<Cardmessage> {
                                     ),
               ),
                                   title: Text(widget. snapshot2.data["name"].toString()),
-                                  subtitle:Text(widget.msg.toString()) ,trailing:Text(widget.dateFormat.format(DateTime.parse(widget.time))   .toString()) ,
+                                  subtitle:Text(widget.msg.toString(), style: TextStyle(color: widget.msg.toString()=='New follower'?Colors.blue:Colors.grey),) ,trailing:Text(widget.dateFormat.format(DateTime.parse(widget.time))   .toString()) ,
             );
   
   }

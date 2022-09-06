@@ -5,13 +5,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/ProfileEvntUser.dart';
+import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/store_inprofile.dart';
 import '../../../../../../Controller/controllerUser.dart';
 import '../../../../../../const.dart';
 import '../../Events/Admine/ProfileIventAddmin.dart';
-  iventinprofile(uidd) {
+  iventinprofileclien(uidd) {
   return GetBuilder<UserController>(init:UserController() ,
     builder: (cont) {
-    return cont.typeUser=='HikingClub'?    StreamBuilder(
+    return cont.typeclien!='HikingClub'?(cont.typeclien=='Store'?storerest(uidd)
+    : Container())  :  StreamBuilder(
           stream: firestor.collection('Ivent').where("uid", isEqualTo: uidd).orderBy("time", descending: true).snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             var items = snapshot.data?.docs ?? [];
@@ -29,8 +31,7 @@ import '../../Events/Admine/ProfileIventAddmin.dart';
           SizedBox(height: 203,
             child: Column(crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                
-                Expanded(
+                 Expanded(
                   child: ListView.builder(shrinkWrap: true,
                               itemCount: items.length,
                               scrollDirection: Axis.horizontal,
@@ -55,14 +56,15 @@ import '../../Events/Admine/ProfileIventAddmin.dart';
       return Text('State: ${snapshot.connectionState}');
     }
  }
-             ): Container();
+             );
     }
   );
 }
 
-  Card cardevent(int indext, List<QueryDocumentSnapshot<Object?>> items,context) {
+
+  Card cardevent(int indext, List<QueryDocumentSnapshot<Object?>> items, context) {
     return Card(
-        shape: RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
     borderRadius: const BorderRadius.all(
        Radius.circular( 20)
     ),) ,
@@ -89,7 +91,7 @@ import '../../Events/Admine/ProfileIventAddmin.dart';
                                              child: Padding(
                                              padding: const EdgeInsets.all(8.0),
                                              child: Align(alignment: Alignment.bottomCenter,
-                                                   child:   Container(child:Stack(
+                                                   child:  Container(child:Stack(
   children: <Widget>[
     // Stroked text as border.
     Text(
@@ -115,7 +117,7 @@ import '../../Events/Admine/ProfileIventAddmin.dart';
                      
                      
                        ),
-                                             ),
+              ),
                                            ),
                                            ),
                                        

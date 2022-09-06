@@ -104,7 +104,7 @@ String? sizeinisil;
                       children: [
                         Image.asset(
                          isActive ? iconListactv[index].toString(): iconList[index].toString(),
-                        
+                        height: 50,
                       
                         ),
                         const SizedBox(height: 4),

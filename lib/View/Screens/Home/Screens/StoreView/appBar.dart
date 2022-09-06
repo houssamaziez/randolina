@@ -18,7 +18,7 @@ AppBar AppbarStorehome() {
           child: Padding(
             padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
             child: InkWell(onTap: (){
-              Get.to(ScreenSearchStors(tablename:"destination" , docss: "Ivent"));
+              Get.to(ScreenSearchStors(tablename:"name" , docss: "Store"));
             },
               child: Container(
                 decoration: BoxDecoration(

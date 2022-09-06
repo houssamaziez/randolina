@@ -11,6 +11,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import 'package:randolina/Controller/videocotroller.dart';
+import 'package:randolina/View/Screens/Home/Screens/Reels/menu.dart';
 import 'package:randolina/View/Widgets/search.dart';
 import 'package:randolina/const.dart';
 import 'package:video_player/video_player.dart';
@@ -184,12 +185,14 @@ Get.back();
                               IconButton(onPressed: (){
                                     Get.to(ScreenComent(id:widget. id, doc: "Videos",));
 
-                              }, icon:Image.asset("images/CMNT.png")),
+                              }, icon:Image.asset("images/CMNT.png", 
+            height: 30)),
                                Text(widget. comentr.toString(), style: TextStyle(color: Colors.white),),
-                            const SizedBox(height: 10,),
-                              IconButton(onPressed: (){
-                                
-                              }, icon:Image.asset("images/Vector35 (1).png")),
+                           
+                             Padding(
+                               padding: const EdgeInsets.only(left: 10, bottom: 10),
+                               child: minureels(widget.uidUser, widget.id, 'Videos'),
+                             )
                             ],
                           ),
                         ),

@@ -12,7 +12,7 @@ import '../../Reels/VideoView/screenVideo.dart';
 ListView postprofile(BuildContext context, String uid, controllecr,postnumber) {
     return ListView(
               children: [
-                SizedBox(height: heightphon(context,size: 0.35)),
+                SizedBox(height: heightphon(context,size: 0.18)),
 
 
    Container(
@@ -29,9 +29,7 @@ ListView postprofile(BuildContext context, String uid, controllecr,postnumber) {
                 child: Column(children: [
                   const SizedBox(height: 15,),
 
-Container(width: 100,
-                     height:0.5,color: Colors.grey,
-                  ),
+ 
                   const SizedBox(height: 15,),
                               iventinprofile(firebaseAuth.currentUser!.uid),
   
@@ -83,10 +81,7 @@ const SizedBox(height: 15,),
                             ),
                           ),
                          
-                          // Padding(
-                          //   padding:  const EdgeInsets.all(7.0),
-                          //   child: Text("124 following", style: TextStyle(color:Colors.white, fontSize: widthphon(context, size: 0.02)),),
-                          // ),
+                           
 
          ],),
                    ),
@@ -244,7 +239,6 @@ postnumber =items.length;
             
 
 
-               SizedBox(height: heightphon(context,size: 0.72)),
  ],),
                 )
               ],

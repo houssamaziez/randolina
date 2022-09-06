@@ -26,13 +26,20 @@ participer( {idpost,required list})async{
   var uid= firebaseAuth.currentUser!.uid;
   DocumentSnapshot<Map<String, dynamic>> post=await  firestor.collection("Ivent").doc(idpost).get();
  DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
-
-if ((post.data()!)["participate"].contains(uid)) {
-  await  firestor.collection("Ivent").doc(idpost).update({"participate":FieldValue.arrayRemove([uid])});
-await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(uid).delete();
- await  firestor.collection("User").doc(uid).collection("participate").doc(idpost).delete();
+ DocumentSnapshot userdocsEVNT=await firestor.collection("User").doc(uid).collection("participate").doc(idpost).get();
  
-}else{
+ 
+ if (userdocsEVNT.data()!=null) {
+ await  firestor.collection("User").doc(uid).collection("participate").doc(idpost).delete();
+    
+if ((post.data()!)["participate"].contains(uid)   ) {
+ await  firestor.collection("Ivent").doc(idpost).update({"participate":FieldValue.arrayRemove([uid])});
+await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(uid).delete();
+ 
+ 
+}
+ }else
+{
  await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(uid).set({
     "username": (userdocs.data()! as Map <String, dynamic>)["name"], 
     "uid": (userdocs.data()! as Map <String, dynamic>)["uid"], 
@@ -66,6 +73,8 @@ await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(ui
   await firestor.collection("User").doc(uid).collection("participate").doc(idpost).update({"participate":FieldValue.arrayUnion([uid])});
   
 }
+
+
 
 }
 
@@ -116,7 +125,9 @@ await  firestor.collection("Ivent").doc(idpost).collection("save").doc(uid).dele
 
 }
 bool islodeinImage= false;
-
+deleltevent(id)async{
+ await firestor.collection("Ivent").doc(id).delete();
+}
 uploadImageindex(vale){
 islodeinImage=vale;
 update();
@@ -128,7 +139,8 @@ required details, required destination,required price  ,required distance,requir
 
 
 } )async{
-try {
+try
+ {
   islodeinImage= true;
   update();
  var uid= firebaseAuth.currentUser!.uid;
@@ -269,7 +281,6 @@ try {
 }
 }
 deletpart(uid, idpost)async{
-
 try {
   await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(uid).update({
 
@@ -277,10 +288,9 @@ try {
   }).then((value) => Get.snackbar("conferm", "delete"));
   await  firestor.collection("Ivent").doc(idpost).update({"confermnum":FieldValue.arrayRemove([uid])});
 
-} catch (e) {
-  // ignore: avoid_print
-  print(e);
+} 
+catch (e) {
+print(e);
 }
 }
-
 }
