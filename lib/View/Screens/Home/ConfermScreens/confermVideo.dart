@@ -87,7 +87,7 @@ String details="";
         child:contr.islodeinvideo?spinkit: Icon(Icons.post_add),),
       ),
       body: SingleChildScrollView(child: Column(children: [
-Text(widget. size.toString(), style: TextStyle(color: Colors.white),),
+
 
 
         SizedBox(width: widthphon(context),

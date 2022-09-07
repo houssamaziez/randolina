@@ -13,7 +13,7 @@ import '../ProfileUser/iventcard_in_profile.dart';
 ListView postclien(BuildContext context, controllecr, id, postnumber) {
     return ListView(
               children: [
-                SizedBox(height: heightphon(context,size: 0.17)),
+                SizedBox(height: heightphon(context,size: 0.19)),
    Container(
                 decoration: const BoxDecoration(
                 color: Colors.white,
@@ -39,7 +39,7 @@ ListView postclien(BuildContext context, controllecr, id, postnumber) {
                   Container(width: 100,
                      height:0.5,color: Colors.grey,
                   ),
-const SizedBox(height: 15,),
+                  const SizedBox(height: 15,),
                    SizedBox(height: 60,
                      child: Row(children:[
                            Expanded(

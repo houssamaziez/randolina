@@ -40,6 +40,7 @@ String details="";
               if (contr.islodeinImage==false) {
                 
            uploadVideo( videoFile) async{
+            contr.chne(true);
   var data;
     var uri = Uri.parse(urlserverfile);
     var request = new MultipartRequest("POST", uri);
@@ -67,7 +68,6 @@ String details="";
   }
    
               var c=await uploadVideo(contr.image);   
-              print("_______$c");
               }
               },
           

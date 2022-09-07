@@ -7,6 +7,7 @@ import 'package:randolina/View/Screens/Home/Screens/Profile/ProfileUser/menu.dar
 import 'package:randolina/View/Screens/Home/Screens/Profile/ProfileUser/postprofile.dart';
 import 'package:randolina/const.dart';
 
+import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../../Controller/ProfileController.dart';
 import '../../../../../../Controller/controllerUser.dart';
 import '../../Reels/Postview/screenPost.dart';
@@ -67,7 +68,7 @@ setState(() {
               children: [ 
                 postprofile(context, uid, controllecr, postnumber),
 
-                Container(height: 140,
+                Container(height: 160,
                          width: double.infinity,decoration: BoxDecoration(
                           boxShadow: [
       BoxShadow(
@@ -79,10 +80,85 @@ setState(() {
     ],
                           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
                           color: Colors.white),), 
-                infoprofile(uid),
+                infoprofile(uid, context),
             
       
-      
+      Padding(
+                           padding: const EdgeInsets.only(top: 145, left: 125),
+
+                    child:  GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
+    builder: (cont) {
+      return  Container(decoration: BoxDecoration(
+        color: Color.fromARGB(255, 202, 201, 201),
+                borderRadius:const BorderRadius.only(
+    
+       topLeft: Radius.circular(10),
+    
+               topRight: Radius.circular(10),
+    
+               bottomLeft: Radius.circular(10),
+    
+               bottomRight: Radius.circular(10)
+    
+     ),
+      ),
+        child: Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Container(decoration: BoxDecoration(
+                  color: Colors.white,
+                    borderRadius:const BorderRadius.only(
+    
+                 topLeft: Radius.circular(10),
+    
+                   topRight: Radius.circular(10),
+    
+                   bottomLeft: Radius.circular(10),
+    
+                   bottomRight: Radius.circular(10)
+    
+     ),
+                ),
+                  child: bottun(title: "", color:  Colors.white, function: ()async{
+     if (cont.isfolow==true ){
+Get.defaultDialog(
+  cancel: TextButton(onPressed: ()async{
+ Navigator.pop(context);
+
+                        }, child: Text("Cancel")) ,
+                        confirm: TextButton(onPressed: ()async{
+ await cont.deletemsgeFollow(users:uid  );
+ await cont.virffollow(uid);
+
+                        }, child: Text("Confirm")),
+                        title:"Delete follow",
+                       
+                       content: Center(child: const Text("Be careful when deleting a follower, messages will be deleted", textAlign: TextAlign.center,)));
+     }else{
+                  showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: SingleChildScrollView(
+                      child:Center(child: Text("wait a little bit"))
+                    ),
+                   
+                  );
+    },
+  );
+                  await cont.sendmessageToAll(users:  uid, idmsg: "0", msg: "New follower", isfolew: false);
+ await cont.virffollow( uid);
+ cont.retundata(uid);
+Navigator.pop(context);
+     } 
+                  },),
+                ),
+        ),
+      );
+                      }
+                    ),
+                  ),
+             
       
      
               ],

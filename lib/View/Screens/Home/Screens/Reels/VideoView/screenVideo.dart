@@ -66,8 +66,7 @@ var _uid= firebaseAuth.currentUser!.uid;
       controller = VideoPlayerController.file(file);
       controller!.initialize().then((value) {
         setState(() {
-         widget. numvidoe==0?controller!.pause():
-          controller!.play();
+        controller!.play();
         });
       });
     }
@@ -256,7 +255,7 @@ onDoubleTap: _jamclick,
                     child:(controller == null)
         ? const Text('wait..')
         : ((controller.value.isInitialized)
-            ? VideoPlayer(controller)
+            ? VideoPlayer(controller, )
             : const Text('Loading...')),
                   ),
       );

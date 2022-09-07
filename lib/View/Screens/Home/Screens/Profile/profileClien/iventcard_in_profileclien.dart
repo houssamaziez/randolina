@@ -71,7 +71,8 @@ import '../../Events/Admine/ProfileIventAddmin.dart';
                                   color: Colors.grey,
                                   child: Stack(
                                     children: [
-                                      Container(height: 200,width: widthphon(context, size: 0.472),
+                                      Container(height: 200,width: widthphon(context, size: 0.444),
+
                                       child: ClipRRect(
                                                   borderRadius: const BorderRadius.all(
                                                     Radius.circular(20),),
@@ -91,7 +92,8 @@ import '../../Events/Admine/ProfileIventAddmin.dart';
                                              child: Padding(
                                              padding: const EdgeInsets.all(8.0),
                                              child: Align(alignment: Alignment.bottomCenter,
-                                                   child:  Container(child:Stack(
+                                                   child:  
+                                                   Container(child:Stack(
   children: <Widget>[
     // Stroked text as border.
     Text(

@@ -72,7 +72,10 @@ bool islodeinImage= false;
 islodeinImage=vale;
 update();
 }
-
+chne(bool){
+   islodeinImage= bool;
+   update();
+}
 uploadImage( { required  imagepath,required detailspost,required Imageurl} )async{
 try {
   islodeinImage= true;

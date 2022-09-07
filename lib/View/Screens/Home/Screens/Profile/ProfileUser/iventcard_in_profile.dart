@@ -69,7 +69,7 @@ import '../../Events/Admine/ProfileIventAddmin.dart';
                                   color: Colors.grey,
                                   child: Stack(
                                     children: [
-                                      Container(height: 200,width: widthphon(context, size: 0.472),
+                                      Container(height: 200,width: widthphon(context, size: 0.444),
                                       child: ClipRRect(
                                                   borderRadius: const BorderRadius.all(
                                                     Radius.circular(20),),

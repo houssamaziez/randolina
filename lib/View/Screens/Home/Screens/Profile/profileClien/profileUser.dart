@@ -14,7 +14,6 @@ import '../../../../../../Controller/controllerUser.dart';
 import '../../Reels/Postview/screenPost.dart';
 import '../../Reels/VideoView/screenVideo.dart';
 import '../ProfileUser/infoprofilebar.dart';
-import 'infoclien.dart';
 
 class SceenProflileAll extends StatefulWidget {
   final  id,imageprofile,name;
@@ -46,18 +45,13 @@ var foloowcontr=Get.put( ControllerMessanger());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        title: Column(crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-      Text("Pizza Hut", style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),), 
-      Text("Restaurant", style: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.bold),), 
-    
-    ],),
+      
 
       backgroundColor: Colors.white,elevation: 0,),
       backgroundColor: Colors.white,
       body:  RefreshIndicator(onRefresh: ()async{
             
-           return Future.delayed(Duration(seconds: 1), (){
+           return Future.delayed(const Duration(seconds: 1), (){
 setState(() {
               
             });
@@ -65,19 +59,184 @@ setState(() {
            },
              child:  Stack(
               children: [ 
-                postclien(context, controllecr,widget. id, postnumber),   Container(height: 140,
+                postclien(context, controllecr,widget. id, postnumber), 
+                
+                  Container(height: 160,
                          width: double.infinity,decoration: BoxDecoration(
                           boxShadow: [
       BoxShadow(
         color: Colors.grey.withOpacity(0.5),
         spreadRadius: 5,
         blurRadius: 7,
-        offset: Offset(0, 3), // changes position of shadow
+        offset: const Offset(0, 3), // changes position of shadow
       ),
     ],
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+                          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
                           color: Colors.white),), 
-                infoprofile(widget.id),
+               
+                infoprofile(widget.id, context),
+               
+                  
+         Padding(
+           padding: const EdgeInsets.only(top: 123, left: 105),
+           child: Row(
+             children: [
+               widget. id!=firebaseAuth.currentUser!.uid?
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, left: 20),
+                    child:  GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
+    builder: (cont) {
+      return  Container(decoration: const BoxDecoration(
+        color:  Color.fromARGB(255, 202, 201, 201),
+                borderRadius:BorderRadius.only(
+    
+       topLeft: Radius.circular(10),
+    
+               topRight: Radius.circular(10),
+    
+               bottomLeft: Radius.circular(10),
+    
+               bottomRight: Radius.circular(10)
+    
+     ),
+      ),
+        child: Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Container(decoration: const BoxDecoration(
+                  color: Colors.white,
+                    borderRadius:BorderRadius.only(
+    
+                 topLeft: Radius.circular(10),
+    
+                   topRight: Radius.circular(10),
+    
+                   bottomLeft: Radius.circular(10),
+    
+                   bottomRight: Radius.circular(10)
+    
+     ),
+                ),
+                  child: bottun(title: "Follow", color:cont.isfolow==true ?const Color.fromARGB(255, 58, 255, 64): Colors.blue, function: ()async{
+     if (cont.isfolow==true ){
+Get.defaultDialog(
+  cancel: TextButton(onPressed: ()async{
+ Navigator.pop(context);
+
+                        }, child: const Text("Cancel")) ,
+                        confirm: TextButton(onPressed: ()async{
+ await cont.deletemsgeFollow(users:widget. id,  );
+ await cont.virffollow(widget. id);
+
+                        }, child: const Text("Confirm")),
+                        title:"Delete follow",
+                       
+                       content: const Center(child: Text("Be careful when deleting a follower, messages will be deleted", textAlign: TextAlign.center,)));
+     }else{
+                  showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+                  return const AlertDialog(
+                    content: SingleChildScrollView(
+                      child:Center(child: Text("wait a little bit"))
+                    ),
+                   
+                  );
+    },
+  );
+                  await cont.sendmessageToAll(users: widget. id, idmsg: "0", msg: "New follower", isfolew: false);
+ await cont.virffollow(widget.id);
+ cont.retundata(widget. id);
+Navigator.pop(context);
+     } 
+                  },),
+                ),
+        ),
+      );
+                      }
+                    ),
+                  ) : const SizedBox()
+,    Padding(
+                    padding: const EdgeInsets.only(top: 20, left: 20),
+                    child:  GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
+    builder: (cont) {
+      return  Container(decoration: const BoxDecoration(
+        color: const Color.fromARGB(255, 202, 201, 201),
+                borderRadius:BorderRadius.only(
+    
+       topLeft: Radius.circular(10),
+    
+               topRight: Radius.circular(10),
+    
+               bottomLeft: Radius.circular(10),
+    
+               bottomRight: Radius.circular(10)
+    
+     ),
+      ),
+        child: Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Container(decoration: const BoxDecoration(
+                  color: Colors.white,
+                    borderRadius:BorderRadius.only(
+    
+                 topLeft: Radius.circular(10),
+    
+                   topRight: Radius.circular(10),
+    
+                   bottomLeft: Radius.circular(10),
+    
+                   bottomRight: Radius.circular(10)
+    
+     ),
+                ),
+                  child: bottun(title: "", color:  Colors.white, function: ()async{
+     if (cont.isfolow==true ){
+Get.defaultDialog(
+  cancel: TextButton(onPressed: ()async{
+ Navigator.pop(context);
+
+                        }, child: const Text("Cancel")) ,
+                        confirm: TextButton(onPressed: ()async{
+ await cont.deletemsgeFollow(users: widget. id,  );
+ await cont.virffollow(widget. id);
+
+                        }, child: const Text("Confirm")),
+                        title:"Delete follow",
+                       
+                       content: const Center(child: Text("Be careful when deleting a follower, messages will be deleted", textAlign: TextAlign.center,)));
+     }else{
+                  showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+                  return const AlertDialog(
+                    content: SingleChildScrollView(
+                      child:Center(child: Text("wait a little bit"))
+                    ),
+                   
+                  );
+    },
+  );
+                  await cont.sendmessageToAll(users:  widget. id, idmsg: "0", msg: "New follower", isfolew: false);
+ await cont.virffollow(widget. id);
+ cont.retundata( widget. id);
+Navigator.pop(context);
+     } 
+                  },),
+                ),
+        ),
+      );
+                      }
+                    ),
+                  ),
+             ],
+           ),
+         ) 
+              , 
+               
+               
+               
                 iconback(context,widget.id,widget.imageprofile,widget.name,),  
                   Padding(
             padding: const EdgeInsets.only(top:20),
