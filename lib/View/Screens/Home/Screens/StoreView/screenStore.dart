@@ -250,7 +250,36 @@ Padding(
                           ), ),
         ),
       ),
-  SizedBox(width: 8,), Text(list[index]["username"].toString(), style: TextStyle(color: Colors.white,),) ],
+  SizedBox(width: 8,),
+  
+    Container(child:Stack(
+  children: <Widget>[
+    // Stroked text as border.
+    Text(
+      list[index]["username"].toString(),
+      style: TextStyle(
+        fontSize: 16,
+        foreground: Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 6
+          ..color = Color.fromARGB(255, 0, 0, 0),
+      ),
+    ),
+    // Solid text as fill.
+    Text(
+      list[index]["username"].toString(),
+      style: TextStyle(
+        fontSize: 16,
+        color: Color.fromARGB(255, 255, 255, 255),
+      ),
+    ),
+  ],
+)
+                     
+                     
+                       ),
+               
+   ],
   ),
 ), 
             Align(alignment: Alignment.bottomCenter,

@@ -159,7 +159,9 @@ Navigator.pop(context);
                     ),
                   ),
              
-      
+      Positioned(top: 0,
+        right: 15,
+        child: minu())
      
               ],
             
