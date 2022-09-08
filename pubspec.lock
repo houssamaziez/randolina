@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  archive:
+    dependency: transitive
+    description:
+      name: archive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.3.1"
   async:
     dependency: transitive
     description:
@@ -22,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.4"
+  barcode:
+    dependency: transitive
+    description:
+      name: barcode
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.3"
   bloc:
     dependency: transitive
     description:
@@ -321,6 +335,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_mailer:
+    dependency: "direct main"
+    description:
+      name: flutter_mailer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   flutter_pagewise:
     dependency: transitive
     description:
@@ -394,6 +415,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.0"
   image_cropper:
     dependency: "direct main"
     description:
@@ -513,8 +541,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.1"
-  path_provider:
+  path_parsing:
     dependency: transitive
+    description:
+      name: path_parsing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  path_provider:
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
@@ -562,6 +597,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  pdf:
+    dependency: "direct main"
+    description:
+      name: pdf
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.8.3"
   pedantic:
     dependency: transitive
     description:
@@ -569,6 +611,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   photo_manager:
     dependency: transitive
     description:
@@ -604,6 +653,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.6"
+  printing:
+    dependency: "direct main"
+    description:
+      name: printing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.9.2"
   process:
     dependency: transitive
     description:
@@ -625,6 +681,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  qr:
+    dependency: transitive
+    description:
+      name: qr
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   refresh_loadmore:
     dependency: "direct main"
     description:
@@ -861,6 +924,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0+1"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.0"
 sdks:
   dart: ">=2.17.3 <3.0.0"
   flutter: ">=3.0.0"

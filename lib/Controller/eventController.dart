@@ -46,6 +46,7 @@ await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(ui
     "phone": (userdocs.data()! as Map <String, dynamic>)["phone"], 
     "photoProfil": (userdocs.data()! as Map <String, dynamic>)["photoProfil"], 
     "wilaya": (userdocs.data()! as Map <String, dynamic>)["wilaya"], 
+    "email": (userdocs.data()! as Map <String, dynamic>)["email"], 
     "conferm":false
   });
  
@@ -269,6 +270,7 @@ try {
   await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(uid).update({
 
 "conferm":true
+  
   }).then((value) => Get.snackbar("conferm", "done"));
   await  firestor.collection("Ivent").doc(idpost).update({"confermnum":FieldValue.arrayUnion([uid])});
 

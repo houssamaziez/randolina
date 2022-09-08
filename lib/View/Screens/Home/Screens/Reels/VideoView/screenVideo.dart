@@ -1,15 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
-import 'package:randolina/Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import 'package:randolina/Controller/videocotroller.dart';
 import 'package:randolina/View/Screens/Home/Screens/Reels/menu.dart';
 import 'package:randolina/View/Widgets/search.dart';
@@ -59,6 +55,7 @@ var _uid= firebaseAuth.currentUser!.uid;
         setState(() {
             widget. numvidoe==0?controller!.pause():
           controller!.play();
+       controller!.setLooping(true);
         });
       });
     } else {
@@ -67,6 +64,7 @@ var _uid= firebaseAuth.currentUser!.uid;
       controller!.initialize().then((value) {
         setState(() {
         controller!.play();
+       controller!.setLooping(true);
         });
       });
     }
@@ -74,7 +72,6 @@ var _uid= firebaseAuth.currentUser!.uid;
     
   }
   }
-
 //: check for cache
   Future<FileInfo?> checkCacheFor(String url) async {
     final FileInfo? value = await DefaultCacheManager().getFileFromCache(url);
@@ -134,7 +131,6 @@ Get.back();
                                                               ),
                                  ),
    PageReels(context, url: widget.UrlVideo),
-              
          widget.     isprofile==false?  Padding(
                       padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
                       child: Row(children: [
@@ -142,32 +138,25 @@ Get.back();
                           Get.to(()=>   ScreenSearch(docs: "User",tablename: "name",));
                         }, icon: Icon(Icons.search, size: 30,color: Colors.white,)),
                        const Spacer(),
-                        Spacer(),
                         InkWell(onTap: (){
                          controller!.dispose();
-
                             cotrollervideo.chngescren();
                         },
                           child: appbarvideo(),
                         ),
-                        Spacer(),
-
-                        
-                        
+                       const Spacer(),
                         IconButton(onPressed: (){
-                           Get.to(ScreenAllMessage());
+                           Get.to(()=> const ScreenAllMessage());
                         }, icon:
                             Image.asset("images/bubble-chat.png"),
-                         
                       ),
-
                         ],),
                     ):Padding(
                       padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
                       child: Row(children: [
                         IconButton(onPressed: (){
                         Navigator.pop(context);
-                        }, icon: Icon(Icons.arrow_back, size: 30,color: Colors.white,)),
+                        }, icon:const Icon(Icons.arrow_back, size: 30,color: Colors.white,)),
                        const Spacer(),
                         ],),
                     ) ,
@@ -178,7 +167,8 @@ Get.back();
                               IconButton(onPressed: (){
     controllerlikcomnt.likeVideo(idpost:widget. id);
 
-                              }, icon:  Icon(Icons.favorite, size: 30,color:widget.likes.contains(_uid.toString())?Colors.red: Colors.white,)),
+                              }, icon:  Icon(Icons.favorite, size: 30,color:widget.likes.contains(_uid.toString())?
+                              Colors.red: Colors.white,)),
                                Text( widget. likes.length.toString(), style: TextStyle(color: Colors.white),),
                             const SizedBox(height: 15,),
                               IconButton(onPressed: (){

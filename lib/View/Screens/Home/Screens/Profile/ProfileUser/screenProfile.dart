@@ -56,9 +56,9 @@ var controllecr=Get.put(ProfileController());
     
 
       backgroundColor: Colors.white,elevation: 0,),
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body:  RefreshIndicator(onRefresh: ()async{
-           return Future.delayed(Duration(seconds: 1), (){
+           return Future.delayed(const Duration(seconds: 1), (){
 setState(() {
               
             });
@@ -75,10 +75,10 @@ setState(() {
         color: Colors.grey.withOpacity(0.5),
         spreadRadius: 5,
         blurRadius: 7,
-        offset: Offset(0, 3), // changes position of shadow
+        offset: const Offset(0, 3), // changes position of shadow
       ),
     ],
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+                          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
                           color: Colors.white),), 
                 infoprofile(uid, context),
             
@@ -88,9 +88,9 @@ setState(() {
 
                     child:  GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
     builder: (cont) {
-      return  Container(decoration: BoxDecoration(
-        color: Color.fromARGB(255, 202, 201, 201),
-                borderRadius:const BorderRadius.only(
+      return  Container(decoration: const BoxDecoration(
+        color:  Color.fromARGB(255, 202, 201, 201),
+                borderRadius:BorderRadius.only(
     
        topLeft: Radius.circular(10),
     
@@ -104,9 +104,9 @@ setState(() {
       ),
         child: Padding(
                 padding: const EdgeInsets.all(1.0),
-                child: Container(decoration: BoxDecoration(
+                child: Container(decoration: const BoxDecoration(
                   color: Colors.white,
-                    borderRadius:const BorderRadius.only(
+                    borderRadius:BorderRadius.only(
     
                  topLeft: Radius.circular(10),
     
@@ -124,23 +124,23 @@ Get.defaultDialog(
   cancel: TextButton(onPressed: ()async{
  Navigator.pop(context);
 
-                        }, child: Text("Cancel")) ,
+                        }, child: const Text("Cancel")) ,
                         confirm: TextButton(onPressed: ()async{
  await cont.deletemsgeFollow(users:uid  );
  await cont.virffollow(uid);
 
-                        }, child: Text("Confirm")),
+                        }, child: const Text("Confirm")),
                         title:"Delete follow",
                        
-                       content: Center(child: const Text("Be careful when deleting a follower, messages will be deleted", textAlign: TextAlign.center,)));
+                       content: const Center(child: Text("Be careful when deleting a follower, messages will be deleted", textAlign: TextAlign.center,)));
      }else{
                   showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
-                  return AlertDialog(
-                    content: SingleChildScrollView(
-                      child:Center(child: Text("wait a little bit"))
+                  return const AlertDialog(
+                    content: const SingleChildScrollView(
+                      child:Center(child: const Text("wait a little bit"))
                     ),
                    
                   );

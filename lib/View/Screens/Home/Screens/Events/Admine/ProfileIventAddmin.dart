@@ -13,6 +13,7 @@ import 'package:randolina/const.dart';
 
 import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../../Controller/controllerUser.dart';
+import '../../../../../EmailSend/sendemail.dart';
 
 class ProfileEvent extends StatefulWidget {
     ProfileEvent({Key? key,required this.image,required this.tag,required this.list}) : super(key: key);
@@ -242,7 +243,9 @@ setState(() {
 var _controllerUser=Get.put(ControllerMessanger());
  var _data= await  _controllerUser.getdatauser(list[indext]['uid']);
  if (_data!=null) {
-      launchCaller(_data["phone"].toString());
+Get.to( Screensend(email:list[indext]['email'],name: list[indext]['username'],)
+);
+      // launchCaller(_data["phone"].toString());
    return;
  }
                   },

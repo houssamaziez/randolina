@@ -26,7 +26,6 @@ class _ScreenReelsState extends State<ScreenReels> {
             
            return Future.delayed(Duration(seconds: 1), (){
 setState(() {
-              
             });
            });
            },
@@ -64,7 +63,7 @@ setState(() {
 
 if (snapshot.connectionState == ConnectionState.waiting) {
         return     Padding(
-          padding:   EdgeInsets.only(top: heightphon(context, size: 0.4)),
+          padding:   EdgeInsets.only(top: heightphon(context, size: 0.4) ,),
           child: spinkit,
         );
       } else if (snapshot.connectionState == ConnectionState.active
@@ -77,7 +76,6 @@ if (snapshot.connectionState == ConnectionState.waiting) {
                  scrollDirection: Axis.vertical, 
 onPageChanged: (int positione) {
   
-            print('page changed. current: $positione');
               position=positione;
           },
               itemCount: items.length,

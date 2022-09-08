@@ -55,7 +55,7 @@ Expanded(
   IconButton(onPressed: (){
     final _controller= Get.put(IventsController());
     _controller.seveevent(idpost:items['id'], list:items  );
-  }, icon: Icon(items['save'].contains(uid)?Icons.delete:Icons.bookmark_border, color: Colors.black,))
+  }, icon: Icon(Icons.delete, color: Colors.black,))
   : IconButton(
     onPressed: (){
     final _controller= Get.put(IventsController());

@@ -85,7 +85,6 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
                           Get.to(()=> ScreenSearch(docs: "User",tablename: "name",));
                         }, icon: Icon(Icons.search, size: 30,color: Colors.white,)),
                        const Spacer(),
-                        Spacer(),
                         InkWell(onTap: (){
                             cotrollervideo.chngescren();
                         },

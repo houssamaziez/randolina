@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../../Controller/eventController.dart';
 import '../../../../../../const.dart';
+import '../../../../../EmailSend/sendemail.dart';
 
 class ScreenPart extends StatefulWidget {
 final  list, items, isconferm;
@@ -97,10 +98,10 @@ content:isconferm==true? Text('Do you want to Delete your participation in the t
 listlenghtconfimed+1<=int.parse(widget.list["nombresplaces"])?
   
   controllerivent.confermpart(list[indext]['uid'], id) :
-  Get.snackbar('Completd', "List complte"))
+  Get.snackbar('Completd', "List complte"));
   
-  ;
   Navigator.pop(context);
+
 setState(() {
   
 });
@@ -117,7 +118,8 @@ setState(() {
 var _controllerUser=Get.put(ControllerMessanger());
  var _data= await  _controllerUser.getdatauser(list[indext]['uid']);
  if (_data!=null) {
-      launchCaller(_data["phone"].toString());
+  
+      // launchCaller(_data["phone"].toString());
    return;
  }
  },

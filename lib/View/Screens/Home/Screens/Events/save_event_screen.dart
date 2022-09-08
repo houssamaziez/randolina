@@ -13,7 +13,6 @@ import 'ScreenHome/card/listcard.dart';
 class ScreenSaveEvent extends StatelessWidget {
     ScreenSaveEvent({Key? key}) : super(key: key);
   IventsController controllivent= Get.put(IventsController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +41,6 @@ appBar: AppBar(
               return const Text('Error');
             } else if (snapshot.hasData) {
               return  ListView.builder(padding:const EdgeInsets.only(top: 10) ,
-shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
 itemCount:items.length ,
 itemBuilder: ((context, index) => 
 cardivent(items, index, context, firebaseAuth.currentUser!.uid, controllivent)
