@@ -5,11 +5,11 @@ import '../../../../../Controller/eventController.dart';
 import '../../../../../const.dart';
 
 bottun({
-  required title ,required color,required function
+  required title ,required color,required function, width= 80.00, hiegth=27.00, pad=false
 }){
 
   return Padding(
-  padding: const EdgeInsets.all(8.0),
+  padding:pad==false? const EdgeInsets.all(8.0):const EdgeInsets.all(0.0),
   child:   InkWell(onTap: function,
     child: Container(
     
@@ -20,8 +20,8 @@ bottun({
            
              colors: [
                 
-              color.withOpacity(0.2),
-              color.withOpacity(0.6),
+              color.withOpacity(0.4),
+              color.withOpacity(0.9),
              ],
            )
          ,
@@ -61,9 +61,9 @@ bottun({
     
     child:    Center(child: Text(title,style: const TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.bold),),),
     
-     height:27.00, 
+     height:hiegth, 
     
-    width: 80.00,
+    width: width,
     
     ),
   ),

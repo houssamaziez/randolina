@@ -6,7 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Controller/eventController.dart';
-import 'package:randolina/View/Screens/Home/Screens/Events/Admine/screenParts.dart';
+import 'package:randolina/View/Screens/Home/Screens/Events/Admine/screenAcspt.dart';
+ 
 import 'package:randolina/View/Screens/Home/Screens/Events/editivent.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/const.dart';
@@ -208,44 +209,28 @@ itemBuilder:
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: InkWell(onTap: (){
-                 Get.defaultDialog(title: "Participate",
-content:list[indext]['conferm']==true? Text('Do you want to Delete your participation in the trip?'):Text('Do you want to confirm your participation in the trip?'),
-  cancel: TextButton(onPressed: (){
-    setState(() {
-  Navigator.pop(context);
+              child: InkWell(onTap: ()
+              {
 
-  
-});
-}, child: const Text("cancel")),
-  confirm: TextButton(onPressed: (){
- list[indext]['conferm']? controllerivent.deletpart(list[indext]['uid'], id): (
-   listlenghtconfimed+1<=int.parse(widget.list["nombresplaces"])?
-  
-  controllerivent.confermpart(list[indext]['uid'], id) :
-  Get.snackbar('Completd', "List complte"))
-  
-  ;
-  Navigator.pop(context);
-setState(() {
-  
-});
+Get.to(ScreenAcspt(idpost: id,
+listlenghtconfimed: listlenghtconfimed,
+nombresplaces: widget.list["nombresplaces"],
+  email: list[indext]['email'],wilaya: list[indext]['wilaya'] ,  name: list[indext]['username'],phone: list[indext]['phone'], photoprofile: list[indext]['photoProfil'].toString(), uid: list[indext]['uid'], conferm: list[indext]['conferm'], ));
 
 
-}, child: const Text("confirm")));
-              },
+
+           },
+
                 child: Card(
                    color:   Color.fromARGB(255, 255, 255, 255),
                   elevation: 4,
-                
                   child: ListTile(
                   trailing:IconButton(onPressed: ()async{
 var _controllerUser=Get.put(ControllerMessanger());
  var _data= await  _controllerUser.getdatauser(list[indext]['uid']);
  if (_data!=null) {
-Get.to( Screensend(email:list[indext]['email'],name: list[indext]['username'],)
-);
-      // launchCaller(_data["phone"].toString());
+// Get.to( Screensend(email:list[indext]['email'],name: list[indext]['username'],));
+      launchCaller(_data["phone"].toString());
    return;
  }
                   },

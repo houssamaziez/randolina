@@ -72,7 +72,7 @@ var shape=  RoundedRectangleBorder(
     launchCaller(String num) async {
     String  url = "tel:$num";   
     if (await canLaunch(url)) {
-       await launch(url);
+       await launchUrl (Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }   

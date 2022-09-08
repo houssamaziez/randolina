@@ -130,7 +130,7 @@ Padding emailwed(List<QueryDocumentSnapshot<Object?>> items) {
 
 
 bottun({
-  required title ,required color,required function
+  required title ,required color,required function, width
 }){
 
   return InkWell(onTap: function,
@@ -142,9 +142,8 @@ bottun({
              end: Alignment.centerRight,
            
              colors: [
-                
-              color.withOpacity(0.2),
-              color.withOpacity(0.6),
+              color.withOpacity(0.4),
+              color.withOpacity(0.9),
              ],
            )
          ,

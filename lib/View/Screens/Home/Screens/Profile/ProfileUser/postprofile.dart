@@ -12,7 +12,7 @@ import '../../Reels/VideoView/screenVideo.dart';
 ListView postprofile(BuildContext context, String uid, controllecr,postnumber) {
     return ListView(
               children: [
-                SizedBox(height: heightphon(context,size: 0.18)),
+                SizedBox(height: heightphon(context,size: 0.2)),
 
 
    Container(

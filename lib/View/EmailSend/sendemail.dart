@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import 'package:randolina/const.dart';
   Future<void> send(BuildContext context,subjectController, name, email, pathfile,  ) async {
     if (Platform.isIOS) {
       final bool canSend = await FlutterMailer.canSendMail();
@@ -151,16 +152,21 @@ class _MyAppState extends State<Screensend> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold( 
-        appBar: AppBar(title: Text(widget. name), actions: [IconButton(onPressed:  (){
+        appBar: AppBar(
+          
+          title: Text(widget. name), actions: [IconButton(onPressed:  (){
           final TextEditingController _subjectController =
       TextEditingController(text: 'the Subject');
 if (file!=null) {
     send(context, _subjectController, widget.name,widget.email, file.path,  );
   
-}}, icon: Icon(Icons.send),)
+}}, icon: Icon(Icons.send, ),)
 
 ],),
         body: PdfPreview(
+          
+          allowPrinting: false,allowSharing: false, canChangeOrientation: false,
+        canChangePageFormat: false,loadingWidget: spinkit,
           build: (format) => _generatePdf(format, widget. name,context,widget. name,widget. email),
         ),
       ) ;
@@ -175,7 +181,7 @@ final image = await imageFromAssetBundle('images/pw.jpg');
   ''');
     final TextEditingController _subjectController =
       TextEditingController(text: 'the Subject');
-doc.addPage(pw.Page(
+doc.addPage(pw.Page(margin:pw.EdgeInsets.all(0) ,
       build: (pw.Context context) {
 
         return  pw.Stack(children: [
@@ -183,7 +189,7 @@ doc.addPage(pw.Page(
 
        pw.   SizedBox(width: double.infinity),
        pw.Container(width: double.infinity,height: double.infinity,
-          child: pw.Image(image, fit: pw.BoxFit.cover),
+          child: pw.Image(image, fit: pw.BoxFit.contain),
         ),
        pw.Column(children: [
         pw.Spacer(),
