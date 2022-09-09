@@ -1,32 +1,28 @@
 import 'dart:io';
 // ignore_for_file: file_names
 
-import 'dart:async';
-import 'dart:io';
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:randolina/Controller/eventController.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
-import 'package:randolina/View/Widgets/time.dart';
 import '../../../../../Controller/controllerStor.dart';
 import '../../../../../const.dart';
 import '../../../Registre/widgets.dart';
- String detailsProduct="",nameproduct="",price=""  ,distance="", nombresplaces="";
-  String datedubte="" , datefine="";
+
  late DateTime datedubteiventt;
-class AddStore extends StatefulWidget {
+class EditeStore extends StatefulWidget {
   final _controller= Get.put(ControllerStor());
-    AddStore({Key? key}) : super(key: key);
+   final String detailsProduct,nameproduct,price ;
+  final id ;
+    EditeStore({Key? key,required this.id, required this.detailsProduct, required this.nameproduct, required this.price}) : super(key: key);
   @override
-  State<AddStore> createState() => _AddStoreState();
+  State<EditeStore> createState() => _EditeStoreState();
 }
-class _AddStoreState extends State<AddStore> {
+class _EditeStoreState extends State<EditeStore> {
+ 
   _getimage()async{
              //  get image
 final imagePicker=await ImagePicker().pickImage(source: ImageSource .gallery);
@@ -44,47 +40,39 @@ if (imagePicker!=null) {
             lockAspectRatio: false),
       ],
     );
-  _pickedImage =File(croppedFile!.path) ;
  setState(() {
- imageproduct=_pickedImage;
  imagepath=imagePicker.path;
  });
 }
   }
+  var nameproduct;
+  var detailsProduct;
+  var price;
 // ignore: prefer_typing_uninitialized_variables
-var _pickedImage;
-File? get profilePhoto =>  _pickedImage.value;
-var imageproduct;
 late String imagepath;
 final _formKey = GlobalKey<FormState>();
 @override
+  void initState() {
+ nameproduct= widget.nameproduct;
+ detailsProduct= widget.detailsProduct;
+ price= widget.price;
+    super.initState();
+  }
+@override
   void dispose() {
-   imageproduct=null;
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
   return Scaffold(
   //APP BAR 
-appBar  : appBardALL(context, "Add Product"),
+appBar  : appBardALL(context, "Edite"),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
         children: [
          const SizedBox(height: 40,),
-         const  Center(child: Text("principal picture of Product" ,
-          style: TextStyle(color: Colors.black54,fontSize: 20, fontWeight: FontWeight.bold),)),
-          // add image profile ivent 
-          addimage(functon: _getimage),
-          // image view
-          imageproduct==null? Container():  Container(height: 200,
-             width: double.infinity,
-               child:   Image.file(
-                    imageproduct,fit: BoxFit.contain,)
-             ),
-        //   DETAILS OF IVENTS
-         const SizedBox(height: 20,),
-         suptitle(title: 'Name of product :'),
+         suptitle(title: 'Name of product :\n $nameproduct'),
          const SizedBox(height: 20,),
          Form(
              key: _formKey,
@@ -95,12 +83,12 @@ appBar  : appBardALL(context, "Add Product"),
                   nameproduct=val;
                 });})  ,
                const SizedBox(height: 20,),
-               suptitle(title: 'Price :'),
-               textchos(   typekybord: TextInputType.number,title: "club (13000Da max)", function: (val){setState(() {
+               suptitle(title: 'Price :\n $price Da'),
+               textchos(   typekybord: TextInputType.number,title: "2000Da ", function: (val){setState(() {
                   price=val;
                 });})  ,
                const SizedBox(height: 20,),
-               suptitle(title: 'Description :'),
+               suptitle(title: 'Description :\n $detailsProduct'),
                textchos(title: "Text....", linamx: 1000, lin: 5, function: (val){setState(() {
                   detailsProduct=val;
                 });})  ,
@@ -112,38 +100,13 @@ appBar  : appBardALL(context, "Add Product"),
          buttonivnt(function: () async {
           widget._controller.uploadImageindex(true);
         
-          if (imageproduct==null || nameproduct.isEmpty || detailsProduct.isEmpty   || price.isEmpty  ) {
+          if ( nameproduct.isEmpty || detailsProduct.isEmpty   || price.isEmpty  ) {
             Get.snackbar("Form", "Make sure all fields are filled in");
             }else{
-  uploadFile( Filee) async{
-          widget._controller.uploadImageindex(true);
-  var data;
-    var uri = Uri.parse(urlserverfile);
-    var request =  MultipartRequest("POST", uri);
-    var multipartFile = await http. MultipartFile.fromPath("files", Filee);
-    request.files.add(multipartFile);
-    StreamedResponse response = await request.send();
-  response.stream.transform(utf8.decoder).listen((value) {
-               widget.  _controller.uploadImage(
-               
-             nameproduct: nameproduct, details:detailsProduct, price: price, Imageurl: value,   );
-         widget._controller.uploadImageindex(false);
-Navigator.pop(context);
-
-    });
- 
-
-    if(response.statusCode==200){
-      print("Video uploaded");
-    }else{
-      print("Video upload failed");
-
-      return data;
-
-    }
-  }
-            
-         var c=await uploadFile( imagepath);   
+               widget.  _controller.idetstor(details: detailsProduct, idstor:  widget.id , name: nameproduct , price:price);
+          widget._controller.uploadImageindex(false);
+          Navigator.pop(context);
+          
   }
          }) , 
           ],),

@@ -63,7 +63,8 @@ var _uid= firebaseAuth.currentUser!.uid;
       controller = VideoPlayerController.file(file);
       controller!.initialize().then((value) {
         setState(() {
-        controller!.play();
+       widget. numvidoe==0?controller!.pause():
+          controller!.play();
        controller!.setLooping(true);
         });
       });
@@ -243,10 +244,10 @@ onDoubleTap: _jamclick,
                     width: MediaQuery.of(context).size.width,
                     height: double.infinity,
                     child:(controller == null)
-        ? const Text('wait..')
+        ? Center(child: spinkit)
         : ((controller.value.isInitialized)
             ? VideoPlayer(controller, )
-            : const Text('Loading...')),
+            :Center(child: spinkit)),
                   ),
       );
     }

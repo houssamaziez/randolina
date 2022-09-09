@@ -158,6 +158,15 @@ try {
 
 
 
+idetstor({idstor, name, details, price})async{
+  await firestor.collection("Store").doc(idstor ).update({
+
+    "name":name,
+    "price":price,
+    "details":details,
+  }).then((value) =>  Get.back());
+
+}
 
 
 
@@ -165,117 +174,5 @@ try {
 
 
 
-
-
-  
-// ignore: prefer_typing_uninitialized_variables
-var edittext;
-editivent( {
- required idivnt,
-  required 
-details, required destination, required price, required distance,required nombresplaces,
-
-
-} )async{
-
-try {
-  edittext= true;
-  update();
  
-  await firestor.collection("Ivent").doc(idivnt ).update(
-    {
-"price":price,
-"distance":distance,
-"nombresplaces":nombresplaces,
-"destination":destination,
-"details":details,
-    }
-  ).then((value) {
-    Get.back();
-    Get.back();
-  });
-   edittext= false;
-  update();
-} catch (e) {
-    edittext= false;
-  update();
-  Get.snackbar("error", e.toString());
-  Get.back();
-
-}
-  }
-
-
-// ignore: prefer_typing_uninitialized_variables
-var editdate;
-   
-editiventdateindex(vale){
-editdate=vale;
-update();
-}
-editiventdate( {
- required idivnt,
-  required 
-details, required destination, required price, datedubteivent  ,required distance,required nombresplaces,required datedubte,required datefine
-
-
-} )async{
-
-try {
- 
-  await firestor.collection("Ivent").doc(idivnt ).update(
-    {
-"datedubte":datedubte,
-"datefine":datefine,
-"time":datedubteivent,
-    }
-  ).then((value) {
-   
-  });
-  Get.back();
-
-} catch (e) {
-    editdate= false;
-  update();
-  Get.snackbar("error", e.toString());
-  Get.back();
-
-}
-  }
-
-
-
-
-confermpart(uid, idpost)async{
-
-try {
-  await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(uid).update({
-
-"conferm":true
-  }).then((value) => Get.snackbar("conferm", "done"));
-  await  firestor.collection("Ivent").doc(idpost).update({"confermnum":FieldValue.arrayUnion([uid])});
-
-}
-
-
- catch (e) {
-  // ignore: avoid_print
-  print(e);
-}
-}
-deletpart(uid, idpost)async{
-
-try {
-  await  firestor.collection("Ivent").doc(idpost).collection("participate").doc(uid).update({
-
-"conferm":false
-  }).then((value) => Get.snackbar("conferm", "delete"));
-  await  firestor.collection("Ivent").doc(idpost).update({"confermnum":FieldValue.arrayRemove([uid])});
-
-} catch (e) {
-  // ignore: avoid_print
-  print(e);
-}
-}
-
 }

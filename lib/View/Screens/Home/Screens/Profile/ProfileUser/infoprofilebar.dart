@@ -65,18 +65,19 @@ Padding photoProfile(List<QueryDocumentSnapshot<Object?>> items,id , context) {
   
 
   return Padding(
-                          padding: const EdgeInsets.only(top: 25, left: 10),
+                          padding: const EdgeInsets.only(top: 2, left: 10),
                           child: Row(
                             children:  [
                               SizedBox(width: 10,),
-                             SizedBox(height: 90,width: 90,
-                               child: ClipRRect(
-                                borderRadius: const BorderRadius.all(Radius.circular(1000)),
-                                child: Container(
+                             Padding( padding: const EdgeInsets.only(top:20, left: 8),
+                               child: SizedBox(height: 90,width: 90,
+                                 child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(Radius.circular(1000)),
+                                  child: Container(
                
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Container(decoration: BoxDecoration(boxShadow: [
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Container(decoration: BoxDecoration(boxShadow: [
     BoxShadow(
       color: Colors.grey.withOpacity(0.8),
       spreadRadius:4,
@@ -84,21 +85,22 @@ Padding photoProfile(List<QueryDocumentSnapshot<Object?>> items,id , context) {
       offset: Offset(0, 5), // changes position of shadow
     ),
   ],),
-                                      child: ClipRRect(
-                                borderRadius: const BorderRadius.all(Radius.circular(1000)),
+                                        child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(Radius.circular(1000)),
 
-                                        child: CachedNetworkImage(width: double.infinity,
-                                                                                fit: BoxFit.cover,
-                                                                                imageUrl:items[0]["photoProfil"].toString(),
-                                                                                placeholder: (context, url) => spinkit,
-                                                                                errorWidget: (context, url, error) =>
-                                                                                    const Icon(Icons.error),
-                                                                              ),
+                                          child: CachedNetworkImage(width: double.infinity,
+                                                                                  fit: BoxFit.cover,
+                                                                                  imageUrl:items[0]["photoProfil"].toString(),
+                                                                                  placeholder: (context, url) => spinkit,
+                                                                                  errorWidget: (context, url, error) =>
+                                                                                      const Icon(Icons.error),
+                                                                                ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                                           ),
+                                                             ),
+                               ),
                              ),
     Column(crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,

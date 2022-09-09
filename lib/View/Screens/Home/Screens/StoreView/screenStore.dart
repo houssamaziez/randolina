@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:randolina/Controller/storController.dart';
 import 'package:randolina/View/Screens/Home/Screens/StoreView/addStore.dart';
 import 'package:randolina/View/Screens/Home/Screens/StoreView/appBar.dart';
+import 'package:randolina/View/Screens/Home/Screens/StoreView/editeStore.dart';
 import 'package:randolina/View/Screens/Home/Screens/StoreView/profileStore.dart';
 
 import '../../../../../Controller/controllerUser.dart';
@@ -29,12 +30,11 @@ class _ScreenStore1State extends State<ScreenStore1> {
   int initial = 1;
   bool isPayment = false;
   int initialValue = 0;
-  late int posistion=-1;
   late final CustomSegmentedController<SegmentType> controller;
   StoreController controllerstor= Get.put(StoreController());
-  @override
+   @override
   void dispose() {
-posistion=-1;
+    // TODO: implement dispose
     super.dispose();
   }
    @override
@@ -58,90 +58,101 @@ posistion=-1;
     
     return Scaffold(backgroundColor: Colors.white,
       appBar:AppbarStorehome(),
-       body: RefreshIndicator(onRefresh: ()async{
-            
-           return Future.delayed(Duration(seconds: 1), (){
-             setState(() {
-              
-            });
-           });
-           },
-             child: ListView(
-            children: [
-             GetBuilder<UserController>(
-        init: UserController(),
-      builder: (context) {
-                  return Container(child:   context.typeUser=="Store"? Padding(
- padding: const EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
- child: InkWell(onTap: (){
-  Get.to(AddStore());
- },
-   child: Container(
-   decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius:const BorderRadius.only(
-          topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10)
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: const Offset(0, 3), // changes position of shadow
-          ),
- 
-        ],
- ),
-        height: 40, 
-   width: double.infinity,
- child: Row(
-        children:const[ Spacer(),
-           Text("Add"),
-           Icon(Icons.add), Spacer(),
-        ],
- ),
-   ),
- ),
- )
-:Container(),);
-                }
-              ),
-            const SizedBox(height: 20),
-            // All events && My events
-              chosen(),
-             GetBuilder<UserController>(
-          init: UserController(),
-           builder: (context) {
-                  return context.typeUser=="Store"?list[initial]:listAll[initial];
-                }
-              ),
- 
-          ],
-          ),
-       ),);
+       body: _body(list, listAll),);
   
   
          }
 
+  RefreshIndicator _body(List<StreamBuilder<QuerySnapshot<Map<String, dynamic>>>> list, List<StreamBuilder<QuerySnapshot<Map<String, dynamic>>>> listAll) {
+    return RefreshIndicator(onRefresh: ()async{
+          
+         return Future.delayed(Duration(seconds: 1), (){
+           setState(() {
+            
+          });
+         });
+         },
+           child: listproduct(list, listAll),
+     );
+  }
+
+  ListView listproduct(List<StreamBuilder<QuerySnapshot<Map<String, dynamic>>>> list, List<StreamBuilder<QuerySnapshot<Map<String, dynamic>>>> listAll) {
+    return ListView(
+        children: [
+         GetBuilder<UserController>(
+    init: UserController(),
+  builder: (context) {
+              return Container(child:   context.typeUser=="Store"? Padding(
+ padding: const EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
+ child: addPrduct(),
+ )
+:Container(),);
+            }
+          ),
+        const SizedBox(height: 20),
+        // All events && My events
+          chosen(),
+         listprdct(list, listAll),
+ 
+      ],
+      );
+  }
+
+  GetBuilder<UserController> listprdct(List<StreamBuilder<QuerySnapshot<Map<String, dynamic>>>> list, List<StreamBuilder<QuerySnapshot<Map<String, dynamic>>>> listAll) {
+    return GetBuilder<UserController>(
+    init: UserController(),
+     builder: (context) {
+            return context.typeUser=="Store"?list[initial]:listAll[initial];
+          }
+        );
+  }
+
+  InkWell addPrduct() {
+    return InkWell(onTap: (){
+Get.to(AddStore());
+ },
+ child: Container(
+ decoration: BoxDecoration(
+  color: Colors.white,
+  borderRadius:const BorderRadius.only(
+    topLeft: Radius.circular(10),
+      topRight: Radius.circular(10),
+      bottomLeft: Radius.circular(10),
+      bottomRight: Radius.circular(10)
+  ),
+  boxShadow: [
+    BoxShadow(
+      color: Colors.grey.withOpacity(0.3),
+      spreadRadius: 3,
+      blurRadius: 5,
+      offset: const Offset(0, 3), // changes position of shadow
+    ),
+ 
+  ],
+ ),
+  height: 40, 
+ width: double.infinity,
+ child: Row(
+  children:const[ Spacer(),
+     Text("Add"),
+     Icon(Icons.add), Spacer(),
+  ],
+ ),
+ ),
+ );
+  }
   StreamBuilder<QuerySnapshot<Map<String, dynamic>>> liststorecard({
     required isall,required isuser,
   }) {
     var uid= firebaseAuth.currentUser!.uid;
     return StreamBuilder(
-              stream: isall==true? firestor.collection('Store').orderBy("time", ).snapshots():
+              stream: isall==true? firestor.collection('Store').orderBy("time",descending: true ).snapshots():
                 (
                    isuser=="Store"?
                    firestor.collection('Store').where("uid",isEqualTo:uid).orderBy("time", descending: true).snapshots()
                    :
                    firestor.collection("User").doc(uid).collection("requests").orderBy("time", descending: true).snapshots()
-                
                 ),
-              
-              
-               
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 var items = snapshot.data?.docs ?? [];
               
@@ -174,166 +185,182 @@ posistion=-1;
                }
                  );
   }
-  
   InkWell cardStors(list, int index) {
     return InkWell(
     onTap: (){
       Get.to(ProfileProduct(image: list[index]["urlimage"].toString(), tag: index , list: list[index]));
+controllerstor.updt(-1);
+  
     },
     onLongPress: (){
-
 controllerstor.delletpost();
-setState(() {
-posistion=index;
- });
+controllerstor.updt(index);
   },
 
-    child: Stack(
-      children: [
-        Card(
-          child:         Stack(
-            children: [
-              Container(height: double.infinity,width: double.infinity,
-                                    child: ClipRRect(
-                                                borderRadius: const BorderRadius.all(
-                                                  Radius.circular(5),),
-                                                child:Hero(tag: list[index]["urlimage"].toString(),
-                                                  child: CachedNetworkImage(
-                                                    height: double.infinity,
-                                                    width: double.infinity,
-                                                                                  fit: BoxFit.cover,
-                                                                                  imageUrl:list[index]["urlimage"].toString(),
-                                                                                  placeholder: (context, url) => spinkit,
-                                                                                  errorWidget: (context, url, error) =>
-                                                                                      const Icon(Icons.error),
-                                                                                ),
-                                                ),
-                ),),
+    child: GetBuilder<StoreController>(init: StoreController(),
+      builder: (conte) {
+    return 
+      Stack(
+          children: [
+            Card(
+              child:         Stack(
+                children: [
+                  Container(height: double.infinity,width: double.infinity,
+                                        child: ClipRRect(
+                                                    borderRadius: const BorderRadius.all(
+                                                      Radius.circular(5),),
+                                                    child:Hero(tag: list[index]["urlimage"].toString(),
+                                                      child: CachedNetworkImage(
+                                                        height: double.infinity,
+                                                        width: double.infinity,
+                                                                                      fit: BoxFit.cover,
+                                                                                      imageUrl:list[index]["urlimage"].toString(),
+                                                                                      placeholder: (context, url) => spinkit,
+                                                                                      errorWidget: (context, url, error) =>
+                                                                                          const Icon(Icons.error),
+                                                                                    ),
+                                                    ),
+                    ),),
 Padding(
   padding: const EdgeInsets.all(8.0),
   child: Row(
-    children: [
-      CircleAvatar(radius: 25,
-        backgroundColor: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: SizedBox(height: 50,width: 50,
-          
-                     child:  ClipRRect(
-          
-                                                          borderRadius: const BorderRadius.all(
-          
-                                                            Radius.circular(1000),),
-          
-                                                          child:Hero(tag: index.toString(),
-          
-                                                            child: CachedNetworkImage(
-          
-                                                              height: double.infinity,
-          
-                                                              width: double.infinity,
-          
-                                                                                            fit: BoxFit.cover,
-          
-                                                                                            imageUrl:list[index]["urlimage"].toString(),
-          
-                                                                                            placeholder: (context, url) => spinkit,
-          
-                                                                                            errorWidget: (context, url, error) =>
-          
-                                                                                                const Icon(Icons.error),
-          
-                                                                                          ),
-          
-                                                          ),
-          
-                          ), ),
-        ),
-      ),
+        children: [
+          CircleAvatar(radius: 25,
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: SizedBox(height: 50,width: 50,
+              
+                         child:  ClipRRect(
+              
+                                                              borderRadius: const BorderRadius.all(
+              
+                                                                Radius.circular(1000),),
+              
+                                                              child:Hero(tag: index.toString(),
+              
+                                                                child: CachedNetworkImage(
+              
+                                                                  height: double.infinity,
+              
+                                                                  width: double.infinity,
+              
+                                                                                                fit: BoxFit.cover,
+              
+                                                                                                imageUrl:list[index]["urlimage"].toString(),
+              
+                                                                                                placeholder: (context, url) => spinkit,
+              
+                                                                                                errorWidget: (context, url, error) =>
+              
+                                                                                                    const Icon(Icons.error),
+              
+                                                                                              ),
+              
+                                                              ),
+              
+                              ), ),
+            ),
+          ),
   SizedBox(width: 8,),
   
-    Container(child:Stack(
+        Container(child:Stack(
   children: <Widget>[
-    // Stroked text as border.
-    Text(
-      list[index]["username"].toString(),
-      style: TextStyle(
-        fontSize: 16,
-        foreground: Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 6
-          ..color = Color.fromARGB(255, 0, 0, 0),
-      ),
-    ),
-    // Solid text as fill.
-    Text(
-      list[index]["username"].toString(),
-      style: TextStyle(
-        fontSize: 16,
-        color: Color.fromARGB(255, 255, 255, 255),
-      ),
-    ),
+        // Stroked text as border.
+        Text(
+          list[index]["username"].toString(),
+          style: TextStyle(
+            fontSize: 16,
+            foreground: Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 6
+              ..color = Color.fromARGB(255, 0, 0, 0),
+          ),
+        ),
+        // Solid text as fill.
+        Text(
+          list[index]["username"].toString(),
+          style: TextStyle(
+            fontSize: 16,
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
+        ),
   ],
 )
-                     
-                     
-                       ),
-               
+                         
+                         
+                           ),
+                   
    ],
   ),
 ), 
-            Align(alignment: Alignment.bottomCenter,
-              child: Container(width: double.infinity,
-                    height: 50,
-                    color: Colors.white.withOpacity(0.5),
-                    child: Center(child: Text("${list[index]["price"]} DA",
-                     style:const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-              color: Colors.black),),),),
-            ) ],
-          ),
+ Align(alignment: Alignment.bottomCenter,
+                  child: Container(width: double.infinity,
+                        height: 50,
+                        color: Colors.white.withOpacity(0.5),
+                        child: Center(child: Text("${list[index]["price"]} DA",
+                         style:const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  color: Colors.black),),),),
+                ) ],
+              ),
    ),
-     posistion==index?Padding(
-       padding: const EdgeInsets.all(5.0),
-       child: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Colors.grey.withOpacity(0.7),
-        child: Center(child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-           const Spacer(),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, ),
-            child: Container(
-              width: double.infinity,height: 40,
-              decoration: BoxDecoration(color: Colors.red.withOpacity(0.8),
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
-            child: const Center(child:
-             Text('Delete',
-             style: TextStyle(fontWeight: FontWeight.bold),)),
-            ),
-          ),
- Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20,top: 20 ),
-            child: Container(
-              width: double.infinity,height: 40,
-              decoration: BoxDecoration(color: Colors.green.withOpacity(0.8),
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
-            child:const Center(child:
-             Text('Edit',
-             style: TextStyle(fontWeight: FontWeight.bold),)),
-            ),
-          ),
-          const  Spacer(),
-
+     edite(conte, index, list)
           ],
-        ),)),
-     ):Container()
-      ],
+        );
+      }
     ),
   );
+  }
+
+  Widget edite(StoreController conte, int index, list) {
+    return conte.posistion == index && list[index]["uid"]==firebaseAuth.currentUser!.uid?Padding(
+         padding: const EdgeInsets.all(5.0),
+         child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          color: Colors.grey.withOpacity(0.7),
+          child: Center(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+             const Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, ),
+              child: InkWell(onTap: (){
+
+                controllerstor.deleteproduct( list[index]["id"], context);
+            },
+                child: Container(
+                  width: double.infinity,height: 40,
+                  decoration: BoxDecoration(color: Colors.red.withOpacity(0.8),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                child: const Center(child:
+                 Text('Delete',
+                 style: TextStyle(fontWeight: FontWeight.bold),)),
+                ),
+              ),
+            ),
+           Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20,top: 20 ),
+              child: InkWell(onTap: (){
+                Get.to(EditeStore(id: list[index]["id"], detailsProduct: list[index]["details"], nameproduct:list[index]["name"] ,price: list[index]["price"],));
+              },
+                child: Container(
+                  width: double.infinity,height: 40,
+                  decoration: BoxDecoration(color: Colors.green.withOpacity(0.8),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                child:const Center(child:
+                 Text('Edit',
+                 style: TextStyle(fontWeight: FontWeight.bold),)),
+                ),
+              ),
+            ),
+            const  Spacer(),
+
+            ],
+          ),)),
+       ):Container();
   }
 
 
@@ -378,7 +405,7 @@ Padding(
                   onValueChanged: (v) {
                     setState(() {
                       initial = v;
-                      posistion=-1;
+                      controllerstor.updt(-1);
                     });
                   },
                 );
@@ -389,100 +416,4 @@ Padding(
 }
 
 
-
- var listdata = [
-  {
-"image":'https://media-cdn.tripadvisor.com/media/photo-s/15/03/79/e3/otto-s-anatolian-food.jpg',
-"title":"Restaurant",
-"price":1500,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- },
-  {
-"image":'https://www.thaqfny.com/wp-content/uploads/2021/09/%D8%A8%D9%8A%D8%AA%D8%B2%D8%A7.gif',
-"title":"Restaurant",
-"price":2000,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- }, {
-"image":'https://www.ennaharonline.com/wp-content/uploads/2021/09/5-49.jpg',
-"title":"Restaurant",
-"price":1800,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- },
- {
-"image":'https://s.hdnux.com/photos/01/17/50/04/20873528/3/rawImage.jpg',
-"title":"Restaurant",
-"price":3000,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- },
- ];
-
  
- var listAll = [
-   {
-"image":'https://www.la-vie-naturelle.com/media/magefan_blog/junk-food.jpg',
-"title":"Restaurant",
-"price":4000,
-"imageprofile":'https://image.shutterstock.com/image-vector/restaurant-logo-creative-260nw-272549726.jpg'
- }, {
-"image":'https://media-cdn.tripadvisor.com/media/photo-s/1c/b8/78/d5/kabobi-persian-and-mediterrane.jpg',
-"title":"Restaurant",
-"price":1500,
-"imageprofile":'https://image.shutterstock.com/image-vector/restaurant-logo-creative-260nw-272549726.jpg'
- }, 
-  {
-"image":'https://www.thaqfny.com/wp-content/uploads/2021/09/%D8%A8%D9%8A%D8%AA%D8%B2%D8%A7.gif',
-"title":"Restaurant",
-"price":2000,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- }, {
-"image":'https://www.ennaharonline.com/wp-content/uploads/2021/09/5-49.jpg',
-"title":"Restaurant",
-"price":1800,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- },
- {
-"image":'https://download.vikidia.org/vikidia/fr/images/a/a4/Pizza.jpg',
-"title":"Restaurant",
-"price":2800,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- },
-  {
-"image":'https://media-cdn.tripadvisor.com/media/photo-s/15/03/79/e3/otto-s-anatolian-food.jpg',
-"title":"Restaurant",
-"price":1500,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- },
- {
-"image":'https://s.hdnux.com/photos/01/17/50/04/20873528/3/rawImage.jpg',
-"title":"Restaurant",
-"price":3000,
-"imageprofile":'https://image.shutterstock.com/image-vector/restaurant-logo-creative-260nw-272549726.jpg'
- },
- {
-"image":'https://download.vikidia.org/vikidia/fr/images/a/a4/Pizza.jpg',
-"title":"Restaurant",
-"price":1000,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- },
-  {
-"image":'https://media-cdn.tripadvisor.com/media/photo-s/15/03/79/e3/otto-s-anatolian-food.jpg',
-"title":"Restaurant",
-"price":1500,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- }, {
-"image":'https://www.la-vie-naturelle.com/media/magefan_blog/junk-food.jpg',
-"title":"Restaurant",
-"price":4000,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- }, {
-"image":'https://media-cdn.tripadvisor.com/media/photo-s/1c/b8/78/d5/kabobi-persian-and-mediterrane.jpg',
-"title":"Restaurant",
-"price":1500,
-"imageprofile":'https://image.shutterstock.com/image-vector/restaurant-logo-creative-260nw-272549726.jpg'
- }, {
-"image":'https://download.vikidia.org/vikidia/fr/images/a/a4/Pizza.jpg',
-"title":"Restaurant",
-"price":2800,
-"imageprofile":'https://filehandler.revlocal.com/424926'
- },
- ];
