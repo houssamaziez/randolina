@@ -73,6 +73,8 @@ if (snapshot.connectionState == ConnectionState.waiting) {
         } else if (snapshot.hasData) {
           return        Expanded(
             child: PageView.builder(
+              key: const PageStorageKey<String>("pageTwo"),
+
                  scrollDirection: Axis.vertical, 
 onPageChanged: (int positione) {
   
