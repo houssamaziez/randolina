@@ -3,11 +3,16 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randolina/View/Screens/Home/Screens/messages/screenchat.dart';
 import 'package:randolina/const.dart';
 
+import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
+
 class ProfileProduct extends StatelessWidget {
-  const ProfileProduct({Key? key,required this.image,required this.tag,required this.list}) : super(key: key);
-final image, tag, list;
+  const ProfileProduct({Key? key,required this.image,
+  required this.tag,required this.list,required this.iduser,
+  required this.username,required this.imageprofile}) : super(key: key);
+final image, tag, list, iduser, username, imageprofile;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,28 +114,48 @@ const Padding(
 ),
   Padding(
  padding:  EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
- child: Container(
- decoration: BoxDecoration(
-  color: Colors.blue,
-  borderRadius: BorderRadius.only(
-    topLeft: Radius.circular(10),
-      topRight: Radius.circular(10),
-      bottomLeft: Radius.circular(10),
-      bottomRight: Radius.circular(10)
-  ),
-  boxShadow: [
-    BoxShadow(
-      color: Colors.blue.withOpacity(0.3),
-      spreadRadius: 3,
-      blurRadius: 5,
-      offset: Offset(0, 3), // changes position of shadow
-    ),
-
-  ],
-),
-child:   Center(child: Text("Buy Now",style: TextStyle(fontSize: 20,color: Colors.white, fontWeight: FontWeight.bold),),),
-  height: 50, 
- width: double.infinity,
+ child: GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
+    builder: (cont) {
+      return InkWell(onTap: ()async {
+      try {
+  await cont.sendmessageToAll(users: list["uid"], idmsg: "0", msg: "post", isfolew: false);
+   cont.sendmessageToAll(users:list["uid"], msg: [ list["userphoto"], list["username"], list["uid"], list["urlimage"], "tag", list["price"]], idmsg:  cont.rsltdatamesage.length==1?
+                   cont.rsltdatamesage[0]["msgid"].toString():"0");
+           
+     Get.to( ScreenCHat(idclien:  list["uid"].toString() ,name: username,
+             idmsg:   cont.rsltdatamesage.length==1?
+                   cont.rsltdatamesage[0]["msgid"].toString():"0", imageprofile: imageprofile,)
+         );
+    //  await cont.virffollow(id);
+} on Exception catch (e) {
+  // TODO
+}
+   
+   },
+     child: Container(
+     decoration: BoxDecoration(
+      color: Colors.blue,
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10)
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.blue.withOpacity(0.3),
+          spreadRadius: 3,
+          blurRadius: 5,
+          offset: Offset(0, 3), // changes position of shadow
+        ),
+   
+      ],
+   ),
+   child:   Center(child: Text("Order now",style: TextStyle(fontSize: 20,color: Colors.white, fontWeight: FontWeight.bold),),),
+      height: 50, 
+     width: double.infinity,
+     ),
+   );}
  ),
  )
 ,     ],),

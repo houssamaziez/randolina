@@ -196,7 +196,7 @@ height: 60,
  );
   }
 
-  AppBar appBardALL(BuildContext context, title) {
+  AppBar appBardALL(BuildContext context, title,{ function}) {
     return AppBar(backgroundColor: Colors.white,
       title: Text(title, style: TextStyle(color: Colors.grey),),
       centerTitle: true,

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:randolina/View/Screens/Home/Home.dart';
 import 'package:randolina/View/Screens/Home/Screens/Events/widget.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/screenchat.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/widget/cardmessage.dart';
 import 'package:randolina/View/Widgets/search.dart';
 import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../const.dart';
+import '../Reels/screenHome1.dart';
 
 class ScreenAllMessage extends StatefulWidget {
    const ScreenAllMessage({Key? key}) : super(key: key);
@@ -37,16 +39,28 @@ var controllerMessanger= Get.put(ControllerMessanger());
   @override
   Widget build(BuildContext context) {
  
-    return Scaffold(
-floatingActionButton: FloatingActionButton(
-  backgroundColor: color1,
-  onPressed: (){
-Get.to(ScreenSearch(docs: "User",tablename: "name",));
-  }, child: const Icon(Icons.search),),
-      appBar: appBardALL(context, "Messages"),
-       body:
-       
-       bodymsges() );
+    return  Scaffold(
+    floatingActionButton: FloatingActionButton(
+      backgroundColor: color1,
+      onPressed: (){
+    Get.to(ScreenSearch(docs: "User",tablename: "name",));
+      }, child: const Icon(Icons.search),),
+    appBar: AppBar(backgroundColor: Colors.white,
+    title: Text("Messages", style: TextStyle(color: Colors.grey),),
+    centerTitle: true,
+    leading: IconButton(onPressed: (){
+        controllerpageview.animateToPage(0, duration: Duration(milliseconds:300), curve: Curves.easeInOut);
+       }, icon: Icon(Icons.arrow_back, color: Colors.black,)),
+    shape: shape,),
+    
+     body:   WillPopScope(
+        onWillPop: ()async { 
+                                  await    controllerpageview.animateToPage(0, duration: Duration(milliseconds:300), curve: Curves.easeInOut);
+Get.offAll(ScreenHome());
+           return true;
+           
+        },
+        child: bodymsges()) );
   }
   FutureBuilder<dynamic> cardmsge(List<dynamic> j , msg, time, msgid) {
       var dateFormat = DateFormat.jm();

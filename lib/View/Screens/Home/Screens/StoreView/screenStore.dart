@@ -188,7 +188,11 @@ Get.to(AddStore());
   InkWell cardStors(list, int index) {
     return InkWell(
     onTap: (){
-      Get.to(ProfileProduct(image: list[index]["urlimage"].toString(), tag: index , list: list[index]));
+      Get.to(ProfileProduct(
+        imageprofile: list[index]["userphoto"].toString(),
+        username:list[index]["username"].toString(),
+        iduser: list[index]["uid"].toString(),
+        image: list[index]["urlimage"].toString(), tag: index , list: list[index]),);
 controllerstor.updt(-1);
   
     },

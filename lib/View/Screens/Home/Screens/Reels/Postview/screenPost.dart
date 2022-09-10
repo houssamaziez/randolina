@@ -12,6 +12,7 @@ import '../../../../../../Controller/videocotroller.dart';
 import '../../../../../../const.dart';
 import '../../../../../Widgets/search.dart';
 import '../menu.dart';
+import '../screenHome1.dart';
 
 class ScreenPost extends StatelessWidget {
   var cotrollervideo= Get.put(VideoController());
@@ -110,7 +111,8 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
                         
                         
                         IconButton(onPressed: (){
-                                      Get.to(ScreenAllMessage());
+                                                                controllerpageview.animateToPage(1, duration: Duration(milliseconds:300), curve: Curves.easeIn);
+
 
                         }, icon:Image.asset("images/bubble-chat.png")),
 

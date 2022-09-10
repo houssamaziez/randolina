@@ -234,9 +234,6 @@ Navigator.pop(context);
            ),
          ) 
               , 
-               
-               
-               
                 iconback(context,widget.id,widget.imageprofile,widget.name,),  
                   Padding(
             padding: const EdgeInsets.only(top:20),

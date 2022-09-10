@@ -1,9 +1,12 @@
- import 'package:cloud_firestore/cloud_firestore.dart';
+ import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
+import '../../../../../../Controller/storController.dart';
 import '../../../../../../const.dart';
+import '../../StoreView/profileStore.dart';
 
 GetBuilder<ControllerMessanger> listmessages(idm,idmsg) {
     return GetBuilder<ControllerMessanger>(
@@ -36,7 +39,9 @@ GetBuilder<ControllerMessanger> listmessages(idm,idmsg) {
                   color: (items[index]["uid"]  != firebaseAuth.currentUser!.uid?Colors.grey.shade200:Colors.blue[200]),
                 ),
                 padding: const EdgeInsets.all(16),
-                child: Text(items[index]["message"], style: const TextStyle(fontSize: 15),),
+                child:items[index]["message"]is List?_post(price:items[index]["message"][5], tag:index.toString(),
+                uid: items[index]["message"][2],username: items[index]["message"][1], urlimage: items[index]["message"][3], userphoto: items[index]["message"][0]
+                 ): Text(items[index]["message"], style: const TextStyle(fontSize: 15),),
       ),
     ),
   );
@@ -47,3 +52,61 @@ GetBuilder<ControllerMessanger> listmessages(idm,idmsg) {
           }
         );
   }
+
+  _post({userphoto,username, uid,urlimage, tag, price}) {
+  return InkWell(
+    onTap: (){
+     
+ 
+  
+    },
+    onLongPress: (){
+ 
+  },
+
+    child: GetBuilder<StoreController>(init: StoreController(),
+      builder: (conte) {
+    return 
+      Stack(
+          children: [
+            Container(width: 150,height: 200,
+              child: Card(
+                child:         Stack(
+                  children: [
+                    Container(height: double.infinity,width: double.infinity,
+                                          child: ClipRRect(
+                                                      borderRadius: const BorderRadius.all(
+                                                        Radius.circular(5),),
+                                                      child:Hero(tag: urlimage.toString(),
+                                                        child: CachedNetworkImage(
+                                                          height: double.infinity,
+                                                          width: double.infinity,
+                                                                                        fit: BoxFit.cover,
+                                                                                        imageUrl: urlimage.toString(),
+                                                                                        placeholder: (context, url) => spinkit,
+                                                                                        errorWidget: (context, url, error) =>
+                                                                                            const Icon(Icons.error),
+                                                                                      ),
+                                                      ),
+                      ),),
+             
+             Align(alignment: Alignment.bottomCenter,
+                    child: Container(width: double.infinity,
+                          height: 50,
+                          color: Colors.white.withOpacity(0.5),
+                          child: Center(child: Text("${price} DA",
+                           style:const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                    color: Colors.black),),),),
+                  ) ],
+                ),
+               ),
+            ),
+          ],
+        );
+      }
+    ),
+  );
+  ;
+}

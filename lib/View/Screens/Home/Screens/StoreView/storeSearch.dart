@@ -95,7 +95,12 @@ if (snapshot.connectionState == ConnectionState.waiting) {
   InkWell _card( items, index) {
     return InkWell(
   onTap: (){
-    Get.to(ProfileProduct(image: items[index]["urlimage"].toString(), tag: items , list: items[index]));
+    Get.to(ProfileProduct(
+          imageprofile: items[index]["userphoto"].toString(),
+        username:items[index]["username"].toString(),
+            iduser: items[index]["uid"].toString(),
+
+      image: items[index]["urlimage"].toString(), tag: items , list: items[index]));
   },
   onLongPress: (){
 

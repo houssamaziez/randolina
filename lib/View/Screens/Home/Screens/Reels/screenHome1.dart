@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import 'package:randolina/Controller/videocotroller.dart';
 import 'package:randolina/View/Screens/Home/Screens/Reels/Postview/screenPost.dart';
 import 'package:randolina/View/Screens/Home/Screens/Reels/VideoView/screenVideo.dart';
+import 'package:randolina/View/Screens/Home/Screens/messages/screenAllMessage.dart';
 import 'package:randolina/const.dart';
 
 import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 
+PageController controllerpageview=PageController(initialPage: 0);
 class ScreenReels extends StatefulWidget {
   const ScreenReels({Key? key}) : super(key: key);
   @override
@@ -16,42 +18,53 @@ class ScreenReels extends StatefulWidget {
 }
 
 class _ScreenReelsState extends State<ScreenReels> {
-
    screenHomewidget(context) {
     // var controllervo= Get.put(ReelsController());
-
+var _list= [reels(context), ScreenAllMessage()];
+ 
   PageController controller = PageController();
   return Scaffold(backgroundColor: Colors.black,
-      body:RefreshIndicator(onRefresh: ()async{
-            
-           return Future.delayed(Duration(seconds: 1), (){
-setState(() {
-            });
-           });
-           },
-             child:  SizedBox(height: heightphon(context)+20,
-        width: widthphon(context),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-           GetBuilder<VideoController>(
-         init: VideoController(),
-                      builder: (controllers) {
-               return controllers.isvscrenvideoddd==true?
-                          listreels(stream: firestor.collection('Post').orderBy("time", descending: true,  ),
-                       count: "photos"  ):listreels(stream: firestor.collection('Videos'),
-                       count: "video"  );
-                  
-            
-           })
-          ],
-          ),
-        ),
+      body:PageView.builder(
+        
+        controller: controllerpageview,
+         scrollDirection: Axis.horizontal,itemCount: 2,
+        itemBuilder: (context , idext) {
+          return _list[idext];
+        }
       ),
     );
     
     
 }
+
+   RefreshIndicator reels(BuildContext context) {
+     return RefreshIndicator(onRefresh: ()async{
+              
+             return Future.delayed(Duration(seconds: 1), (){
+setState(() {
+              });
+             });
+             },
+               child:  SizedBox(height: heightphon(context)+20,
+          width: widthphon(context),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+             GetBuilder<VideoController>(
+           init: VideoController(),
+                        builder: (controllers) {
+                 return controllers.isvscrenvideoddd==true?
+                            listreels(stream: firestor.collection('Post').orderBy("time", descending: true,  ),
+                         count: "photos"  ):listreels(stream: firestor.collection('Videos'),
+                         count: "video"  );
+                    
+              
+             })
+            ],
+            ),
+          ),
+        );
+   }
 
    StreamBuilder<QuerySnapshot<Map<String, dynamic>>> listreels({required stream, count}) {
     int position =0;

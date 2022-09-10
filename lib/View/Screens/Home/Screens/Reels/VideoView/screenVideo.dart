@@ -17,6 +17,7 @@ import '../../Profile/profileClien/profileUser.dart';
 import '../../../widgetsHome/screenComent.dart';
 import '../../messages/screenAllMessage.dart';
 import '../Postview/widgetS/appbarvide.dart';
+import '../screenHome1.dart';
 
 class VideoreelsScreen extends StatefulWidget {
 
@@ -53,7 +54,7 @@ var _uid= firebaseAuth.currentUser!.uid;
       controller!.initialize().then((value) {
         cachedForUrl(url);
         setState(() {
-            widget. numvidoe==0?controller!.pause():
+            // widget. numvidoe==0?controller!.pause():
           controller!.play();
        controller!.setLooping(true);
         });
@@ -135,7 +136,7 @@ Get.back();
                       padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
                       child: Row(children: [
                         IconButton(onPressed: (){
-                          Get.to(()=>   ScreenSearch(docs: "User",tablename: "name",));
+                          Get.to(  ScreenSearch(docs: "User",tablename: "name",));
                         }, icon: Icon(Icons.search, size: 30,color: Colors.white,)),
                        const Spacer(),
                         InkWell(onTap: (){
@@ -146,7 +147,7 @@ Get.back();
                         ),
                        const Spacer(),
                         IconButton(onPressed: (){
-                           Get.to(()=> const ScreenAllMessage());
+                              controllerpageview.animateToPage(1, duration: Duration(milliseconds:300), curve: Curves.easeIn);
                         }, icon:
                             Image.asset("images/bubble-chat.png"),
                       ),
@@ -166,7 +167,6 @@ Get.back();
                             children: [
                               IconButton(onPressed: (){
     controllerlikcomnt.likeVideo(idpost:widget. id);
-
                               }, icon:  Icon(Icons.favorite, size: 30,color:widget.likes.contains(_uid.toString())?
                               Colors.red: Colors.white,)),
                                Text( widget. likes.length.toString(), style: TextStyle(color: Colors.white),),
@@ -226,7 +226,6 @@ Get.back();
    
    ],) ,);
   }
-
   screenVideo(context, controller) {
       return InkWell(
 onDoubleTap: _jamclick,
