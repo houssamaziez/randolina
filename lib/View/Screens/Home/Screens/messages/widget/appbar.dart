@@ -19,7 +19,8 @@ var _controllerUser=Get.put(ControllerMessanger());
     leading: IconButton(onPressed: (){
       Navigator.pop(context);
     }, icon: Icon(Icons.arrow_back, color: Colors.black,)),
-    title:InkWell(onTap: () => Get.to(SceenProflileAll(id: idcl, imageprofile: imageprofile, name: name)),
+    title:InkWell(onTap: () => 
+    Get.to(SceenProflileAll(id: idcl, imageprofile: imageprofile, name: name)),
       child: Row(
         children: [
           SizedBox(height: 35,width: 35,

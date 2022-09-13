@@ -195,7 +195,6 @@ Get.to(AddStore());
         iduser: list[index]["uid"].toString(),
         image: list[index]["urlimage"].toString(), tag: index , list: list[index]),);
 controllerstor.updt(-1);
-  
     },
     onLongPress: (){
 controllerstor.delletpost();

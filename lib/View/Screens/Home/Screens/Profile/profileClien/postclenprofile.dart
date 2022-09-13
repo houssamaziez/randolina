@@ -9,6 +9,7 @@ import '../../../../../../const.dart';
 import '../../Reels/Postview/screenPost.dart';
 import '../../Reels/VideoView/screenVideo.dart';
 import '../ProfileUser/iventcard_in_profile.dart';
+import '../widget/listvideo.dart';
 
 ListView postclien(BuildContext context, controllecr, id, postnumber) {
     return ListView(
@@ -121,11 +122,10 @@ postnumber =items.length;
   return Padding(
         padding: const  EdgeInsets.all(2.0),
         child: InkWell(onTap: (){
-
-          Get.to(ScreenPost(
-            isprofile: true,userid: items[index]["uid"],
-            data: items[index] ,
-            time: items[index]["time"], details: items[index]["details"], username: items[index]["username"], photouser: items[index]["photouser"], urlImage:  items[index]["urlImage"], likes: items[index]["likes"], comentr: items[index]["comentr"], uiddd:items[index]["uid"], id: items[index]["id"]));
+ Get.to(ScreenReelsInProfile( 
+      isvideo: false,
+      Stream: firestor.collection('Post').where("uid", isEqualTo: items[index]["uid"]).orderBy("time", descending: true), positionvideo: index,));
+       
         },
           child: Card(color: Colors.blue.shade200,
             child:CachedNetworkImage(
@@ -180,17 +180,8 @@ postnumber =items.length;
   return Padding(
         padding: const  EdgeInsets.all(2.0),
         child: InkWell(onTap: (){
-          Get.to( VideoreelsScreen(isprofile:true ,numvidoe: 2,
-    uidUser: items[index]["uid"],
-                id:items[index]["id"] ,
-                UrlVideo: items[index]["videoUrl"],
-                caption:  items[index]["caption"],
-                comentr: items[index]["comentr"],
-                likes: items[index]["likes"],
-                profilephoto: items[index]["profilephoto"],
-                thumbnial: items[index]["thumbnial"] ,
-                username:  items[index]["username"] ,
-                ));
+            Get.to(ScreenReelsInProfile( Stream:  firestor.collection('Videos').where("uid", isEqualTo:items[index]["uid"]), positionvideo: index,isvideo: true,));
+
         },
           child: Card(color: Colors.blue.shade200,
             child:Stack(
