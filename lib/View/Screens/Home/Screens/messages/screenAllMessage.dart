@@ -30,8 +30,6 @@ var controllerMessanger= Get.put(ControllerMessanger());
           message.write("msg", controllerMessanger.msgevu);
     print("object");
 
-        print(message.read("msg"));
-    print("object");
    
     
     super.initState();
@@ -62,7 +60,7 @@ Get.offAll(ScreenHome());
         },
         child: bodymsges()) );
   }
-  FutureBuilder<dynamic> cardmsge(List<dynamic> j , msg, time, msgid) {
+  FutureBuilder<dynamic> cardmsge(List<dynamic> j , msg, time, msgid, idmsgeuser) {
       var dateFormat = DateFormat.jm();
     print("${j[0]}");
    
@@ -79,10 +77,10 @@ Get.offAll(ScreenHome());
       } else if (snapshot2.hasData) {
         return InkWell(onTap:(){
           controllerMessanger.cleanrsltdatamesage();
-          Get.to(        ScreenCHat(idclien: j[0], idmsg:msgid ,imageprofile: snapshot2.data["photoProfil"].toString(),  name:snapshot2.data["name"].toString() ,)
-              ); 
+
+          Get.to(        ScreenCHat(idclien: j[0], idmsg:msgid ,imageprofile: snapshot2.data["photoProfil"].toString(),  name:snapshot2.data["name"].toString() ,)  ); 
         },
-          child:Cardmessage(controllerMessanger: controllerMessanger,
+          child:Cardmessage(controllerMessanger: controllerMessanger,idmsgeuser: idmsgeuser ,
             snapshot2: snapshot2,msg: msg,dateFormat: dateFormat,time: time),
         );
       } else {
@@ -97,7 +95,9 @@ Get.offAll(ScreenHome());
   }
   FutureBuilder<dynamic> bodymsges( ) {
     
-    return FutureBuilder(future:controllerMessanger.getdata(),
+    return FutureBuilder(
+      initialData:controllerMessanger.getdata() ,
+      future:controllerMessanger.getdata(),
             builder: (context,AsyncSnapshot snapshot ) {
             // GetStorage _message= GetStorage();
           //  _message.write("listmsg", snapshot);
@@ -149,7 +149,7 @@ setState(() {
          
           },
                  child: Card(
-                   child:cardmsge(j , snapshot.data[index]["msg"] , snapshot.data[index]["time"],snapshot.data[index]["msgid"] )
+                   child:cardmsge(j , snapshot.data[index]["msg"] , snapshot.data[index]["time"],snapshot.data[index]["msgid"], snapshot.data[index]["sendidmsg"] )
                  ),
                ),
              ));
@@ -169,17 +169,14 @@ setState(() {
  
 
     errordata() {
- return   Card(
-   
-   child: ListTile(
-     leading: SizedBox(width: 50,height: 50,
-       child: ClipRRect(
-                             borderRadius: const BorderRadius.all(Radius.circular(1000)),
-                             child: Image.asset('images/user.png')
-                           ),
-     ),
-                         title: const Text('loading ...'),
-                         subtitle:const Text("loading ....") ,
+ return   ListTile(
+   leading: SizedBox(width: 50,height: 50,
+     child: ClipRRect(
+                           borderRadius: const BorderRadius.all(Radius.circular(1000)),
+                           child: Image.asset('images/user.png')
+                         ),
    ),
+                       title: const Text('loading ...'),
+                       subtitle:const Text("loading ....") ,
  );
   }

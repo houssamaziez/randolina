@@ -28,12 +28,15 @@ ControllerAth controllerath=ControllerAth.instance;
   return MediaQuery.of(context).size.height*size;
  }
 //  Colors 
-Color color1= Color.fromARGB(255, 32, 78, 115);
-Color color2= Color.fromARGB(255, 3, 74, 132);
-Color color3= Color.fromARGB(255, 0, 0, 0).withOpacity(0.4);
+Color color1= const Color.fromARGB(255, 32, 78, 115);
+Color color2= const Color.fromARGB(255, 3, 74, 132);
+Color color3= const Color.fromARGB(255, 0, 0, 0).withOpacity(0.4);
 
 const spinkit = SpinKitSpinningLines(
   color: Colors.blue,
+  size: 50.0,
+);const spinkitwhite = SpinKitSpinningLines(
+  color: Colors.white,
   size: 50.0,
 );
 const minispinkit = SpinKitSpinningLines(
@@ -61,8 +64,8 @@ class HexColor extends Color {
 var post=firestor.collection('Post').orderBy("time", descending: true);
 
   UserController controllerUser= Get.put(UserController());
-var shape=  RoundedRectangleBorder(
-    borderRadius: const BorderRadius.vertical(
+var shape=  const RoundedRectangleBorder(
+    borderRadius: BorderRadius.vertical(
       bottom: Radius.circular(30),
     ),) ;
 
@@ -71,6 +74,7 @@ var shape=  RoundedRectangleBorder(
 
     launchCaller(String num) async {
     String  url = "tel:$num";   
+    // ignore: deprecated_member_use
     if (await canLaunch(url)) {
        await launchUrl (Uri.parse(url));
     } else {

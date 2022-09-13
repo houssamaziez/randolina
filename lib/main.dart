@@ -8,7 +8,6 @@ import 'package:randolina/Controller/AuthonticationController.dart';
 import 'package:randolina/const.dart';
 import 'View/Screens/screenStart/screenStart.dart';
 void main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();

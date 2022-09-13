@@ -6,13 +6,14 @@ import 'package:get/get.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/screenchat.dart';
 import 'package:randolina/const.dart';
 
-import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
+import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 
-class ProfileProduct extends StatelessWidget {
-  const ProfileProduct({Key? key,required this.image,
-  required this.tag,required this.list,required this.iduser,
-  required this.username,required this.imageprofile}) : super(key: key);
-final image, tag, list, iduser, username, imageprofile;
+
+class MessageProduct extends StatelessWidget {
+  const MessageProduct({Key? key,required this.image,
+  required this.tag,required this.iduser,
+  required this.username,required this.imageprofile,required this.pricee, this.detials}) : super(key: key);
+final image, tag, iduser, username, imageprofile, pricee, detials;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +87,7 @@ Padding(
       Text('Name:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
    Spacer() 
    ,
-    Text(list["name"], style: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.bold),),
+    Text("""list["name"]""", style: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.bold),),
     SizedBox(width: 8,)],
   ),
 ),
@@ -97,7 +98,7 @@ const Padding(
   child:   Text('Option :', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
 ),  Padding(
   padding: EdgeInsets.all(8.0),
-  child:   Text(list["details"], style: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.bold),),
+  child:   Text(detials, style: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.bold),),
 ),
  
   SizedBox(height: 20,),  
@@ -108,70 +109,11 @@ const Padding(
       Text('price:', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
      Spacer() 
    ,
-    Text('${list["price"].toString()} DA', style: TextStyle(fontSize: 25,color: Colors.blue, fontWeight: FontWeight.bold),),],
+    Text(pricee+" DA", style: TextStyle(fontSize: 25,color: Colors.blue, fontWeight: FontWeight.bold),),],
  
   ),
 ),
-  Padding(
- padding:  EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
- child: GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
-    builder: (cont) {
-      return InkWell(onTap: ()async {
-      try {
-cont.waitsendopject(true);
-
-  await cont.sendmessageToAll(users: list["uid"], idmsg: "0", msg: "post", isfolew: false);
-   cont.sendmessageToAll(users:list["uid"], msg:
-       [
-       list["userphoto"], list["username"], list["uid"], list["urlimage"], "tag", list["price"]
-       , list["details"],
-        list["name"],
-        list["id"],
-       ]
-       
-       , idmsg:  cont.rsltdatamesage.length==1?
-                   cont.rsltdatamesage[0]["msgid"].toString():"0");
-     Get.to( ScreenCHat(idclien:  list["uid"].toString() ,name: username,
-             idmsg:   cont.rsltdatamesage.length==1?
-                   cont.rsltdatamesage[0]["msgid"].toString():"0", imageprofile: imageprofile,)
-         );
-cont.waitsendopject(false);
-         
-    //  await cont.virffollow(id);
-} on Exception catch (e) {
-cont.waitsendopject(false);
-
-  // TODO
-}
-   
-   },
-     child: Container(
-     decoration: BoxDecoration(
-      color: Colors.blue,
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-          bottomLeft: Radius.circular(10),
-          bottomRight: Radius.circular(10)
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.blue.withOpacity(0.3),
-          spreadRadius: 3,
-          blurRadius: 5,
-          offset: Offset(0, 3), // changes position of shadow
-        ),
-   
-      ],
-   ),
-   child:   Center(child:cont.islodingemsg==true?spinkitwhite: Text("Order now",style: TextStyle(fontSize: 20,color: Colors.white, fontWeight: FontWeight.bold),),),
-      height: 50, 
-     width: double.infinity,
-     ),
-   );}
- ),
- )
-,     ],),
+  ],),
     );
   }
 }

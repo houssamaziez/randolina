@@ -6,13 +6,18 @@ import 'package:randolina/Model/message.dart';
 import 'package:randolina/const.dart';
 
 class ControllerMessanger extends GetxController{
+bool islodingemsg= false;
+waitsendopject(bol){
+islodingemsg=bol;
+update();
+}
+
+
   sendmessageToAll({
     required users,required idmsg,
     required msg, isfolew=true
   })async
-  {
-   
-   
+  {   
     var _uid= firebaseAuth.currentUser!.uid;
     
  int len=    Random().nextInt(100000000);
@@ -31,6 +36,7 @@ print(rslt.length);
 if (rslt.length==0) {
      Listmessage mseg= Listmessage(
   msg: msg,
+  sendidmsg:_uid ,
   msgid: "$_uid $lenc",
   time: DateTime.now().toString(),
    users: [_uid,users],
@@ -41,18 +47,13 @@ if (rslt.length==0) {
 //  User kayn fi data base 
 } else {
   firestor.collection('Massenger').doc(rslt[0]["msgid"]).update({
-  "msg":msg,
+  "msg":msg,"sendidmsg":_uid,
   "time":DateTime.now().toString(),
  }).then((value) =>print('object'));
 sendmessages(idmsg: rslt[0]["msgid"], msg:msg );
 }
 }else{
-
-
-
-
-
-
+ 
 QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
 var iscont=data.docs.where((element) => element["users"].contains(firebaseAuth.currentUser!.uid)) .toList();
        bool iscontBdd= false;
@@ -66,14 +67,14 @@ var iscont=data.docs.where((element) => element["users"].contains(firebaseAuth.c
     }
    if (iscontBdd==true) {
  firestor.collection('Massenger').doc(idmsg).update({
-  "msg":msg,
+  "msg":msg,"sendidmsg":_uid,
   "time":DateTime.now().toString(),
  });
 sendmessages(idmsg:idmsg, msg:msg );
 
    } else {
      Listmessage mseg= Listmessage(
-  msg: msg,
+  msg: msg,sendidmsg: _uid,
   msgid: "$_uid $len",
   time: DateTime.now().toString(),
    users: [_uid,users ],
@@ -82,10 +83,7 @@ sendmessages(idmsg:idmsg, msg:msg );
 sendmessages(idmsg:"$_uid $len", msg:msg );
 
    }
-
  
-
-
 
 }
 } else {
@@ -96,7 +94,7 @@ List d= await addfollow(users);
   if (d.length==0) {
     
        Listmessage mseg= Listmessage(
-  msg: msg,
+  msg: msg,sendidmsg:_uid ,
   msgid: "$_uid $lenc",
   time: DateTime.now().toString(),
    users: [_uid,users],
@@ -203,7 +201,7 @@ sendmessages({msg ,idmsg}){
  int len=    Random().nextInt(100000000);
 
   firestor.collection('Massenger').doc(idmsg).collection("messages").doc("$_uid$len").set({
-
+"sendidmsg":_uid,
     "message":msg,
     "time":DateTime.now(),
     "uid":_uid,

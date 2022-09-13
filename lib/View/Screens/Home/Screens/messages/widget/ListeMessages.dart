@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:randolina/View/Screens/Home/Screens/messages/widget/msgproduct.dart';
 
 import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../../Controller/storController.dart';
@@ -33,15 +34,17 @@ GetBuilder<ControllerMessanger> listmessages(idm,idmsg) {
     padding: const EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
     child: Align(
       alignment: (items[index]["uid"] != firebaseAuth.currentUser!.uid?Alignment.topLeft:Alignment.topRight),
-      child: Container(
+      child:items[index]["message"]is List?_post(price:items[index]["message"][5],
+
+       tag:index.toString(),detials: items[index]["message"][6],
+                uid: items[index]["message"][2],username: items[index]["message"][1], urlimage: items[index]["message"][3], userphoto: items[index]["message"][0]
+                 ): Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: (items[index]["uid"]  != firebaseAuth.currentUser!.uid?Colors.grey.shade200:Colors.blue[200]),
                 ),
                 padding: const EdgeInsets.all(16),
-                child:items[index]["message"]is List?_post(price:items[index]["message"][5], tag:index.toString(),
-                uid: items[index]["message"][2],username: items[index]["message"][1], urlimage: items[index]["message"][3], userphoto: items[index]["message"][0]
-                 ): Text(items[index]["message"], style: const TextStyle(fontSize: 15),),
+                child: Text(items[index]["message"], style: const TextStyle(fontSize: 15),),
       ),
     ),
   );
@@ -52,11 +55,11 @@ GetBuilder<ControllerMessanger> listmessages(idm,idmsg) {
           }
         );
   }
-
-  _post({userphoto,username, uid,urlimage, tag, price}) {
+  _post({userphoto,username, uid,urlimage, tag, price,required detials, nameproduct}) {
   return InkWell(
     onTap: (){
-     
+     Get.to(MessageProduct(pricee:price ,detials:detials ,
+      image: urlimage, tag: tag,   iduser: uid, username: username, imageprofile: userphoto));
  
   
     },

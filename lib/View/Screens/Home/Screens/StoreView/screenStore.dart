@@ -14,6 +14,7 @@ import 'package:randolina/View/Screens/Home/Screens/StoreView/profileStore.dart'
 
 import '../../../../../Controller/controllerUser.dart';
 import '../../../../../const.dart';
+import '../Profile/profileClien/profileUser.dart';
 
 enum SegmentType { news, map, paper }
 
@@ -227,75 +228,81 @@ controllerstor.updt(index);
                     ),),
 Padding(
   padding: const EdgeInsets.all(8.0),
-  child: Row(
-        children: [
-          CircleAvatar(radius: 25,
-            backgroundColor: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: SizedBox(height: 50,width: 50,
-              
-                         child:  ClipRRect(
-              
-                                                              borderRadius: const BorderRadius.all(
-              
-                                                                Radius.circular(1000),),
-              
-                                                              child:Hero(tag: index.toString(),
-              
-                                                                child: CachedNetworkImage(
-              
-                                                                  height: double.infinity,
-              
-                                                                  width: double.infinity,
-              
-                                                                                                fit: BoxFit.cover,
-              
-                                                                                                imageUrl:list[index]["urlimage"].toString(),
-              
-                                                                                                placeholder: (context, url) => spinkit,
-              
-                                                                                                errorWidget: (context, url, error) =>
-              
-                                                                                                    const Icon(Icons.error),
-              
-                                                                                              ),
-              
-                                                              ),
-              
-                              ), ),
+  child: InkWell(
+    onTap: (){
+    Get.to(SceenProflileAll(id: list[index]["uid"].toString(), imageprofile: list[index]["userphoto"].toString(), name: list[index]["username"].toString()));
+
+    },
+    child: Row(
+          children: [
+            CircleAvatar(radius: 25,
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: SizedBox(height: 50,width: 50,
+                
+                           child:  ClipRRect(
+                
+                                                                borderRadius: const BorderRadius.all(
+                
+                                                                  Radius.circular(1000),),
+                
+                                                                child:Hero(tag: index.toString(),
+                
+                                                                  child: CachedNetworkImage(
+                
+                                                                    height: double.infinity,
+                
+                                                                    width: double.infinity,
+                
+                                                                                                  fit: BoxFit.cover,
+                
+                                                                                                  imageUrl:list[index]["userphoto"].toString(),
+                
+                                                                                                  placeholder: (context, url) => spinkit,
+                
+                                                                                                  errorWidget: (context, url, error) =>
+                
+                                                                                                      const Icon(Icons.error),
+                
+                                                                                                ),
+                
+                                                                ),
+                
+                                ), ),
+              ),
+            ),
+    SizedBox(width: 8,),
+    
+          Container(child:Stack(
+    children: <Widget>[
+          // Stroked text as border.
+          Text(
+            list[index]["username"].toString(),
+            style: TextStyle(
+              fontSize: 16,
+              foreground: Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 6
+                ..color = Color.fromARGB(255, 0, 0, 0),
             ),
           ),
-  SizedBox(width: 8,),
-  
-        Container(child:Stack(
-  children: <Widget>[
-        // Stroked text as border.
-        Text(
-          list[index]["username"].toString(),
-          style: TextStyle(
-            fontSize: 16,
-            foreground: Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 6
-              ..color = Color.fromARGB(255, 0, 0, 0),
+          // Solid text as fill.
+          Text(
+            list[index]["username"].toString(),
+            style: TextStyle(
+              fontSize: 16,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
           ),
-        ),
-        // Solid text as fill.
-        Text(
-          list[index]["username"].toString(),
-          style: TextStyle(
-            fontSize: 16,
-            color: Color.fromARGB(255, 255, 255, 255),
-          ),
-        ),
-  ],
-)
-                         
-                         
-                           ),
-                   
-   ],
+    ],
+  )
+                           
+                           
+                             ),
+                     
+     ],
+    ),
   ),
 ), 
  Align(alignment: Alignment.bottomCenter,

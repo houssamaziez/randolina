@@ -2,18 +2,15 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../../../../../const.dart';
 
 class Cardmessage extends StatefulWidget {
-   Cardmessage({Key? key,required this.snapshot2,required this.dateFormat,required this.msg,required this.time,required this.controllerMessanger}) : super(key: key);
-  final snapshot2,dateFormat,msg,time, controllerMessanger;
+   Cardmessage({Key? key,required this.snapshot2,required this.dateFormat,required this.msg,required this.time,required this.controllerMessanger,required this.idmsgeuser}) : super(key: key);
+  final snapshot2,dateFormat,msg, idmsgeuser,time, controllerMessanger;
   @override
   State<Cardmessage> createState() => _CardmessageState();
 }
-
 class _CardmessageState extends State<Cardmessage> {
   @override
   Widget build(BuildContext context) {
@@ -32,7 +29,7 @@ class _CardmessageState extends State<Cardmessage> {
                                     ),
               ),
                                   title: Text(widget. snapshot2.data["name"].toString()),
-                                  subtitle:Text(widget.msg.toString(), style: TextStyle(color: widget.msg.toString()=='New follower'?Colors.blue:Colors.grey),) ,trailing:Text(widget.dateFormat.format(DateTime.parse(widget.time))   .toString()) ,
+                                  subtitle:Text(widget.msg is List?"Object" :widget.msg.toString(), style: TextStyle(color: widget.msg.toString()=='New follower'||widget.idmsgeuser!=firebaseAuth.currentUser!.uid?Colors.blue:Colors.grey),maxLines: 1, overflow:TextOverflow.clip ) ,trailing:Text(widget.dateFormat.format(DateTime.parse(widget.time))   .toString()) ,
             );
   
   }

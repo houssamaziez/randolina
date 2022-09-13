@@ -3,19 +3,23 @@ class Listmessage {
   String? msgid;
   String? msg;
   List? users;
+  String? sendidmsg;
+
 
   Listmessage(
       {
-      this.time,
-      this.users,
-      this.msgid,
-      this.msg});
+    required  this.time,
+    required  this.sendidmsg,
+    required  this.users,
+    required  this.msgid,
+    required  this.msg});
 
   Listmessage.fromJson(Map<String, dynamic> json) {
     time = json['time'];
     msgid = json['msgid'];
     msg = json['msg'];
     users = json['users'];
+    sendidmsg = json['sendidmsg'];
   }
 
   Map<String, dynamic> toJson() {
@@ -24,6 +28,8 @@ class Listmessage {
     data['msgid'] = this.msgid;
     data['msg'] = this.msg;
     data['users'] = this.users;
+     data['sendidmsg']=this.sendidmsg;
+
     return data;
   }
 }
