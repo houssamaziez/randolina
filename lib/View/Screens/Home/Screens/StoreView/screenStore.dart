@@ -189,7 +189,7 @@ Get.to(AddStore());
   InkWell cardStors(list, int index) {
     return InkWell(
     onTap: (){
-      Get.to(ProfileProduct(
+      Get.to(ProfileProduct(token:"".toString() ,
         imageprofile: list[index]["userphoto"].toString(),
         username:list[index]["username"].toString(),
         iduser: list[index]["uid"].toString(),
@@ -229,7 +229,8 @@ Padding(
   padding: const EdgeInsets.all(8.0),
   child: InkWell(
     onTap: (){
-    Get.to(SceenProflileAll(id: list[index]["uid"].toString(), imageprofile: list[index]["userphoto"].toString(), name: list[index]["username"].toString()));
+    Get.to(SceenProflileAll(  token:"",
+      id: list[index]["uid"].toString(), imageprofile: list[index]["userphoto"].toString(), name: list[index]["username"].toString()));
 
     },
     child: Row(

@@ -75,7 +75,7 @@ if (snapshot.connectionState == ConnectionState.waiting) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(onTap: (){
-                      Get.to(SceenProflileAll(
+                      Get.to(SceenProflileAll(token: cont.reslut[index]['token'],
                          id: cont.reslut[index]['uid'], 
                          imageprofile:cont.reslut[index]['photoProfil'], name:cont.reslut[index]['name']));
                     },

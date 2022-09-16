@@ -52,7 +52,6 @@ String? sizeinisil;
   }
 
 }
-  
   @override
   Widget build(BuildContext context) {
    var listScreen=[
@@ -61,11 +60,18 @@ String? sizeinisil;
       const ScreenEvents(),
          SceenProflile(),
 ];
-    return Stack(
-      children: [
-        listScreen[bottomNavIndex],
-        Bottombar(),
-      ],
+    return  WillPopScope(
+        onWillPop: ()async { 
+    await    controllerpageview.animateToPage(0, duration: Duration(milliseconds:300), curve: Curves.easeInOut);
+Get.offAll(ScreenHome());
+           return true;
+        },
+        child:  Stack(
+        children: [
+          listScreen[bottomNavIndex],
+          Bottombar(),
+        ],
+      ),
     );
   }
 

@@ -11,8 +11,8 @@ import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart
 class ProfileProduct extends StatelessWidget {
   const ProfileProduct({Key? key,required this.image,
   required this.tag,required this.list,required this.iduser,
-  required this.username,required this.imageprofile}) : super(key: key);
-final image, tag, list, iduser, username, imageprofile;
+  required this.username,required this.imageprofile,required this.token}) : super(key: key);
+final image, tag, list, iduser, username,token, imageprofile;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,8 +120,11 @@ const Padding(
       try {
 cont.waitsendopject(true);
 
-  await cont.sendmessageToAll(users: list["uid"], idmsg: "0", msg: "post", isfolew: false);
-   cont.sendmessageToAll(users:list["uid"], msg:
+  await cont.sendmessageToAll(
+    token: "",
+    users: list["uid"], idmsg: "0", msg: "post", isfolew: false);
+   cont.sendmessageToAll(
+        token: "",users:list["uid"], msg:
        [
        list["userphoto"], list["username"], list["uid"], list["urlimage"], "tag", list["price"]
        , list["details"],
@@ -131,7 +134,9 @@ cont.waitsendopject(true);
        
        , idmsg:  cont.rsltdatamesage.length==1?
                    cont.rsltdatamesage[0]["msgid"].toString():"0");
-     Get.to( ScreenCHat(idclien:  list["uid"].toString() ,name: username,
+     Get.to( ScreenCHat(token:  "",
+      
+      idclien:  list["uid"].toString() ,name: username,
              idmsg:   cont.rsltdatamesage.length==1?
                    cont.rsltdatamesage[0]["msgid"].toString():"0", imageprofile: imageprofile,)
          );

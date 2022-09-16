@@ -22,10 +22,10 @@ import '../screenHome1.dart';
 class VideoreelsScreen extends StatefulWidget {
 
   // ignore: prefer_typing_uninitialized_variables
-  final UrlVideo, thumbnial,isprofile,likes,id, comentr, caption, username, profilephoto ,uidUser;
+  final UrlVideo, thumbnial,isprofile,likes,id, comentr, caption, username, profilephoto ,token,uidUser;
   final bool _isloading=false ;
   final int numvidoe;
-    const VideoreelsScreen({Key? key,required this.UrlVideo,required this.thumbnial,required this.likes,required this.comentr,required this.caption,required this.username,required this.profilephoto,required this.id,required this.uidUser,required this.isprofile, required this.numvidoe}) : super(key: key);
+    const VideoreelsScreen({Key? key,required this.UrlVideo,required this.thumbnial,required this.likes,required this.comentr,required this.caption,required this.username,required this.profilephoto,required this.id,required this.uidUser,required this.isprofile, required this.numvidoe,required this.token}) : super(key: key);
 
   @override
   State<VideoreelsScreen> createState() => _VideoreelsScreenState();
@@ -52,7 +52,7 @@ var _uid= firebaseAuth.currentUser!.uid;
     if (fileInfo == null) {
       controller = VideoPlayerController.network(url);
       controller!.initialize().then((value) {
-        cachedForUrl(url);
+        cachedForUrl(url, );
         setState(() {
             // widget. numvidoe==0?controller!.pause():
           controller!.play();
@@ -92,6 +92,8 @@ var _uid= firebaseAuth.currentUser!.uid;
       controller!.dispose();
     }
     super.dispose();
+      controller!.dispose();
+
   }
   des()async{
      await   controller!.dispose();
@@ -194,7 +196,9 @@ Get.back();
                            InkWell(onTap: (){
         controller!.dispose();
 
-                                           Get.to(SceenProflileAll( id: widget.uidUser,imageprofile:widget.profilephoto ,name:  widget.username,  ));
+                                           Get.to(SceenProflileAll(token:"",
+                                            
+                                             id: widget.uidUser,imageprofile:widget.profilephoto ,name:  widget.username,  ));
  },
             child:Row(
                       children: [  SizedBox(height: 50,width: 50,

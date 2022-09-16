@@ -23,12 +23,12 @@ class SceenProflile extends StatefulWidget {
 
 class _SceenProflileState extends State<SceenProflile> {
  var  piceUser= "";
-
+String token="";
 getpiceUser()async{
   var uid= firebaseAuth.currentUser!.uid;
   DocumentSnapshot userdocs=await firestor.collection("User").doc(uid).get();
-  print((userdocs.data()! as Map <String, dynamic>)["photoProfil"]);
 piceUser=   (userdocs.data()! as Map <String, dynamic>)["name"];
+
 print(piceUser);
  return await (userdocs.data()! as Map <String, dynamic>)["photoProfil"];
 }
@@ -146,7 +146,9 @@ Get.defaultDialog(
                   );
     },
   );
-                  await cont.sendmessageToAll(users:  uid, idmsg: "0", msg: "New follower", isfolew: false);
+                  await cont.sendmessageToAll(
+                    token: token,
+                    users:  uid, idmsg: "0", msg: "New follower", isfolew: false);
  await cont.virffollow( uid);
  cont.retundata(uid);
 Navigator.pop(context);

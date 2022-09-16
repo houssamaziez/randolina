@@ -38,11 +38,6 @@ var controllerMessanger= Get.put(ControllerMessanger());
   Widget build(BuildContext context) {
  
     return  Scaffold(
-    floatingActionButton: FloatingActionButton(
-      backgroundColor: color1,
-      onPressed: (){
-    Get.to(ScreenSearch(docs: "User",tablename: "name",));
-      }, child: const Icon(Icons.search),),
     appBar: AppBar(backgroundColor: Colors.white,
     title: Text("Messages", style: TextStyle(color: Colors.grey),),
     centerTitle: true,
@@ -78,7 +73,9 @@ Get.offAll(ScreenHome());
         return InkWell(onTap:(){
           controllerMessanger.cleanrsltdatamesage();
 
-          Get.to(        ScreenCHat(idclien: j[0], idmsg:msgid ,imageprofile: snapshot2.data["photoProfil"].toString(),  name:snapshot2.data["name"].toString() ,)  ); 
+          Get.to(        ScreenCHat(token:snapshot2.data["token"].toString() ,
+            
+            idclien: j[0], idmsg:msgid ,imageprofile: snapshot2.data["photoProfil"].toString(),  name:snapshot2.data["name"].toString() ,)  ); 
         },
           child:Cardmessage(controllerMessanger: controllerMessanger,idmsgeuser: idmsgeuser ,
             snapshot2: snapshot2,msg: msg,dateFormat: dateFormat,time: time),

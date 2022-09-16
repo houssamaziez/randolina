@@ -1,6 +1,7 @@
 
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:randolina/Model/message.dart';
 import 'package:randolina/const.dart';
@@ -15,7 +16,7 @@ update();
 
   sendmessageToAll({
     required users,required idmsg,
-    required msg, isfolew=true
+    required msg, isfolew=true,required token
   })async
   {   
     var _uid= firebaseAuth.currentUser!.uid;
@@ -228,6 +229,36 @@ List c=data.docs.where((element) => element["users"].contains(id)) .toList();
 msgevu=c.length;
 update();
 }
+
+
+
+
+
+
+
+
+
+
+
+ FirebaseMessaging _firebaseMessaging=FirebaseMessaging.instance;
+   String token1="";
+    firbasecloudMessaging_listeners(){
+_firebaseMessaging.getToken().then((value) {
+  firestor.collection('User').doc(firebaseAuth.currentUser!.uid).update({
+'token':value.toString()
+  });
+ print("token is :"+value.toString());
+ token1=value.toString();
+ 
+ update();
+});
+  }
+
+@override
+  void onInit() {
+  firbasecloudMessaging_listeners();
+    super.onInit();
+  }
 
 
 }

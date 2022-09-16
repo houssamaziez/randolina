@@ -212,7 +212,7 @@ itemBuilder:
               child: InkWell(onTap: ()
               {
 
-Get.to(ScreenAcspt(idpost: id,
+Get.to(ScreenAcspt(idpost: id,token: "" ,
 listlenghtconfimed: listlenghtconfimed,
 nombresplaces: widget.list["nombresplaces"],
   email: list[indext]['email'],wilaya: list[indext]['wilaya'] ,  name: list[indext]['username'],phone: list[indext]['phone'], photoprofile: list[indext]['photoProfil'].toString(), uid: list[indext]['uid'], conferm: list[indext]['conferm'], ));

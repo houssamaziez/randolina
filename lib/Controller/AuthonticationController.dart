@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -139,9 +140,25 @@ isloadingLogin=false;
 
 
 
+ FirebaseMessaging _firebaseMessaging=FirebaseMessaging.instance;
+   String token1="";
+    firbasecloudMessaging_listeners(){
+_firebaseMessaging.getToken().then((value) {
+  firestor.collection('User').doc(firebaseAuth.currentUser!.uid).update({
+'token':value.toString()
+  });
+ print("token is :"+value.toString());
+ token1=value.toString();
+ 
+ update();
+});
+  }
 
-
-
+@override
+  void onInit() {
+  firbasecloudMessaging_listeners();
+    super.onInit();
+  }
 
 
 }

@@ -14,8 +14,8 @@ var controllerivent= Get.put(IventsController());
     required this.email,required this.uid,
     required this.photoprofile,required this.phone,
      required this.wilaya,required this.conferm,
-     required this.idpost,required this.listlenghtconfimed,required this.nombresplaces}) : super(key: key);
-final name , email , uid,photoprofile, phone, wilaya, conferm, idpost, listlenghtconfimed,nombresplaces;
+     required this.idpost,required this.listlenghtconfimed,required this.nombresplaces,required this.token}) : super(key: key);
+final name , email , uid,photoprofile,token, phone, wilaya, conferm, idpost, listlenghtconfimed,nombresplaces;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,7 +171,7 @@ Get.snackbar('Completd', "List complte"))
                                   child: InkWell(
                                   borderRadius: const BorderRadius.all(Radius.circular(1000)),
                                     onTap: (){
-          Get.to(()=> SceenProflileAll(id: uid, imageprofile: photoprofile, name: name));
+          Get.to(()=> SceenProflileAll(id: uid, imageprofile: photoprofile, name: name, token:""));
          },
                                     child: Container(
                                                    

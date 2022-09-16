@@ -16,6 +16,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]);
+        videioindex.write("ind",0 );
+
    runApp(const MyApp());
     await controllerUser.getData();
 }

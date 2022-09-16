@@ -33,10 +33,10 @@ Get.back();
 });
   }
 
-final time, details,data,isprofile, username , photouser, urlImage, likes, comentr , id;
+final time, details,data,isprofile, username , token, photouser, urlImage, likes, comentr , id;
 final String uiddd, userid;
 
-    ScreenPost({Key? key,required this.time,required this.details,required this.username,required this.photouser,required this.urlImage,required this.likes,required this.comentr,required this.uiddd,required this.id,required this.data, required this.userid,required this.isprofile}) : super(key: key);
+    ScreenPost({Key? key,required this.time,required this.details,required this.username,required this.photouser,required this.urlImage,required this.likes,required this.comentr,required this.uiddd,required this.id,required this.data, required this.userid,required this.isprofile,required this.token}) : super(key: key);
 var controllerlikcomnt=Get.put(ControllerLikCont());
   @override
   Widget build(BuildContext context) {
@@ -162,7 +162,9 @@ var controllerlikcomnt=Get.put(ControllerLikCont());
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 InkWell(onTap: (){
-                                  Get.to(SceenProflileAll(  id:userid,imageprofile: photouser,name:  username ,));
+                                  Get.to(SceenProflileAll( token: "",
+                                    
+                                     id:userid,imageprofile: photouser,name:  username ,));
                                 },
                                   child: Row(
                                     children: [

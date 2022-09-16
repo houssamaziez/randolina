@@ -5,7 +5,7 @@ import 'package:randolina/Controller/ControllerMessanger/CotrollerMessangerAll.d
 import 'package:randolina/View/Screens/Home/Screens/messages/screenchat.dart';
 import 'package:randolina/const.dart';
 
-  iconback(BuildContext context,String idclien, imageprofile,name) {
+  iconback(BuildContext context,String idclien, imageprofile,name, token) {
     return Padding(
       padding: const EdgeInsets.only(top: 13),
       child: Row(
@@ -15,14 +15,14 @@ import 'package:randolina/const.dart';
            Padding(
              padding: const EdgeInsets.only(right: 5, top: 3),
              child:  
-            follow(idclien,imageprofile,name) 
+            follow(idclien,imageprofile,name, "") 
            ),
         ],                           
       ),
     );
   }
 
-    follow(idclien,imageprofile,name) =>
+    follow(idclien,imageprofile,name, token) =>
      GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
     builder: (cont) {
       return  cont.isfolow==false?
@@ -30,7 +30,9 @@ import 'package:randolina/const.dart';
      Container(): IconButton(onPressed: ()async{
     await    cont.retundata( idclien);
 
-            Get.to( ScreenCHat(idclien: idclien.toString() ,name: name,
+            Get.to( ScreenCHat(
+              token: "",
+              idclien: idclien.toString() ,name: name,
              idmsg:   cont.rsltdatamesage.length==1?
                    cont.rsltdatamesage[0]["msgid"].toString():"0", imageprofile: imageprofile,)
          );

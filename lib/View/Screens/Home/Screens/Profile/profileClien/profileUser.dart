@@ -16,8 +16,8 @@ import '../../Reels/VideoView/screenVideo.dart';
 import '../ProfileUser/infoprofilebar.dart';
 
 class SceenProflileAll extends StatefulWidget {
-  final  id,imageprofile,name;
-    const SceenProflileAll({Key? key ,required this.id, required this.imageprofile,required this.name}) : super(key: key);
+  final  id,imageprofile,name, token;
+    const SceenProflileAll({Key? key ,required this.id, required this.imageprofile,required this.name,required this.token}) : super(key: key);
   @override
   State<SceenProflileAll> createState() => _SceenProflileAllState();
 }
@@ -116,7 +116,7 @@ setState(() {
     
      ),
                 ),
-                  child: bottun(title: "Follow", color:cont.isfolow==true ?const Color.fromARGB(255, 58, 255, 64): Colors.blue, function: ()async{
+                  child: bottun(title: "Follow", color:cont.isfolow==true ?Color.fromARGB(255, 255, 255, 255): Colors.blue, function: ()async{
      if (cont.isfolow==true ){
 Get.defaultDialog(
   cancel: TextButton(onPressed: ()async{
@@ -144,7 +144,9 @@ Get.defaultDialog(
                   );
     },
   );
-                  await cont.sendmessageToAll(users: widget. id, idmsg: "0", msg: "New follower", isfolew: false);
+                  await cont.sendmessageToAll(
+                    token:'',
+                    users: widget. id, idmsg: "0", msg: "New follower", isfolew: false);
  await cont.virffollow(widget.id);
  cont.retundata(widget. id);
 Navigator.pop(context);
@@ -218,7 +220,9 @@ Get.defaultDialog(
                   );
     },
   );
-                  await cont.sendmessageToAll(users:  widget. id, idmsg: "0", msg: "New follower", isfolew: false);
+                  await cont.sendmessageToAll(
+                    token:"" ,
+                    users:  widget. id, idmsg: "0", msg: "New follower", isfolew: false);
  await cont.virffollow(widget. id);
  cont.retundata( widget. id);
 Navigator.pop(context);
@@ -234,7 +238,7 @@ Navigator.pop(context);
            ),
          ) 
               , 
-                iconback(context,widget.id,widget.imageprofile,widget.name,),  
+                iconback(context,widget.id,widget.imageprofile,widget.name,widget. token),  
                   Padding(
             padding: const EdgeInsets.only(top:20),
             child: IconButton(onPressed: (){

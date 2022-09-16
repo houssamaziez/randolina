@@ -112,7 +112,8 @@ onPageChanged: (int positione) {
    }
 
    ScreenPost photosreels(List<QueryDocumentSnapshot<Object?>> items, int index) {
-     return ScreenPost(userid: items[index]["uid"],
+     return ScreenPost(token:items[index]["token"] ,
+      userid: items[index]["uid"],
                                 data: {
                                 },isprofile: false,
                                         comentr:items[index]["comentr"].toString(),
@@ -129,7 +130,7 @@ onPageChanged: (int positione) {
 
      scrvideo(List<QueryDocumentSnapshot<Object?>> items, int index, position) {
      return widget. isvideo==true? VideoreelsScreen(isprofile: true,
-      uidUser: items[index]["uid"],numvidoe: position,
+      uidUser: items[index]["uid"],numvidoe: position,token:"" ,
                   id:items[index]["id"] ,
                   UrlVideo: items[index]["videoUrl"]!,
                   caption:  items[index]["caption"],
@@ -140,7 +141,8 @@ onPageChanged: (int positione) {
                   username:  items[index]["username"] ,
                   )
                   :
-                 ScreenPost(userid: items[index]["uid"],
+                 ScreenPost(token: items[index]["token"],
+                  userid: items[index]["uid"],
                                 data: {
                                 },isprofile: true,
                                         comentr:items[index]["comentr"].toString(),

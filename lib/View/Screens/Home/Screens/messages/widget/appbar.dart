@@ -6,8 +6,9 @@ import 'package:randolina/View/Screens/Home/Screens/Profile/profileClien/profile
 import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../../const.dart';
 
-AppBar appbarmessage(BuildContext context, name, imageprofile,idcl ) {
+AppBar appbarmessage(BuildContext context, name, imageprofile,idcl ,token ) {
     return AppBar(actions: [IconButton(onPressed: ()async{
+      
 var _controllerUser=Get.put(ControllerMessanger());
  var _data= await  _controllerUser.getdatauser(idcl);
  if (_data!=null) {
@@ -20,7 +21,9 @@ var _controllerUser=Get.put(ControllerMessanger());
       Navigator.pop(context);
     }, icon: Icon(Icons.arrow_back, color: Colors.black,)),
     title:InkWell(onTap: () => 
-    Get.to(SceenProflileAll(id: idcl, imageprofile: imageprofile, name: name)),
+    Get.to(SceenProflileAll(
+      token: "",
+      id: idcl, imageprofile: imageprofile, name: name)),
       child: Row(
         children: [
           SizedBox(height: 35,width: 35,

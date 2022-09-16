@@ -145,7 +145,9 @@ child:   InkWell(onTap: (){
       right: 0,
       child: Center(
         child:InkWell(onTap: (){
-                      Get.to(SceenProflileAll( id: items[index]['uid'], imageprofile:items[index]['photouser'], name:items[index]['username'], ));
+                      Get.to(SceenProflileAll(token:"",
+                        
+                         id: items[index]['uid'], imageprofile:items[index]['photouser'], name:items[index]['username'], ));
                     },
                       child:  ClipRRect(
                                       borderRadius: const BorderRadius.all(

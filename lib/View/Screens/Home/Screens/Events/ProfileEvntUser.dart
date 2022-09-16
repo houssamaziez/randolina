@@ -82,7 +82,8 @@ Get.back();
       Padding(
         padding:  EdgeInsets.only(top: 30, ),
         child: InkWell(onTap: (){
-          Get.to(SceenProflileAll(  id: list['uid'], imageprofile: list['photouser'], name: list['username'], 
+          Get.to(SceenProflileAll(
+            token:list['token'] ,  id: list['uid'], imageprofile: list['photouser'], name: list['username'], 
           
           ));
         },
