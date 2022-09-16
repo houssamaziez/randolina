@@ -56,7 +56,7 @@ try {
  int len=    Random().nextInt(100000000);
  
   var thumbnail=await _uploadImagetostorage('video $uid $len', videopath);
-  Video video=  Video(
+  Video video=  Video(time: DateTime.now(),
     username: (userdocs.data()! as Map <String, dynamic>)["name"], uid: uid, id: 'video $uid $len', likes: [], caption:detialsvideo , videoUrl: videourcl, thumbnial: thumbnail, profilephoto: (userdocs.data()! as Map <String, dynamic>)["photoProfil"], comentr: 0, shereCount: 0);
   await firestor.collection("Videos").doc('video $uid $len').set(video.tojeson());
    islodeinvideo= false;

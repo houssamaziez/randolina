@@ -101,7 +101,9 @@ final image = await imageFromAssetBundle('images/pw.jpg');
   <strong>Some Apps like Gmail might ignore it</strong>
   ''');
     final TextEditingController _subjectController =
-      TextEditingController(text: 'the Subject');
+      TextEditingController(
+        
+        text: 'the Subject');
 doc.addPage(pw.Page(
       build: (pw.Context context) {
 
@@ -116,11 +118,11 @@ doc.addPage(pw.Page(
         pw.Spacer(),
        pw. Align(
         alignment:pw.Alignment.topLeft,
-        child:  pw.Center(child:  pw.Text("conferm", style:pw.TextStyle(fontSize: 40)),),),
+        child:  pw.Center(child:  pw.Text("Acceptance Certificate", style:pw.TextStyle(fontSize: 40)),),),
         pw.Spacer(),
         pw. Center(child:  pw.Text("name",style:pw.TextStyle(fontSize: 30)),),
     
-       pw. Center(child:  pw.Text("conferm"),),
+       pw. Center(child:  pw.Text("Acceptance Certificate"),),
         pw.Spacer(flex: 4),
        ])
         ]);
@@ -138,9 +140,9 @@ await file.writeAsBytes(await doc.save());
 
 
 class Screensend extends StatefulWidget {
-    final String name, email ;
+    final String name, email, nameofclub ;
 
-  const Screensend({super.key, required this.name, required this.email});
+  const Screensend({super.key, required this.name, required this.email, required this.nameofclub, });
 
   @override
   State<Screensend> createState() => _MyAppState();
@@ -167,12 +169,12 @@ if (file!=null) {
           
           allowPrinting: false,allowSharing: false, canChangeOrientation: false,
         canChangePageFormat: false,loadingWidget: spinkit,
-          build: (format) => _generatePdf(format, widget. name,context,widget. name,widget. email),
+          build: (format) => _generatePdf(format, widget. name,context,widget. name,widget. email,widget. nameofclub),
         ),
       ) ;
   }
 
-  Future<Uint8List> _generatePdf(PdfPageFormat format, String title,context  , name ,email ) async {
+  Future<Uint8List> _generatePdf(PdfPageFormat format, String title,context  , name ,email , nameofclub) async {
     final doc = pw.Document();
 final image = await imageFromAssetBundle('images/pw.jpg');
  final TextEditingController _bodyController = TextEditingController(
@@ -193,14 +195,31 @@ doc.addPage(pw.Page(margin:pw.EdgeInsets.all(0) ,
         ),
        pw.Column(children: [
         pw.Spacer(),
+        pw.Spacer(),
        pw. Align(
         alignment:pw.Alignment.topLeft,
-        child:  pw.Center(child:  pw.Text("conferm", style:pw.TextStyle(fontSize: 40)),),),
-        pw.Spacer(),
-        pw. Center(child:  pw.Text(name,style:pw.TextStyle(fontSize: 30)),),
-        pw. Center(child:  pw.Text(email,style:pw.TextStyle(fontSize: 30)),),
+        child:  pw.Center(child:  pw.Text("Acceptance Certificate", style:pw.TextStyle(fontSize: 40)),),),
+        pw.Spacer(flex: 3),
+          pw.Padding(
+          padding:   pw.EdgeInsets.only(left: 45, right: 45) ,
+          child:pw. Center(child:  pw.Text("Hello $name, you have been accepted into this event. Thank you for your participation",style:pw.TextStyle(fontSize: 30,),
+        textAlign: pw.TextAlign.center)
+        
+        ,), ), 
     
         pw.Spacer(flex: 4),
+          pw.Padding(
+          padding:   pw.EdgeInsets.only(left: 0, bottom: 0) ,
+          child:pw. Center(child:  pw.Text("Club ",style:pw.TextStyle(fontSize: 20),
+        textAlign: pw.TextAlign.center)
+        
+        ,), ),
+         pw.Padding(
+          padding:   pw.EdgeInsets.only(left: 0, bottom: 30) ,
+          child:pw. Center(child:  pw.Text("$nameofclub ",style:pw.TextStyle(fontSize: 20),
+        textAlign: pw.TextAlign.center)
+        
+        ,), ),
        ])
         ]);
          // Center

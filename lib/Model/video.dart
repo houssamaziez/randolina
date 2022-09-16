@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Video{
-String username, uid, id, caption , videoUrl , thumbnial, profilephoto;
-List likes;
+String username, uid, id,  caption , videoUrl , thumbnial, profilephoto;
+List likes;final time;
 int comentr, shereCount;
 Video(
 {
  required this.username,
 required this.uid,
+required this.time,
 required this.id,
 required this.likes,
 required this.caption,
@@ -22,6 +23,7 @@ required this.shereCount,}
  'username':   username, 
   'uid':  uid, 
   'id': id,
+  'time': time,
  'likes':  likes,
  'caption':
   caption , 
@@ -37,7 +39,7 @@ required this.shereCount,}
  static Video fromSnap(DocumentSnapshot snp){
 
   var snashot=snp.data() as Map<String , dynamic> ;
-  return Video(
+  return Video(time: snashot['time'] ,
   username: snashot['username'],
    uid: snashot['uid'],
     id:  snashot['id'],

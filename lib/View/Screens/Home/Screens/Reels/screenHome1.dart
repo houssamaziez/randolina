@@ -26,7 +26,7 @@ class _ScreenReelsState extends State<ScreenReels> {
 var _list= [reels(context), ScreenAllMessage()];
  
   PageController controller = PageController();
-  return Scaffold(backgroundColor: Colors.black,
+  return Scaffold(backgroundColor: Colors.black, 
       body:PageView.builder(
         
         controller: controllerpageview,
@@ -45,6 +45,8 @@ var _list= [reels(context), ScreenAllMessage()];
               
              return Future.delayed(Duration(seconds: 1), (){
 setState(() {
+     controllerMessanger.getNUMBERLfoollow(firebaseAuth.currentUser!.uid);
+
               });
              });
              },
@@ -58,7 +60,7 @@ setState(() {
                         builder: (controllers) {
                  return controllers.isvscrenvideoddd==true?
                             listreels(stream: firestor.collection('Post').orderBy("time", descending: true,  ),
-                         count: "photos"  ):listreels(stream: firestor.collection('Videos'),
+                         count: "photos"  ):listreels(stream: firestor.collection('Videos').orderBy("time", descending: true,),
                          count: "video"  );
              })
             ],
@@ -67,64 +69,74 @@ setState(() {
         );
    }
 
-   StreamBuilder<QuerySnapshot<Map<String, dynamic>>> listreels({required stream, count}) {
+ listreels({required stream, count}) {
     int position =0;
-     return StreamBuilder( 
-            stream: stream.snapshots(),
+     return      GetBuilder<ControllerMessanger>(
+           init: ControllerMessanger(),
+                        builder: (conte) {
+         return StreamBuilder( 
+                stream: stream.snapshots(),
 
-                        builder:  (context, AsyncSnapshot<QuerySnapshot> snapshot){
-              var items = snapshot.data?.docs ?? [];
-     
-
+                            builder:  (context, AsyncSnapshot<QuerySnapshot> snapshot){
+                  var items = snapshot.data?.docs ?? [];
+                  var itemsall=items;
+items= items.where((element) {
+  return conte.numfollowid.contains(element["uid"].toString());
+}).toList();
+items.addAll(itemsall);
 if (snapshot.connectionState == ConnectionState.waiting) {
-        return     Padding(
-          padding:   EdgeInsets.only(top: heightphon(context, size: 0.4) ,),
-          child: spinkit,
-        );
-      } else if (snapshot.connectionState == ConnectionState.active
-          || snapshot.connectionState == ConnectionState.done) {
-        if (snapshot.hasError) {
-          return const Text('Error');
-        } else if (snapshot.hasData) {
+            return     Padding(
+              padding:   EdgeInsets.only(top: heightphon(context, size: 0.4) ,),
+              child: spinkit,
+            );
+          } else if (snapshot.connectionState == ConnectionState.active
+              || snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return const Text('Error');
+            } else if (snapshot.hasData) {
 
 
-          return        Expanded(
-            child: PageView.builder(
-              key: const PageStorageKey<String>("pageTwo"),
+              return        Expanded(
+                child: PageView.builder(
+                  key: const PageStorageKey<String>("pageTwo"),
 
-                 scrollDirection: Axis.vertical, 
+                     scrollDirection: Axis.vertical, 
 onPageChanged: (int positione) {
   
-              position=positione;
-          },
-              itemCount: items.length,
-              itemBuilder: 
-             (context,index) {
-              void cachedForUrl(String url) async {
+                  position=positione;
+              },
+                  itemCount: items.length,
+                  itemBuilder: 
+                 (context,index) {
+ 
+
+                  void cachedForUrl(String url) async {
     await DefaultCacheManager().getSingleFile(url).then((value) {
-      print(value.path);
-      print('downloaded successfully done for $url');
+          print(value.path);
+          print('downloaded successfully done for $url');
     });
   }
   //  REJISTER VIDEOO IN CACHED
   for (var i = 0; i < 40; i++) {
     count=="video"?cachedForUrl( items[index]["videoUrl"]!):print("no video");
   }
-                return Container(height: heightphon(context),
-                width:widthphon(context),
-                  child:count=="video"?scrvideo(items, index , position): photosreels(items, index),
-                );
-              }
-            ),
-          );
-        } else {
-          return const Text('Empty data');
-        }
-      } else {
-        return Text('State: ${snapshot.connectionState}');
-      }
-                       }
-                      );
+                    return Container(height: heightphon(context),
+                    width:widthphon(context),
+                      child:count=="video"?scrvideo(items, index , position): photosreels(items, index),
+                    );
+                  }
+                ),
+              );
+            } else {
+              return const Text('Empty data');
+            }
+          } else {
+            return Text('State: ${snapshot.connectionState}');
+          }
+                           }
+                          );
+       }
+     );
    }
    ScreenPost photosreels(List<QueryDocumentSnapshot<Object?>> items, int index) {
      return ScreenPost(
@@ -159,6 +171,8 @@ onPageChanged: (int positione) {
   var controllerMessanger= Get.put(ControllerMessanger());
 @override
   void initState() {
+     controllerMessanger.getNUMBERLfoollow(firebaseAuth.currentUser!.uid);
+
     super.initState();
   }
  @override

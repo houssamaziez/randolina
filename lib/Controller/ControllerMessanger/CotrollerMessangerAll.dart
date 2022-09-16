@@ -151,12 +151,25 @@ QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').
 rslt=data.docs.where((element) => element["users"].contains(firebaseAuth.currentUser!.uid)) .toList();
 return rslt;
 }
-List rsltfollow= [];
+List numfollowid= [];
 
 getNUMBERLfoollow(id)async{
-QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
-rsltfollow=data.docs.where((element) => element["users"].contains(id)) .toList();
- update();
+List _rsltfollow= [];
+List _rsltfollowid= [];
+
+QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').get();
+_rsltfollow=data.docs.where((element) => element["users"].contains(id)) .toList();
+_rsltfollow.forEach((element) {
+  element["users"].forEach((element) {
+  _rsltfollowid.add(element);
+  
+  });
+  
+  });
+ _rsltfollowid= _rsltfollowid.where((element) => element!=id).toList();
+   print(_rsltfollowid.length);
+numfollowid=_rsltfollowid;
+update();
 }
 
   getdatauser(uid)async{

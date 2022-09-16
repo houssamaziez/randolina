@@ -14,8 +14,8 @@ var controllerivent= Get.put(IventsController());
     required this.email,required this.uid,
     required this.photoprofile,required this.phone,
      required this.wilaya,required this.conferm,
-     required this.idpost,required this.listlenghtconfimed,required this.nombresplaces,required this.token}) : super(key: key);
-final name , email , uid,photoprofile,token, phone, wilaya, conferm, idpost, listlenghtconfimed,nombresplaces;
+     required this.idpost,required this.listlenghtconfimed,required this.nombresplaces,required this.token,required this.nameofclub}) : super(key: key);
+final name , email, nameofclub , uid,photoprofile,token, phone, wilaya, conferm, idpost, listlenghtconfimed,nombresplaces;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +72,7 @@ const Spacer( flex: 2),
                    bottomLeft: Radius.circular(10),
                    bottomRight: Radius.circular(10)
    ),), child:     bottun(title: "Send invitation", color: const Color.fromARGB(255, 243, 107, 33), function: (){
-    Get.to(Screensend(name: name, email: email));
+    Get.to(Screensend(name: name, email: email, nameofclub:nameofclub ,));
            }, 
            hiegth: 37.00, width: 100.00,  pad: true
            ) ,
