@@ -16,8 +16,10 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]);
-        videioindex.write("ind",0 );
-
+      if (messgaenosee.read('noseemsge')==null) {
+        messgaenosee.write('noseemsge', 0);
+      }
+print(messgaenosee.read('noseemsge'));
    runApp(const MyApp());
     await controllerUser.getData();
 }

@@ -26,6 +26,7 @@ var controllerMessanger= Get.put(ControllerMessanger());
   void initState() {
     print("object");
       controllerMessanger.getdata();
+      controllerMessanger.getvumsg();
       // controllerMessanger.getmsegeNosee(firebaseAuth.currentUser!.uid);
           message.write("msg", controllerMessanger.msgevu);
     print("object");
@@ -34,6 +35,7 @@ var controllerMessanger= Get.put(ControllerMessanger());
     
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
  
@@ -100,12 +102,12 @@ Get.offAll(ScreenHome());
           //  _message.write("listmsg", snapshot);
       
        if (snapshot.connectionState == ConnectionState.waiting) {
-            return errordata();
-    } 
+            return  Center(child: spinkit);
+    }
     else
      if (snapshot.connectionState == ConnectionState.done) {
       if (snapshot.hasError) {
-        return errordata();
+        return  Center(child: spinkit);
       } else if (snapshot.hasData) {
         return GetBuilder<ControllerMessanger>(init: ControllerMessanger(),
          builder: (cont) {
@@ -123,7 +125,7 @@ setState(() {
        );
     
      } else {
-        return errordata();
+        return  Center(child: spinkit);
       }
     } else {
       return Text('State: ${snapshot.connectionState}');
@@ -134,11 +136,16 @@ setState(() {
   }
 
   ListView listmessage(AsyncSnapshot<dynamic> snapshot) {
+           var _listt=[];
+
     return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index){
             String data ="";
             List j=snapshot.data[index]["users"].where((element) => element != firebaseAuth.currentUser!.uid.toString()).toList();
+           
+
+
             return SizedBox(
               child:Padding(
                padding: const EdgeInsets.all(8.0),

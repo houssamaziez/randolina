@@ -218,10 +218,23 @@ sendmessages({msg ,idmsg}){
 
 int  msgevu=0;
 var msgeviewvu=0;
-getvumsg(){
-  msgeviewvu=message.read('msg');
-  update();
-  print(msgeviewvu);
+
+getvumsg()async{
+  List _listt= [];
+List rslt;
+QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();
+rslt=data.docs.where((element) => element["users"].contains(firebaseAuth.currentUser!.uid)) .toList();
+             
+rslt.forEach((element) {
+
+if (firebaseAuth.currentUser!.uid != element["sendidmsg"]) {
+             _listt.add(element["sendidmsg"]);
+             
+           }
+          messgaenosee.write('noseemsge', _listt.length);
+
+});
+print("length of message no see :"+_listt.length.toString());
 }
 getmsegeNosee(id)async{
 QuerySnapshot<Map<String, dynamic>> data=await firestor.collection('Massenger').orderBy('time', descending: true).get();

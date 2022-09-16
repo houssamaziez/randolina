@@ -12,6 +12,7 @@ import 'package:randolina/View/Widgets/search.dart';
 import 'package:randolina/const.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../../Controller/controllerLiksComnt.dart';
 import '../../Profile/profileClien/profileUser.dart';
 import '../../../widgetsHome/screenComent.dart';
@@ -34,11 +35,15 @@ class VideoreelsScreen extends StatefulWidget {
 class _VideoreelsScreenState extends State<VideoreelsScreen> {
 var controllerlikcomnt=Get.put(ControllerLikCont());
 var _uid= firebaseAuth.currentUser!.uid;
+var controllerMessanger= Get.put(ControllerMessanger());
+
   var cotrollervideo= Get.put(VideoController());//player controller
   VideoPlayerController? controller;
 
   @override
   void initState() {
+      controllerMessanger.getvumsg();
+
     initializePlayer(widget.UrlVideo);
 
     super.initState();
@@ -151,7 +156,16 @@ Get.back();
                         IconButton(onPressed: (){
                               controllerpageview.animateToPage(1, duration: Duration(milliseconds:300), curve: Curves.easeIn);
                         }, icon:
-                            Image.asset("images/bubble-chat.png"),
+                            Stack(
+                              children: [
+                                Image.asset("images/bubble-chat.png"),
+                                Positioned(
+                                  child:messgaenosee.read('noseemsge')==0?SizedBox(): CircleAvatar(radius: 9,
+                                    backgroundColor: Colors.red,
+                                    child: Text(messgaenosee.read('noseemsge')<=9?messgaenosee.read('noseemsge').toString(): "+9", style: TextStyle(color: Colors.white, fontSize: 14),)),
+                                )
+                              ],
+                            ),
                       ),
                         ],),
                     ):Padding(
