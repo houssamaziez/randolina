@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randolina/View/Screens/Home/Screens/messages/widget/msgproduct.dart';
+import 'package:randolina/View/Screens/Home/Screens/messages/widget/userinfo.dart';
 
 import '../../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 import '../../../../../../Controller/storController.dart';
@@ -44,7 +45,7 @@ GetBuilder<ControllerMessanger> listmessages(idm,idmsg) {
                   color: (items[index]["uid"]  != firebaseAuth.currentUser!.uid?Colors.grey.shade200:Colors.blue[200]),
                 ),
                 padding: const EdgeInsets.all(16),
-                child: Text(items[index]["message"], style: const TextStyle(fontSize: 15),),
+                child:items[index]["message"]=="°°USERINFO°°"?newMethod(items[index]["uid"]  != firebaseAuth.currentUser!.uid,  items[index]["uid"] ) :Text(items[index]["message"], style: const TextStyle(fontSize: 15),),
       ),
     ),
   );
@@ -55,6 +56,14 @@ GetBuilder<ControllerMessanger> listmessages(idm,idmsg) {
           }
         );
   }
+
+  newMethod(isuser,   uid, ) => TextButton(onPressed: ()async{
+var controllerMessanger= Get.put(ControllerMessanger());
+var iteme=await controllerMessanger.getdatauser(uid);
+    Get.to(ScreenInfoUser(name:iteme['name'] , email: iteme['email'], uid: uid, photoprofile: iteme['photoProfil'], phone: iteme['phone'], wilaya: iteme['wilaya']));
+  }, child: Text("Personal information"));
+
+
   _post({userphoto,username, uid,urlimage, tag, price,required detials, nameproduct}) {
   return InkWell(
     onTap: (){

@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +13,64 @@ import 'package:randolina/const.dart';
 import '../../../../../Controller/ControllerMessanger/CotrollerMessangerAll.dart';
 
 class ProfileProduct extends StatelessWidget {
-  const ProfileProduct({Key? key,required this.image,
+
+
+
+// NOTIFICATION 
+
+ String tokenD="";
+ String myname="";
+   getData(id)async{
+ try {
+ 
+  DocumentSnapshot userdocs=await firestor.collection("User").doc(id).get();
+  myname=await (userdocs.data()! as Map <String, dynamic>)["name"];
+} on Exception catch (e) {
+  return;
+  // TODO
+}
+ }  getDataclien(id)async{
+ try {
+  DocumentSnapshot userdocs=await firestor.collection("User").doc(id).get();
+  tokenD=await (userdocs.data()! as Map <String, dynamic>)["token"];
+} on Exception catch (e) {
+  return;
+  // TODO
+}
+ }
+ notificatioon({url, msge,  })async{
+// var c='c5iWx_oYT5-jQOok-AB38d:APA91bEReWnIWLIj0snmq3wuAZ1oVQZeWW0vMAQ2h6__phvIVF_JagCulGAUg2KFdb2zKcP3DBuSSta-n9wdivu0B48IRpYOM1Om8iRyOMzrWbkf9sCYevByLtJH00BNoDg6xcnfPgKM';
+   await getData(firebaseAuth.currentUser!.uid);
+await getDataclien(iduser);
+print("tooooooooken :"+tokenD);
+print("name :"+myname);
+
+ var progress=await http.post(Uri.parse("https://unwrapped-ceremony.000webhostapp.com/phptest/Notification.php"),
+ body: {
+   'token':tokenD,
+  'message':msge ,
+'username':myname
+ } );
+try {
+  if (progress.statusCode==200) {
+var  responssbody= jsonDecode(    progress.body);
+return responssbody;
+  } else {
+    print(progress.statusCode);
+  }
+} catch (e) {
+    print(e.toString());
+  
+}
+
+} 
+
+
+
+
+    ProfileProduct({Key? key,required this.image,
   required this.tag,required this.list,required this.iduser,
-  required this.username,required this.imageprofile,required this.token}) : super(key: key);
+  required this.username,required this.imageprofile,required this.tokenD, this.token}) : super(key: key);
 final image, tag, list, iduser, username,token, imageprofile;
   @override
   Widget build(BuildContext context) {
@@ -134,12 +193,22 @@ cont.waitsendopject(true);
        
        , idmsg:  cont.rsltdatamesage.length==1?
                    cont.rsltdatamesage[0]["msgid"].toString():"0");
+       Timer(Duration(milliseconds: 500), (){
+                     cont.sendmessageToAll(
+        token: "",users:list["uid"], msg:
+      "°°USERINFO°°"
+       
+       , idmsg:  cont.rsltdatamesage.length==1?
+                   cont.rsltdatamesage[0]["msgid"].toString():"0");
+        }) ; 
+              
      Get.to( ScreenCHat(token:  "",
       
       idclien:  list["uid"].toString() ,name: username,
              idmsg:   cont.rsltdatamesage.length==1?
                    cont.rsltdatamesage[0]["msgid"].toString():"0", imageprofile: imageprofile,)
          );
+         notificatioon(msge:"New order" , );
 cont.waitsendopject(false);
          
     //  await cont.virffollow(id);

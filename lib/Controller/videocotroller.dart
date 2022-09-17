@@ -61,7 +61,7 @@ try {
   await firestor.collection("Videos").doc('video $uid $len').set(video.tojeson());
    islodeinvideo= false;
   update();
-  Get.offAll(ScreenHome());
+  Get.offAll(const ScreenHome());
 } catch (e) {
     islodeinvideo= false;
   update();

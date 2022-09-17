@@ -70,6 +70,7 @@ setState(() {
    }
 
  listreels({required stream, count}) {
+  
     int position =0;
      return      GetBuilder<ControllerMessanger>(
            init: ControllerMessanger(),

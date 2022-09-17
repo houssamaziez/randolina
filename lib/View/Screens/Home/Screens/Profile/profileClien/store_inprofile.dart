@@ -11,7 +11,7 @@ import '../../StoreView/profileStore.dart';
      InkWell _card( items, index) {
     return InkWell(
   onTap: (){
-    Get.to(ProfileProduct(token: "".toString() ,
+    Get.to(ProfileProduct(tokenD: "".toString() ,
        imageprofile: items[index]["userphoto"].toString(),
         username:items[index]["username"].toString(),
                   iduser: items[index]["uid"].toString(),
